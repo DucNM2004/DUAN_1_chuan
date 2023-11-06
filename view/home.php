@@ -72,11 +72,11 @@
                     <?php foreach($top4 as $t4): ?>
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="item__product">
-                            <a href="index.php?act=detail&id=<?= $t4['id'] ?>">
+                            <a href="index.php?act=detail&idsp=<?= $t4['id'] ?>">
                                 <div class="item__product-head">
                                     <img src="products/<?= $t4['picture'] ?>" alt="">
                                     <div class="item__controll-btn">
-                                        <a href="index.php?act=detail" class="item__btn-buy">Mua ngay</a>
+                                        <a href="index.php?act=detail&idsp=<?=$t4['id'] ?>" class="item__btn-buy">Mua ngay</a>
                                         <a href="index.php?act=cart" class="item__btn-cart">Giỏ hàng</a>
                                     </div>
                                 </div>
@@ -126,11 +126,11 @@
                     <?php foreach($top8 as $t8): ?>
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="item__product">
-                        <a href="index.php?act=detail&id=<?= $t8['id'] ?>">
+                        <a href="index.php?act=detail&idsp=<?= $t8['id'] ?>">
                                 <div class="item__product-head">
                                     <img src="products/<?= $t8['picture'] ?>" alt="">
                                     <div class="item__controll-btn">
-                                        <a href="index.php?act=detail" class="item__btn-buy">Mua ngay</a>
+                                        <a href="index.php?act=detail&idsp=<?= $t8['id'] ?>" class="item__btn-buy">Mua ngay</a>
                                         <a href="index.php?act=cart" class="item__btn-cart">Giỏ hàng</a>
                                     </div>
                                 </div>
