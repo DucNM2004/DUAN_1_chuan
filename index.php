@@ -1,7 +1,7 @@
 <?php
 include "model/pdo.php";
 include "model/products.php";
-
+include "model/comment.php";
 
 
 include "view/header.php";
@@ -29,6 +29,8 @@ if(isset($_GET['act']) && $_GET['act']!=""){
             if(isset($_GET['idsp']) && $_GET['idsp']){
                 $id = $_GET['idsp'];
                 $detailpro = load_one_PRO($id);
+                $comment = load_all_comment($id);
+                update_view($id);
                 // print_r($detailpro);
                 // die;
             }

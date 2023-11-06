@@ -4,7 +4,12 @@
             <!-- Detail Product -->
             <div class="detail__product-view">
                 <!-- Product Image -->
-                <div class="detail__product-image">
+                <div class="detail__product-image"> 
+                <?php if ($detailpro['quantity'] == 0) { ?>
+                <div class="detail__wall-wrap-image">
+                    <h2>Đã hết hàng</h2>
+                </div>
+                <?php } ?> 
                     <img src="products/<?= $detailpro['picture'] ?>" alt="">
                 </div>
                 <!-- Product Content -->
@@ -51,7 +56,8 @@
                                 <h5>QUANTITY:</h5>
                                 <div class="detail__product-wrap-quantity">
                                     <!-- Input Quantity -->
-                                    <input type="text" value="0" name="quantity" class="detail_product-input-plus-minus">
+                                    <input type="text" value="1" name="quantity" class="detail_product-input-plus-minus"
+                                    id="<?php echo $detailpro['quantity']; ?>">
                                     
                                     <!-- Increase -->
                                     <span class="detail__product-inc btnqty">
@@ -67,7 +73,7 @@
                         </div>
                         <!-- Product Action -->
                         <div class="detail__product-action">
-                            <button name="btn_add" class="detail__product-action-btn btn-text">ADD TO BAG</button>
+                            <button name="btn_add" class="detail__product-action-btn btn-text" <?php if($detailpro['quantity']==0){echo 'disabled';} ?>>THÊM VÀO GIỎ HÀNG</button>
                         </div>
                     </form>
                 </div>
@@ -88,27 +94,31 @@
                 <div class="detail__reviews">
                     <div class="detail__product-avg-ratting">
                         <h4>4.5 <span>(overall)</span></h4>
-                        <span>Based on 9 Comments</span>
+                        <span>Based on <?= count($comment) ?></span>
                     </div>
                     <!-- View Comment -->
                     <div class="detail__product-comment-box">
                         <!-- Item -->
+                        <?php foreach($comment as $cm): ?>
                         <div class="detail__product-comment-view">
                             <div class="detail__product-comment-view-info">
                                 <div class="detail__product-comment-author">
-                                    <span>Nguyễn Quang Đăng</span>
+                                    <span></span>
                                 </div>
                                 <div class="detail__product-comment-time">
-                                    <span>12:24</span>
-                                    <span>5 March 2016</span>
+                                    <strong><span ><?= $cm['timeComment'] ?></span></strong>
                                 </div>
                             </div>
                             <p class="detail__product-comment-view-title">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nost rud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nost.
+                               <?= $cm['name_customer'] ?>
+                            </p>
+                            <p class="detail__product-comment-view-title">
+                               <?= $cm['comment_content'] ?>
                             </p>
                         </div>
+                        <?php endforeach ?>
                         <!-- Item -->
-                        <div class="detail__product-comment-view">
+                        <!-- <div class="detail__product-comment-view">
                             <div class="detail__product-comment-view-info">
                                 <div class="detail__product-comment-author">
                                     <span>Nguyễn Quang Đăng</span>
@@ -121,9 +131,9 @@
                             <p class="detail__product-comment-view-title">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nost rud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nost.
                             </p>
-                        </div>
+                        </div> -->
                         <!-- Item -->
-                        <div class="detail__product-comment-view">
+                        <!-- <div class="detail__product-comment-view">
                             <div class="detail__product-comment-view-info">
                                 <div class="detail__product-comment-author">
                                     <span>Nguyễn Quang Đăng</span>
@@ -136,7 +146,7 @@
                             <p class="detail__product-comment-view-title">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nost rud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nost.
                             </p>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- Form Comment -->
                     <div class="detail__comment-form-wrap-box">

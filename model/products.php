@@ -14,6 +14,9 @@ function load_one_PRO($id){
     $list = pdo_query_one($sql);
     return $list;
 }
-
+function update_view($id){
+    $sql = "UPDATE `product` SET view_number = view_number+1 where id = '$id'";
+    pdo_execute($sql);
+}
 
 ?>
