@@ -26,6 +26,12 @@ if(isset($_GET['act']) && $_GET['act']!=""){
             include "view/register.php";
         break;
         case "detail":
+            if(isset($_GET['idsp']) && $_GET['idsp']){
+                $id = $_GET['idsp'];
+                $detailpro = load_one_PRO($id);
+                // print_r($detailpro);
+                // die;
+            }
             include "view/detail.php";
         break;
     }

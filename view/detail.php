@@ -5,17 +5,17 @@
             <div class="detail__product-view">
                 <!-- Product Image -->
                 <div class="detail__product-image">
-                    <img src="../layout/images/mini-cart/1.jpg" alt="">
+                    <img src="products/<?= $detailpro['picture'] ?>" alt="">
                 </div>
                 <!-- Product Content -->
                 <div class="detail__product-content">
                     <!-- Product Title -->
-                    <a href="#" class="detail__product-title">FULL SLEEV WOMEN SHIRT</a>
+                    <a href="#" class="detail__product-title"><?= $detailpro['name'] ?></a>
                     <!-- Product Price -->
                     <div class="detail__product-price">
                         <div class="detail__product-wrap-price">
                             <!-- New Price -->
-                            <span class="detail__product-price-new">$ 45.00</span>
+                            <span class="detail__product-price-new">$ <?= $detailpro['price'] ?></span>
                             <!-- Old Price -->
                             <span class="detail__product-price-old">(145.00)</span>
                         </div>
@@ -23,7 +23,7 @@
                     <!-- Product Overview -->
                     <div class="detail__product-overview">
                         <h5>overview:</h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tem portul indunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                        <p><?= $detailpro['description'] ?></p>
                     </div>
                     <!-- Product Size -->
                     <div class="detail__product-size">

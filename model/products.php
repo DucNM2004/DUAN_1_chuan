@@ -9,7 +9,11 @@ function load_top8_new(){
     $list = pdo_query($sql);
     return $list;
 }
-
+function load_one_PRO($id){
+    $sql = "SELECT* FROM `product` where id = '$id'";
+    $list = pdo_query_one($sql);
+    return $list;
+}
 
 
 ?>
