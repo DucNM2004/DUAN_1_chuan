@@ -1,9 +1,11 @@
 <?php
-
+include "model/pdo.php";
+include "model/products.php";
 
 
 
 include "view/header.php";
+$top4 = load_top4_pro();
 if(isset($_GET['act']) && $_GET['act']!=""){
     $act = $_GET['act'];
     switch ($act) {

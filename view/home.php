@@ -69,78 +69,28 @@
             <h1 class="title">Sản phẩm nổi bật</h1>
             <div class="container">
                 <div class="row">
+                    <?php foreach($top4 as $t4): ?>
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="item__product">
-                            <a href="#">
+                            <a href="index.php?act=detail&id=<?= $t4['id'] ?>">
                                 <div class="item__product-head">
-                                    <img src="./images/product/1.jpg" alt="">
+                                    <img src="products/<?= $t4['picture'] ?>" alt="">
                                     <div class="item__controll-btn">
                                         <a href="index.php?act=detail" class="item__btn-buy">Mua ngay</a>
-                                        <a href="#" class="item__btn-cart">Giỏ hàng</a>
+                                        <a href="index.php?act=cart" class="item__btn-cart">Giỏ hàng</a>
                                     </div>
                                 </div>
                                 <div class="item__product-body">
-                                    <h2>Đây là sản phẩm</h2>
-                                    <h3>$99.00</h3>
+                                    <h2><?= $t4['name'] ?></h2>
+                                    <h3>$<?=$t4['price'] ?>.00</h3>
+                                    <?php if ($t4['quantity'] == 0) { ?>
+                                    <h5>Đã hết hàng</h5>
+                                    <?php } ?>
                                 </div>
                             </a>
                         </div>
                     </div>
-                    <!-- end -->
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="item__product">
-                            <a href="#">
-                                <div class="item__product-head">
-                                    <img src="./images/product/1.jpg" alt="">
-                                    <div class="item__controll-btn">
-                                        <a href="#" class="item__btn-buy">Mua ngay</a>
-                                        <a href="#" class="item__btn-cart">Giỏ hàng</a>
-                                    </div>
-                                </div>
-                                <div class="item__product-body">
-                                    <h2>Đây là sản phẩm</h2>
-                                    <h3>$99.00</h3>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- end -->
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="item__product">
-                            <a href="#">
-                                <div class="item__product-head">
-                                    <img src="./images/product/1.jpg" alt="">
-                                    <div class="item__controll-btn">
-                                        <a href="#" class="item__btn-buy">Mua ngay</a>
-                                        <a href="#" class="item__btn-cart">Giỏ hàng</a>
-                                    </div>
-                                </div>
-                                <div class="item__product-body">
-                                    <h2>Đây là sản phẩm</h2>
-                                    <h3>$99.00</h3>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- end -->
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="item__product">
-                            <a href="#">
-                                <div class="item__product-head">
-                                    <img src="./images/product/1.jpg" alt="">
-                                    <div class="item__controll-btn">
-                                        <a href="#" class="item__btn-buy">Mua ngay</a>
-                                        <a href="#" class="item__btn-cart">Giỏ hàng</a>
-                                    </div>
-                                </div>
-                                <div class="item__product-body">
-                                    <h2>Đây là sản phẩm</h2>
-                                    <h3>$99.00</h3>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- end -->
+                    <?php endforeach ?>
                 </div>
             </div>
         </div>
