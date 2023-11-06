@@ -6,6 +6,7 @@ include "model/products.php";
 
 include "view/header.php";
 $top4 = load_top4_pro();
+$top8 = load_top8_new();
 if(isset($_GET['act']) && $_GET['act']!=""){
     $act = $_GET['act'];
     switch ($act) {

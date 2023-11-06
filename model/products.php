@@ -4,7 +4,11 @@ function load_top4_pro(){
     $list = pdo_query($sql);
     return $list;
 }
-
+function load_top8_new(){
+    $sql = "SELECT * FROM `product` order by id DESC LIMIT 0,8";
+    $list = pdo_query($sql);
+    return $list;
+}
 
 
 
