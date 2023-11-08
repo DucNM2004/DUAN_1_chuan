@@ -24,8 +24,8 @@ if(tab_list) {
 
 // change quantity
 const input_quantity = document.querySelector(".detail_product-input-plus-minus")
-const btn_inc = document.querySelector(".detail__product-inc")
-const btn_dec = document.querySelector(".detail__product-dec")
+const btn_inc = document.querySelector(".detail__product-inc ")
+const btn_dec = document.querySelector(".detail__product-dec ")
 
 
 if(input_quantity) {

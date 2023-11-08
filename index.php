@@ -29,6 +29,7 @@ if(isset($_GET['act']) && $_GET['act']!=""){
             if(isset($_GET['idsp']) && $_GET['idsp']){
                 $id = $_GET['idsp'];
                 $detailpro = load_one_PRO($id);
+                $top8view = load_top8_new();
                 $comment = load_all_comment($id);
                 update_view($id);
                 // print_r($detailpro);
