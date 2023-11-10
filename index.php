@@ -11,6 +11,20 @@ if(isset($_GET['act']) && $_GET['act']!=""){
     $act = $_GET['act'];
     switch ($act) {
        case "products":
+        $loadcategory = load_all_category();
+        $loadcategorytype = load_all_category_type();
+        // $allpro = load_all_product();
+        if(isset($_GET['iddm']) && $_GET['iddm']>0){
+            $iddm = $_GET['iddm'];
+        }
+        else{
+            $iddm = 0;
+        }
+        if(isset($_POST['sl']) && $_POST['sl']!="" ){
+            $sl = $_POST['sl'];   
+        }
+        
+        $allpro = load_pro_follow_category($iddm,);
         include "view/products.php";
         break;
         case "cart":
