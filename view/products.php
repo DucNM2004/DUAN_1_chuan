@@ -189,15 +189,19 @@
                     </div>
                     <div class="col-lg-4 col-sm-5 col-xs-12 pagination text-center">
                         <ul class="pagination pb-3 d-flex justify-content-center">
-                            <li><a href="#"><i class="fa-solid fa-chevron-left"></i></a></li>
+                            <li><a href="index.php?act=products&perpage=<?= $itemperpage?>&page=<?=$currentpage - 1?>"><i class="fa-solid fa-chevron-left"></i></a></li>
+                            <li><a href="index.php?act=products&perpage=<?= $itemperpage?>&page=1">First</a></li>
                             <?php for($num=1;$num<=$totalpage;$num++){ ?>
                                 <?php if($num != $currentpage){ ?>
+                                    <?php if($num > $currentpage - 3 && $num < $currentpage +3){ ?>
                             <li><a href="index.php?act=products&perpage=<?= $itemperpage?>&page=<?= $num?>"><?= $num ?></a></li>
-                                    <?php }else{ ?>
+                                <?php }?>    
+                                <?php }else{ ?>
                                         <li><strong><a class="active" href="index.php?act=products&perpage=<?= $itemperpage?>&page=<?= $num?>"><?= $num ?></a></strong></li> 
                                     <?php } ?> 
                             <?php }?>
-                            <li><a href="#"><i class="fa-solid fa-chevron-right"></i></a></li>
+                            <li><a href="index.php?act=products&perpage=<?= $itemperpage?>&page=<?= $totalpage ?>">End</a></li>
+                            <li><a href="index.php?act=products&perpage=<?= $itemperpage?>&page=<?=$currentpage + 1?>"><i class="fa-solid fa-chevron-right"></i></a></li>
                         </ul>
                     </div>
                 </div>
