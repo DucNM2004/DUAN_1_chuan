@@ -33,12 +33,21 @@ function load_all_category_type(){
     $list = pdo_query($sql);
     return $list;
 }
-function load_pro_follow_category($iddm=0,){
+function load_pro_follow_category($itemperpage,$offset,$iddm=0){
     $sql = "SELECT * FROM `product`where 1 ";
     if($iddm > 0){
-        $sql .="AND id_category = '$iddm'";
+        $sql .="AND id_category = '$iddm'"; 
     }
+    if($itemperpage>0 && $offset>=0){
+        $sql .= "LIMIT $itemperpage OFFSET $offset";
+    }
+   
     $list = pdo_query($sql);
+    return $list;
+}
+function count_pro(){
+    $sql = "SELECT count(id) as soluong from product";
+    $list = pdo_query_one($sql);
     return $list;
 }
 ?>

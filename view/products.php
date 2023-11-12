@@ -156,7 +156,7 @@
                                     </div>
                                 <?php } ?>
                                 <div class="products__sin_details fix">
-                                    <a class="products__sin_title" href="index.php?act=detail&idsp=<?= $ap['id'] ?>l"><?= $ap['price'] ?></a>
+                                    <a class="products__sin_title" href="index.php?act=detail&idsp=<?= $ap['id'] ?>l"><?= $ap['name'] ?></a>
                                     <!-- Product Price -->
                                     <div class="products__sin_price float-left">
                                         <span class="new">$ <?= $ap['price'] ?>.00</span>
@@ -190,27 +190,16 @@
                     <div class="col-lg-4 col-sm-5 col-xs-12 pagination text-center">
                         <ul class="pagination pb-3 d-flex justify-content-center">
                             <li><a href="#"><i class="fa-solid fa-chevron-left"></i></a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#" class="active">3</a></li>
-                            <li><a href="#">4</a></li>
+                            <?php for($num=1;$num<=$totalpage;$num++){ ?>
+                                <?php if($num != $currentpage){ ?>
+                            <li><a href="index.php?act=products&perpage=<?= $itemperpage?>&page=<?= $num?>"><?= $num ?></a></li>
+                                    <?php }else{ ?>
+                                        <li><strong><a class="active" href="index.php?act=products&perpage=<?= $itemperpage?>&page=<?= $num?>"><?= $num ?></a></strong></li> 
+                                    <?php } ?> 
+                            <?php }?>
                             <li><a href="#"><i class="fa-solid fa-chevron-right"></i></a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-4 col-sm-5 col-xs-9 short-by text-right float-right">
-                        <div class="products__short_by_wrap">
-                            <label>short by:</label>
-                            <select class="sort-select">
-                                <option>Name Ascending</option>
-                                <option>Name Descending</option>
-                                <option>Date Ascending</option>
-                                <option>Date Descending</option>
-                                <option>Price Ascending</option>
-                                <option>Price Descending</option>
-                            </select>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>

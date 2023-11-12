@@ -13,18 +13,30 @@ if(isset($_GET['act']) && $_GET['act']!=""){
        case "products":
         $loadcategory = load_all_category();
         $loadcategorytype = load_all_category_type();
-        // $allpro = load_all_product();
+        $countpro = count_pro();
+        extract($countpro);
+        if(!empty($_GET['perpage'])){
+            $itemperpage = $_GET['perpage'];
+        }
+        else{
+            $itemperpage = 6;
+        }
+        if(!empty($_GET['page'])){
+            $currentpage  = $_GET['page'];
+        }
+        else{
+            $currentpage = 1;
+        }
+        
+        $offset = ($currentpage-1) * $itemperpage;
+        $totalpage = ceil($soluong / $itemperpage);
         if(isset($_GET['iddm']) && $_GET['iddm']>0){
             $iddm = $_GET['iddm'];
         }
         else{
             $iddm = 0;
         }
-        if(isset($_POST['sl']) && $_POST['sl']!="" ){
-            $sl = $_POST['sl'];   
-        }
-        
-        $allpro = load_pro_follow_category($iddm,);
+        $allpro = load_pro_follow_category($itemperpage,$offset,$iddm);
         include "view/products.php";
         break;
         case "cart":
