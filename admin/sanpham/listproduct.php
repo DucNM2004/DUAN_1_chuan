@@ -1,3 +1,11 @@
+<main class="content-wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="app__title">
+                    <h3 class="app__title-title">Quản lý sản phẩm</h3>
+                    <div id="clock"></div>
+                </div>
+            </div>
 <main class="container__main">
             <div class="container__main-handler">
                 <div class="container__main-link">
