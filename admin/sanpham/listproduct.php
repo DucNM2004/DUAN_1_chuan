@@ -9,11 +9,11 @@
 <main class="container__main">
             <div class="container__main-handler">
                 <div class="container__main-link">
-                    <a data-bs-toggle="modal" data-bs-target="#openModal" class="text-white">
+                    <a href="index.php?act=addsp"  class="text-white">
                         <i class="fa-solid fa-plus"></i>
                         Tạo sản phẩm mới
                     </a>
-                    <a href="#">
+                    <a href="index.php?act=xoasp">
                         <i class="fa-solid fa-trash-can"></i>
                         Xóa sản phẩm
                     </a>
@@ -38,12 +38,17 @@
             <div class="container__table">
                 <table>
                     <tr>
-                        <th>Company</th>
-                        <th>Contact</th>
-                        <th>Country</th>
-                        <th>Country</th>
-                        <th>Description</th>
-                        <th>Tính năng</th>
+                                <th>Tên Sản Phẩm</th>
+                                <th>Giá Sản Phẩm</th>
+                                <th>Giảm giá</th>
+                                <th>Ảnh sản phẩm</th>
+                                <th>Description</th>
+                                <th>Số lượng sản phẩm</th>
+                                <th>Số lượt xem</th>
+                                <th>Mã Loại</th>
+                                <th>Tính năng</th>
+                      
+                      
                     </tr>
                     <tr>
                         <td>Alfreds Futterkiste</td>
@@ -76,6 +81,9 @@
                                     maxime ad aliquid. Rem, quis. Ex quia nostrum harum?</p>
                             </div>
                         </td>
+                        <td>12</td>
+                        <td>1</td>
+                        <td>122</td>
                         <td>
                             <a href="edit.html">
                                 <i class="fa-solid fa-pen-to-square"></i>

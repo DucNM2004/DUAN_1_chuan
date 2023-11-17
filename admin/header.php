@@ -97,6 +97,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="index.php?act=dsdm" class="sidebar__menu-link">
+                        <i class="fa-solid fa-list-check"></i>
+                        Quản lý danh mục
+                    </a>
+                </li>
+                <li>
                     <a href="index.php?act=dstk"class="sidebar__menu-link">
                         <i class="fa-solid fa-address-card"></i>
                         Quản lý user
