@@ -5,7 +5,10 @@ function load_all_comment($id){
     $list = pdo_query($sql);
     return $list;
 }
-
+function insert_comment($content,$idpro,$id_uer){
+    $sql = "INSERT INTO comment(comment_content,idItem,idPerson) value('$content','$idpro','$id_uer')";
+    pdo_execute($sql);
+}
 
 
 ?>

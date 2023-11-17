@@ -99,13 +99,14 @@
                         <div class="products__show_wrap">
                             <label>show:</label>
                             <form action="index.php?act=products" method="post">
-                            <select class="show-select" name= "sl">
-                                <option value="0">9</option>
-                                <option value="1">16</option>
-                                <option value="2">32</option>
+                            <select class="show-select" name="soluong">
+                                <option value="6">6</option>
+                                <option value="9">9</option>
+                                <option value="12">12</option>
                                 <option value="3">ALL</option>
                                 <?php echo $sl; ?>
                             </select>
+                            <button type="submit" name="loc">LOC</button>
                             </form>
                         </div>
                     </div>
