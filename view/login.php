@@ -1,18 +1,21 @@
 <body>
     <div class="log__container">
-        <form action="#" method="post" class="log__main">
+        <form action="index.php?act=login" method="post" class="log__main">
             <div class="log__box">
-                <label for="" class="log__title">user name</label> <br>
-                <input type="text" name="name" id="" class="log__input">
+                <label for="" class="log__title">Tên đăng nhập</label> <br>
+                <input type="text" name="name" id="" class="log__input" required>
             </div>
             <div class="log__box">
-                <label for="" class="log__title">password</label><br>
-                <input type="password" name="pass" id="" class="log__input">
+                <label for="" class="log__title">Mật khẩu</label><br>
+                <input type="password" name="pass" id="" class="log__input" required>
             </div>
-            <input type="submit" value="Sign in" class="log__sub"><br>
+            <?php if(isset($erros) && $erros != ""){ ?>
+                <div class="log__title"> <?= $erros ?></div>
+            <?php } ?>
+            <input type="submit" name="signin" value="Đăng nhập" class="log__sub"><br>
             <div class="controll">
-                <a href="./register.html" class="log__a">
-                    <p>Register</p>
+                <a href="index.php?act=register" class="log__a">
+                    <p>Dăng ký</p>
                 </a>
                 <a href="?url=forget_password.php" class="log__a">
                     <p>Quên mật khẩu?</p>

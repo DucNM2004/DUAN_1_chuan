@@ -122,27 +122,37 @@
                     <!-- Form Comment -->
                     <div class="detail__comment-form-wrap-box">
                         <h3>Thêm bình luận của bạn</h3>
-                        <form action="#" class="detail__comment-form-action">
+                        <?php if(isset($_SESSION['user'])){ ?>
+                        <form action="index.php?act=detail&idsp=<?= $detailpro['id'] ?>" class="detail__comment-form-action" method="post">
+                            <!-- id product -->
+                            <input type="text" name="id_product" value="<?php echo $detailpro['id'] ?>" hidden>
                             <!-- Imput Name -->
                             <div class="input-name-box">
                                 <label for="name">Tên:</label>
-                                <input type="text" name="name" value="" placeholder="Type your name">
+                                <input type="text" name="name" value="<?= $_SESSION['user'] ?>" disabled>
                             </div>
                             <!-- Input Email -->
                             <div class="input-email-box">
                                 <label for="email">Email:</label>
-                                <input type="email" name="email" value="" placeholder="Type your email address">
+                                <input type="email" name="email" value="<?= $_SESSION['email'] ?>" >
                             </div>
                             <!-- Textarea Comment -->
                             <div class="input-comment-box">
                                 <label for="comment">Bình luận của bạn:</label>
-                                <textarea name="" id="" cols="30" rows="10" placeholder="White a comment"></textarea>
+                                <textarea name="comment" id="" cols="30" rows="10" placeholder="Write a comment"></textarea>
                             </div>
                             <!-- Button Submit -->
                             <div class="input-btnsubmit-box">
                                 <button type="submit" name="btn_submit">Thêm bình luận</button>
                             </div>
                         </form>
+                        <?php }else{  ?>
+                            <h3>Bạn cần đăng nhập để bình luận</h3>
+                            <div class="input-btnsubmit-box">
+                                <button type="button" name="btn_submit"><a href="index.php?act=login">Đến đăng nhập</a> </button>
+                            </div>
+                        <?php }?>
+
                     </div>
                 </div>
 
