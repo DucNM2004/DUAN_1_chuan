@@ -75,15 +75,15 @@
                                             } ?>" alt="">
                                  <input type="text" name="current_picture" value="<?= $accountinfo['picture'] ?>" hidden>
                              </div>
-                             <input name="avatar" type="file" accept=".jpg,.jpeg,.png">
-                             <div class="info__image-preview" style="display: none;">
-                                 <p>Xem trước ảnh</p>
-                                 <div class="info__preview">
-                                     <img src="" alt="" id="view_image">
-                                 </div>
-                                 <button type='button' id='cancel'>Hủy Lựa Chọn</button>
-                             </div>
-                             <p>Giới hạn dung lượng chỉ 1MB <br> định dạng jpg, jpeg, png</p>
+                             <input name="avatar" type="file" accept=".jpg,.jpeg,.png" id="img_input">
+                            <div class="info__image-preview" style="display: none;">
+                                <p>Xem trước ảnh</p>
+                                <div class="info__preview">
+                                    <img src="" alt="" id="view_image">
+                                </div>
+                                <button type='button' id='cancel'>Hủy Lựa Chọn</button>
+                            </div>
+                            <p>Giới hạn dung lượng chỉ 1MB <br> định dạng jpg, jpeg, png</p>
                          </div>
                          <button class="info_btn-save" name="btn_save">Lưu thông tin</button>
                      </form>
@@ -113,22 +113,31 @@
                  <h2>Đổi mật khẩu</h2>
                  <h5>Để bảo mật tài khoản, vui lòng không chia sẻ mật khẩu cho người khác</h4>
                      <!-- Content -->
-                     <form action="" class='info__form-pass' method="POST">
+                     <form action="index.php?act=change_pass" class='info__form-pass' method="POST">
                          <label for="passWord">Your Password</label> <br>
-                         <input type="password" name="passWord" placeholder="Enter Your Password">
+                         <input type="password" name="passWord" placeholder="Enter Your Password" required>
+                         <?php if(isset($errors['passWord'])){ ?>
+                            <h4 style="color:red"><?= $errors['passWord'] ?></h4>
+                            <?php  } ?>
                          <br>
+                         
                          <label for="new-password">New Password</label> <br>
-                         <input type="password" name="new-password" placeholder="Enter New Password">
+                         <input type="password" name="new-password" placeholder="Enter New Password" required>
                          <br>
                          <label for="rePassWord">Repeat Password</label> <br>
-                         <input type="password" name="rePassWord" placeholder="Repeat Password">
+                         <input type="password" name="rePassWord" placeholder="Repeat Password" required>
+                         <?php if(isset($errors['rePassWord'])){ ?>
+                            <h4 style="color:red"><?= $errors['rePassWord'] ?></h4>
+                            <?php  } ?>
                          <br>
                          <button type="submit" class="info_btn-save" name="btn-change">Login</button>
                      </form>
              </div>
              
              <div class="info__main-notification" style="display:none;">
-
+                <?php if(isset($_COOKIE['notice'])){
+                    echo '<script>alert("'.$_COOKIE['notice'].'")</script>';
+                } ?>
              </div>
          </div>
      </main>

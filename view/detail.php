@@ -113,7 +113,7 @@
                             <p class="detail__product-comment-view-title">
                                <?= $cm['name_customer'] ?>
                             </p>
-                            <p class="detail__product-comment-view-title">
+                            <p class="detail__product-comment-view-content">
                                <?= $cm['comment_content'] ?>
                             </p>
                         </div>

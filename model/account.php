@@ -10,8 +10,10 @@ function logout() {
         unset($_SESSION['user']);
         unset($_SESSION['id_user']);
         unset($_SESSION['email']);
+        unset($_SESSION['notice']);
     }
 }
+
 function get_user_info($name){
     $sql = "SELECT * FROM customer WHERE name_customer = '$name'";
     $account = pdo_query_one($sql);
@@ -41,6 +43,21 @@ function check_user($name) {
 }
 function insert_user($name,$pass,$email,$addres,$phone,$role){
     $sql = "INSERT INTO customer(name_customer,passWord,email,address,phone_number,role) VALUES ('$name','$pass','$email','$addres','$phone',$role);";
+    pdo_execute($sql);
+}
+function check_pass($username,$pass){
+    $sql="SELECT * FROM customer WHERE name_customer='$username' AND passWord ='$pass' ";
+    $result = pdo_query_one($sql);
+
+    if($result){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function update_pass($user,$pass){ 
+    $sql = "UPDATE customer SET passWord = '$pass' WHERE name_customer = '$user' ";
     pdo_execute($sql);
 }
 ?>

@@ -1769,6 +1769,12 @@ html {
 
 .detail__product-comment-view-title {
   font-size: 1.3rem;
+  color: #c0392b;
+  font-weight: bolder;
+}
+.detail__product-comment-view-content {
+  font-size: 1.3rem;
+  color: #606060;
 }
 
 .detail__comment-form-wrap-box h3 {

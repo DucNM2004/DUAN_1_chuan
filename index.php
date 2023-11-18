@@ -16,7 +16,7 @@ if(isset($_GET['act']) && $_GET['act']!=""){
         $loadcategory = load_all_category();
         $loadcategorytype = load_all_category_type();
         $countpro = count_pro();
-        if($_SERVER['REQUEST_METHOD']=='POST'){
+        if(isset($_POST['soluong'])){
             $sl = $_POST['soluong'];
             var_dump($sl);
             echo $sl;
@@ -77,21 +77,47 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                     }else{
                         $avatar = $_POST['current_picture'];
                     }
-                    var_dump($email);
-                    var_dump($name);
-                    var_dump($phone_number);
-                    var_dump($avatar);
+                    // var_dump($email);
+                    // var_dump($name);
+                    // var_dump($phone_number);
+                    // var_dump($avatar);
                     move_uploaded_file($_FILES["avatar"]["tmp_name"],"customer/".$_FILES["avatar"]["name"]);
                     up_date_info($name,$email,$phone_number,$avatar,$accountinfo['id']);
                     $accountinfo['name_customer'] = $name;
                     $accountinfo['email']  = $email;
                     $accountinfo['phone_number'] = $phone_number;
                     $accountinfo['picture'] = $avatar;
+                    $_SESSION['user'] = $name;
+                    $_SESSION['email'] = $email;
                 }
             }
             include "view/info.php";
             // include "view/footer.php";
         break;
+        case "change_pass":
+            $accountinfo = get_user_info($_SESSION['user']);
+            if(isset($_POST['btn-change'])){
+                $pass_old = $_POST['passWord'];
+                $new_pass = $_POST['new-password'];
+                $repass = $_POST['rePassWord'];
+                $errors = [];
+                $account = check_pass($_SESSION['user'],$pass_old);
+                if(!$account){
+                    $errors['passWord'] = "Mật khẩu cũ không chính xác";
+                }
+
+                if($repass != $new_pass){
+                    $errors['rePassWord'] = "Mật khẩu nhập lại không trùng khớp";
+                }
+
+                if(empty($errors)){
+                    update_pass($_SESSION['user'],$new_pass);
+                    setcookie('notice',"Bạn đã đổi mật khẩu thành công",time()+1);
+                    header("Location: index.php?act=info");
+                }
+            }
+            include "view/info.php";
+            break;
         case "login":
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $name = $_POST['name'];
@@ -152,7 +178,7 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                 $top8view = load_top8_new();
                 $comment = load_all_comment($id);
                 update_view($id);
-                $user = get_user_info($_SESSION['user']);
+                // $user = get_user_info($_SESSION['user']);
             }
             if(isset($_POST['btn_submit'])){
                 $user = get_user_info($_SESSION['user']);
