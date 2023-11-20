@@ -133,7 +133,51 @@
                          <button type="submit" class="info_btn-save" name="btn-change">Login</button>
                      </form>
              </div>
-             
+             <!-- Bill -->
+            <div class="info__main-bill" style="display:none;">          
+                <div class="info__bill-list" style="<?php if(count($order) > 3) { echo 'overflow: scroll;'; }?>">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Id</td>
+                                <td>Ngày đặt</td>
+                                <td>Trạng thái</td>
+                                <td>Địa chỉ/Số điện thoại</td>
+                                <td>Hoạt động</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($order as $o): ?>
+                           <tr>
+                                <td><?= $o['id'] ?></td>
+                                <td><?= $o['order_date'] ?></td>
+                                <td>
+                                <?php if($o['order_status'] == 1) { 
+                                            echo 'Đang chờ xác nhận';
+                                        } else if($o['order_status'] == 2) {
+                                            echo 'Đơn hàng đã được xác nhận';
+                                        } else {
+                                            echo 'Đơn hàng đã bị hủy';
+                                        }?>
+                                </td>
+                                <td>
+                                <?php echo 'địa chỉ: '.$o['address'].' || sđt: '.$o['phone_number'] ?> 
+                                </td>
+                                <td>
+                                <?php if($o['order_status']  == 2) {?>
+                                <?php  }elseif($o['order_status'] == 3) {?>
+                                            <a href=""><button>Xóa Bill</button></a>
+                                        <?php  } else { ?>
+                                            <a href="index.php?act=delete_bill&id_order=<?= $o['id'] ?>"><button>Hủy Đơn Hàng</button></a>
+                                        <?php } ?>
+                                        <a href="index.php?act=order&id_order=<?= $o['id'] ?>"><button>Xem chi tiết</button></a>
+                                </td>
+                           </tr>
+                           <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </div>  
+            </div>
              <div class="info__main-notification" style="display:none;">
                 <?php if(isset($_COOKIE['notice'])){
                     echo '<script>alert("'.$_COOKIE['notice'].'")</script>';

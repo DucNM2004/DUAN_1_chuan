@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>XOSS || Admin</title>
+
+    <!-- faviicon -->
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
@@ -17,7 +20,7 @@
     <!-- header -->
     <header class="header">
         <div class="header__logout">
-            <a href="">
+            <a href="../index.php">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
             </a>
         </div>
@@ -31,10 +34,10 @@
     <div class="sidebar__mobile active">
         <!-- admin -->
         <div class="sidebar__admin">
-            <img src="https://kynguyenlamdep.com/wp-content/uploads/2022/06/anh-gai-xinh-cuc-dep.jpg" alt=""
+            <img src="../customer/<?= $_SESSION['picture'] ?>" alt=""
                 class="sidebar__admin-avatar">
             <div class="sidebar__admin-body">
-                <h3>đặng tiến hưng</h3>
+                <h3><?= $_SESSION['user'] ?></h3>
                 <p>Chào mừng bạn đã quay trở lại!</p>
             </div>
         </div>
@@ -73,10 +76,10 @@
     <div class="container-fluid sidebar">
         <!-- admin -->
         <div class="sidebar__admin">
-            <img src="https://kynguyenlamdep.com/wp-content/uploads/2022/06/anh-gai-xinh-cuc-dep.jpg" alt=""
+            <img src="../customer/<?php echo $_SESSION['picture'] ?>" alt=""
                 class="sidebar__admin-avatar">
             <div class="sidebar__admin-body">
-                <h3>đặng tiến hưng</h3>
+                <h3><?= $_SESSION['user'] ?></h3>
                 <p>Chào mừng bạn đã quay trở lại!</p>
             </div>
         </div>
@@ -91,7 +94,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="index.php?act=dssp" class="sidebar__menu-link">
+                    <a href="index.php?act=listproduct" class="sidebar__menu-link">
                         <i class="fa-solid fa-list-check"></i>
                         Quản lý sản phẩm
                     </a>

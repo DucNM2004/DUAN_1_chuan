@@ -107,7 +107,7 @@
                                         <li><a href="index.php?act=cart">Giỏ hàng</a></li>
                                         <li><a href="index.php?act=info">Cá nhân</a></li>
                                         <?php if($_SESSION['role'] == 1){ ?>
-                                            <li><a href="#">Quản trị</a></li>
+                                            <li><a href="admin/index.php">Quản trị</a></li>
                                         <?php }?>
                                     </ul>
                                     </li>

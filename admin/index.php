@@ -1,12 +1,28 @@
 <?php 
+ob_start();
+session_start();
     include '../model/sanpham.php';
     include '../model/pdo.php';
+    include "../model/products.php";
+    include "../model/account.php";
     include 'header.php';
+
     if (isset($_GET['act']) && $_GET['act']!="") {
         $act = $_GET['act'];
         switch ($act) {
-        case "dssp":
-            include "../admin/sanpham/listproduct.php";
+        case "listproduct":
+            $list = load_all_product();
+            
+            include "sanpham/listproduct.php";
+            break;
+        case "delete_pro":
+            if(isset($_GET['idpro']) && $_GET['idpro'] > 0){
+                $id = $_GET['idpro'];
+                delete_pro($id);
+                setcookie('notice',"Sản phẩm đã được xóa",time()+2);
+                header('Location:index.php?act=listproduct');
+            }
+            include "sanpham/listproduct.php";
             break;
         case "addsp":
                 if (isset($_POST["btn-submit"]) && $_POST["btn-submit"]){

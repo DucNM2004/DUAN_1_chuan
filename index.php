@@ -5,7 +5,7 @@ include "model/pdo.php";
 include "model/products.php";
 include "model/comment.php";
 include "model/account.php";
-
+include "model/order.php";
 include "view/head.php";
 $top4 = load_top4_pro();
 $top8 = load_top8_new();
@@ -90,6 +90,8 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                     $_SESSION['user'] = $name;
                     $_SESSION['email'] = $email;
                 }
+                $order = getOrderByIdCustomer($_SESSION['id_user']);
+                
             }
             include "view/info.php";
             // include "view/footer.php";
@@ -116,8 +118,25 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                     header("Location: index.php?act=info");
                 }
             }
+            
             include "view/info.php";
-            break;
+        break;
+        case "delete_bill":
+            if(isset($_GET['id_order'])){
+                $id = $_GET['id_order'];
+                delete_order($id);
+                delete_order_detail($id);
+                setcookie('notice',"Đơn hàng đã được hủy",time()+2);
+                header("Location: index.php?act=info");
+            }
+        break;
+        case "order":
+            if(isset($_GET['id_order'])){
+                $id = $_GET['id_order'];
+                $order_detail = getOrderDetailById($id);
+            }
+            include "view/order.php";
+        break;
         case "login":
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $name = $_POST['name'];
@@ -128,6 +147,7 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                 if(is_array($account)){
                     $_SESSION['user'] = $name;
                     $_SESSION['email'] = $account['email'];
+                    $_SESSION['picture'] = $account['picture'];
                     $_SESSION['id_user'] = $account['id'];
                     $_SESSION['role'] = $account['role'];
                     

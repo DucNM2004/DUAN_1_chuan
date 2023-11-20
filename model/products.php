@@ -50,4 +50,10 @@ function count_pro(){
     $list = pdo_query_one($sql);
     return $list;
 }
+// admin
+
+function delete_pro($id){
+    $sql = "DELETE FROM product where id = $id";
+    pdo_execute($sql);
+}
 ?>

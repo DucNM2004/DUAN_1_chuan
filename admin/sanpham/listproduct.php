@@ -29,6 +29,7 @@
                     <i class="fa-solid fa-plus"></i>
                     Thêm sản
                     phẩm</button>
+                    
                 <div class="container__main-search">
                     <form action="">
                         <input type="search" name="search" id="" placeholder="Tìm kiếm sản phẩm">
@@ -38,61 +39,43 @@
             <div class="container__table">
                 <table>
                     <tr>
-                                <th>Tên Sản Phẩm</th>
-                                <th>Giá Sản Phẩm</th>
-                                <th>Giảm giá</th>
-                                <th>Ảnh sản phẩm</th>
-                                <th>Description</th>
-                                <th>Số lượng sản phẩm</th>
-                                <th>Số lượt xem</th>
-                                <th>Mã Loại</th>
-                                <th>Tính năng</th>
+                    <th>Tên</th>
+                    <th>Giá</th>
+                    <th>Sale</th>
+                    <th>Hình ảnh</th>
+                    <th>Mô tả</th>
+                    <th>Ngày nhận</th>
+                    <th>Tính năng</th>
                       
                       
                     </tr>
+                    <?php foreach($list as $l): ?>
                     <tr>
-                        <td>Alfreds Futterkiste</td>
-                        <td>Maria Anders</td>
-                        <td>Germany</td>
+                        <td><?= $l['name'] ?></td>
+                        <td><?= $l['price'] ?></td>
+                        <td><?= $l['saleOff'] ?></td>
                         <td>
-                            <img src="https://icdn.dantri.com.vn/thumb_w/640/2020/08/30/diem-danh-nhung-guong-mat-hot-girl-noi-bat-trong-thang-8-docx-1598788426579.jpeg"
-                                alt="" class="img_item">
+                            <img src="../products/<?= $l['picture'] ?>" alt="" class="img_item">
                         </td>
                         <td class="container__table-desc-parent">
                             <div class="container__table-desc">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit eos recusandae unde
-                                    itaque laborum laboriosam voluptatibus assumenda! Unde sint provident earum,
-                                    repellendus placeat saepe maiores commodi nisi temporibus tempora quo natus? Neque
-                                    perferendis quia mollitia at facere est soluta autem! Voluptatem eum porro esse
-                                    necessitatibus architecto? Reiciendis facilis nisi laborum inventore! Dolore aliquid
-                                    ullam cum odit labore officiis expedita quo soluta dicta, vitae consequatur ratione
-                                    eveniet, quod itaque, minus dolores magnam. Repudiandae magnam voluptatibus sed
-                                    debitis culpa, nesciunt est soluta dolor explicabo inventore dolorum neque nobis
-                                    pariatur quae totam, sequi laboriosam quidem. Neque totam, exercitationem incidunt
-                                    architecto quos inventore nemo autem quo dicta doloremque odit facilis! Ea, facilis
-                                    quam officiis minus eum itaque porro iste, libero vitae odio quaerat corrupti.
-                                    Distinctio ut aliquam illum at itaque porro, expedita laboriosam quas sequi dolorum
-                                    fugit molestiae, atque iusto eaque iste fugiat qui magnam similique minus a?
-                                    Deserunt ipsam ad praesentium quisquam minus reiciendis reprehenderit minima
-                                    accusamus, consequuntur a dolore perspiciatis fugit aperiam? Impedit tempore
-                                    recusandae laudantium maxime magnam! Vero, at officia unde consequuntur, fugit
-                                    blanditiis cupiditate dolore qui eligendi deleniti vitae incidunt accusantium animi
-                                    rerum soluta doloremque veniam laboriosam exercitationem earum, reprehenderit error
-                                    maxime ad aliquid. Rem, quis. Ex quia nostrum harum?</p>
+                                <p><?= $l['description'] ?></p>
                             </div>
                         </td>
-                        <td>12</td>
-                        <td>1</td>
-                        <td>122</td>
+                        <td><?= $l['date_added'] ?></td>
                         <td>
-                            <a href="edit.html">
+                            <a href="">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <a href="">
-                                <i class="fa-solid fa-trash-can"></i>
+                            <a href="index.php?act=delete_pro&idpro=<?= $l['id']?>">
+                            <i onclick="return confirm('Bạn có chắc muốn xóa không')" class="fa-solid fa-trash-can"></i>
                             </a>
                         </td>
                     </tr>
+                    <?php endforeach ?>
                 </table>
             </div>
+            <?php if(isset($_COOKIE['notice'])){
+                    echo '<script>alert("'.$_COOKIE['notice'].'")</script>';
+                } ?>
         </main>
