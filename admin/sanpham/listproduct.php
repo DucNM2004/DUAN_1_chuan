@@ -6,10 +6,10 @@
                     <div id="clock"></div>
                 </div>
             </div>
-<main class="container__main">
+            <main class="container__main">
             <div class="container__main-handler">
                 <div class="container__main-link">
-                    <a href="index.php?act=addsp"  class="text-white">
+                    <a href="index.php?act=add"  class="text-white">
                         <i class="fa-solid fa-plus"></i>
                         Tạo sản phẩm mới
                     </a>
@@ -18,9 +18,10 @@
                         Xóa sản phẩm
                     </a>
                 </div>
-                <div class="container__main-search">
-                    <form action="">
-                        <input type="search" name="search" id="" placeholder="Tìm kiếm sản phẩm">
+                <div class="">
+                    <form action="index.php?act=listproduct" method="post">
+                        <input type="text" name="se"  id="" placeholder="Tìm kiếm sản phẩm">
+                        <input type="submit" name="sb" value="sdfsdf">
                     </form>
                 </div>
             </div>
@@ -30,11 +31,11 @@
                     Thêm sản
                     phẩm</button>
                     
-                <div class="container__main-search">
+                <!-- <div class="container__main-search">
                     <form action="">
                         <input type="search" name="search" id="" placeholder="Tìm kiếm sản phẩm">
                     </form>
-                </div>
+                </div> -->
             </div>
             <div class="container__table">
                 <table>
@@ -64,7 +65,7 @@
                         </td>
                         <td><?= $l['date_added'] ?></td>
                         <td>
-                            <a href="">
+                            <a href="index.php?act=updatepro&id=<?= $l['id']?>">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
                             <a href="index.php?act=delete_pro&idpro=<?= $l['id']?>">
@@ -78,4 +79,18 @@
             <?php if(isset($_COOKIE['notice'])){
                     echo '<script>alert("'.$_COOKIE['notice'].'")</script>';
                 } ?>
+            <!-- pagination -->
+            <nav aria-label="Page navigation">
+            <ul class="pagination pb-3 d-flex justify-content-center">
+            <?php for ($num = 1; $num <= $totalpage; $num++) { ?>
+                <li class="page-item">
+                    <?php if($num != $currentpage){ ?>
+                    <a class="page-link fs-3 px-3 text-danger mx-1" href="index.php?act=listproduct&page=<?php echo $num; ?>"><?php echo $num ?></a>
+                    <?php }else{ ?>
+                    <a class="page-link fs-3 px-3 text-danger mx-1 active" style="" href="index.php?act=listproduct&page=<?php echo $num; ?>"><?= $num ?></a>
+                    <?php } ?> 
+                </li>
+                <?php } ?>
+            </ul>
+        </nav>
         </main>

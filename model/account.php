@@ -60,4 +60,30 @@ function update_pass($user,$pass){
     $sql = "UPDATE customer SET passWord = '$pass' WHERE name_customer = '$user' ";
     pdo_execute($sql);
 }
+
+function get_user_list($itemperpage,$offset,$search){
+    $sql = "SELECT customer.*, customer.id as 'id_customer' from customer where customer.role = 3  ";
+    if($search != ""){
+        $sql .= " AND name_customer like '%$search%' ";
+    }
+    if($itemperpage>0 && $offset>=0){
+        $sql .= "LIMIT $itemperpage OFFSET $offset";
+    }
+    $list = pdo_query($sql);
+    return $list;
+}
+function create_customer($name_customer, $email, $passWord, $picture_name, $role, $address, $phone_number){
+    $sql = "INSERT INTO customer(name_customer, email, passWord, picture, role, address, phone_number) 
+    values('$name_customer', '$email', '$passWord', '$picture_name', $role, '$address', '$phone_number')";
+    pdo_execute($sql);  
+}
+function delete_account($id){
+    $sql ="DELETE FROM customer where id = $id";
+    pdo_execute($sql);
+}
+function count_account(){
+    $sql = "SELECT count(id) as soluong from customer where customer.role = 3 ";
+    $list = pdo_query_one($sql);
+    return $list;
+}
 ?>

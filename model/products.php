@@ -56,4 +56,32 @@ function delete_pro($id){
     $sql = "DELETE FROM product where id = $id";
     pdo_execute($sql);
 }
+
+function insert_sanpham($name,$price,$saleOff,$file_name,$description,$quantity,$id_category){
+    $sql = "INSERT INTO product(name,price,saleOff,picture,description, quantity,id_category)
+        values('$name','$price','$saleOff','$file_name','$description','$quantity','$id_category')";
+    pdo_execute($sql);
+}
+function get_category_type(){
+    $sql = "SELECT category.*,
+    category_type.id as category_type_id,
+    category_type.type as category_type_name
+    from category
+    join category_type on category.id_category_type = category_type.id";
+    $list = pdo_query($sql);
+    return $list;
+}
+function upload_product($name,$price,$saleOff,$picture,$description,$view_number, $quantity, $id_category,$id){
+    $sql = "UPDATE product set 
+            name = '$name',
+            price = $price,
+            saleOff = $saleOff,
+            picture = '$picture',
+            description = '$description',
+            view_number = '$view_number',
+            quantity = '$quantity',
+            id_category = $id_category 
+            where id = $id";
+    pdo_execute($sql);
+}
 ?>

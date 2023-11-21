@@ -1,14 +1,3 @@
-<?php
-
-if (isset($_GET['success'])) {
-    $abc = $_GET['success'];
-    echo '<script>alert("cập nhật sản phẩm thành công!")</script>';
-}
-if (isset($_GET['error'])) {
-    echo '<script>alert("Thêm sản phẩm thất bại!")</script>';
-}
-
-?>
 
 <!-- container -->
 <main class="content-wrapper">
@@ -32,9 +21,7 @@ if (isset($_GET['error'])) {
             </div>
             <div class="container__main-search">
                 <form action="">
-                    <input type="search" name="search" id="" placeholder="Tìm kiếm sản phẩm" value="<?php if (isset($_GET['search'])) {
-                                                                                                        echo $_GET['search'];
-                                                                                                    } ?>">
+                    <input type="search" name="search" id="" placeholder="Tìm kiếm sản phẩm" value="">
                 </form>
             </div>
         </div>
@@ -46,9 +33,7 @@ if (isset($_GET['error'])) {
                 phẩm</button>
             <div class="container__main-search">
                 <form action="">
-                    <input type="search" name="search" id="" placeholder="Tìm kiếm danh mục sản phẩm" value="<?php if (isset($_GET['search'])) {
-                                                                                                        echo $_GET['search'];
-                                                                                                    } ?>">
+                    <input type="search" name="search" id="" placeholder="Tìm kiếm danh mục sản phẩm" value="">
                 </form>
             </div>
         </div>
@@ -61,37 +46,41 @@ if (isset($_GET['error'])) {
                     <th>Tính năng</th>
                 </tr>
                 <!-- render danh sách sản phẩm -->
-                <?php foreach ($category as $each) { ?>
+                <?php foreach ($category_type as $each) { if($each['status']==0){?>
                 <tr>
-                    <td><?= $each->title_category; ?></td>
+                    <td><?= $each['title_category']; ?></td>
                     <td class="container__table-desc-parent">
                         <div class="container__table-desc">
-                            <p><?= $each->description; ?></p>
+                            <p><?= $each['description']; ?></p>
                         </div>
                     </td>
-                    <td><?= $each->category_type_name; ?></td>
+                    <td><?= $each['category_type_name']; ?></td>
                     <td>
-                        <a href="edit-product-category.php?id=<?= $each->id; ?>">
+                        <a href="">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a href="delete-product-category.php?id=<?= $each->id; ?>">
-                            <i class="fa-solid fa-trash-can"></i>
+                        <a href="index.php?act=delete_category&id=<?= $each['id'] ?>">
+                            <i onclick="return confirm('Bạn có chắc muốn xóa không')" class="fa-solid fa-trash-can"></i>
                         </a>
                     </td>
                 </tr>
-                <?php } ?>
+                <?php } } ?>
             </table>
         </div>
-
+        <?php if(isset($_COOKIE['notice'])){
+                    echo '<script>alert("'.$_COOKIE['notice'].'")</script>';
+                } ?>
+        
         <!-- pagination -->
         <nav aria-label="Page navigation">
             <ul class="pagination pb-3 d-flex justify-content-center">
-                <?php for ($i = 1; $i <= $number_page; $i++) { ?>
+            <?php for ($num = 1; $num <= $totalpage; $num++) { ?>
                 <li class="page-item">
-                    <a class="page-link fs-3 px-3 text-danger mx-1"
-                        href="?page=<?php echo $i; ?>&search=<?php echo $search; ?>">
-                        <?php echo $i ?>
-                    </a>
+                    <?php if($num != $currentpage){ ?>
+                    <a class="page-link fs-3 px-3 text-danger mx-1" href="index.php?act=listcategory&page=<?php echo $num; ?>"><?php echo $num ?></a>
+                    <?php }else{ ?>
+                    <a class="page-link fs-3 px-3 text-danger mx-1 active" style="" href="index.php?act=listcategory&page=<?php echo $num; ?>"><?= $num ?></a>
+                    <?php } ?> 
                 </li>
                 <?php } ?>
             </ul>
@@ -108,7 +97,7 @@ if (isset($_GET['error'])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="action-product-category.php" method="post">
+                <form action="index.php?act=add_category" method="post">
                     <div class="mb-3">
                         <label for="" class="form-label fs-3">Tên danh mục</label>
                         <input type="text" class="form-control fs-3" name="name-product-category"
@@ -122,7 +111,7 @@ if (isset($_GET['error'])) {
                     <select class="form-select fs-3" aria-label="Default select example" name="id_product_type">
                         <!-- render ra loại sản phẩm -->
                         <?php foreach ($category_type as $each) { ?>
-                        <option value="<?= $each->id; ?>"><?= $each->type; ?></option>
+                        <option value="<?= $each['category_type_id'] ?>"><?= $each['category_type_name']?></option>
                         <?php } ?>
                         <!-- end -->
                     </select>
@@ -130,8 +119,7 @@ if (isset($_GET['error'])) {
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary fs-4" data-bs-dismiss="modal">Đóng</button>
                         <button type="submit" class="btn btn-danger fs-4" data-bs-target="submit-form"
-                            name="submit">Thêm sản
-                            phẩm</button>
+                            name="submit">Thêm sản phẩm</button>
                     </div>
                 </form>
             </div>

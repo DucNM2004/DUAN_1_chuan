@@ -50,6 +50,7 @@
   -o-border-radius: 0.4rem;
   box-shadow: 9px 9px 9px #5a5a5a, 9px 9px 9px #ffffff;
 }
+
 .content-wrapper .analysis i,
 .content-wrapper .content__chart i {
   border-radius: 0.4rem;
