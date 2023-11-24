@@ -14,7 +14,7 @@ function get_comment($itemperpage,$offset,$search){
     join customer on comment.idPerson = customer.id
     join product on comment.idItem = product.id where 1 ";
     if($search != ""){
-        $sql .="AND comment.comment_content = '$search'";
+        $sql .="AND comment.comment_content like '%$search%'";
     }
     if($itemperpage>0 && $offset>=0){
         $sql .= "LIMIT $itemperpage OFFSET $offset";

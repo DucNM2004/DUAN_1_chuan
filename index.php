@@ -16,14 +16,41 @@ if(isset($_GET['act']) && $_GET['act']!=""){
         $loadcategory = load_all_category();
         $loadcategorytype = load_all_category_type();
         $countpro = count_pro();
-        if(isset($_POST['soluong'])){
-            $sl = $_POST['soluong'];
-            var_dump($sl);
-            echo $sl;
-        }
         
+        if(isset($_POST['submit'])){
+            $search = $_POST['search'];
+        }
+        else{
+            $search ="";
+        }
         extract($countpro);
-        if(!empty($_GET['perpage'])){
+        if(isset($_POST['sort'])){
+            $sort = $_POST['sort_select'];
+            if($sort == "1"){
+                $sort = "order by name ASC ";
+            }
+            elseif($sort == "4"){
+                $sort = "order by name DESC ";
+            }
+            elseif ($sort == "2"){
+                $sort = "order by date_added ASC ";
+            }
+            elseif ($sort == "5"){
+                $sort = "order by date_added DESC ";
+            }
+            elseif($sort == "3"){
+                $sort = "order by price ASC ";
+            }
+            elseif($sort == "6"){
+                $sort = "order by price DESC ";
+            }
+        }else{
+            $sort = "";
+        }
+        if(isset($_POST['loc'])){
+            $itemperpage = $_POST['soluong'];
+        }
+        elseif(!empty($_GET['perpage'])){
             $itemperpage = $_GET['perpage'];
         }
         else{
@@ -44,7 +71,7 @@ if(isset($_GET['act']) && $_GET['act']!=""){
         else{
             $iddm = 0;
         }
-        $allpro = load_pro_follow_category($itemperpage,$offset,$iddm);
+        $allpro = load_pro_follow_category($itemperpage,$offset,$iddm,$search,$sort);
         include "view/products.php";
         break;
         case "cart":
@@ -104,7 +131,9 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                 $repass = $_POST['rePassWord'];
                 $errors = [];
                 $account = check_pass($_SESSION['user'],$pass_old);
-                if(!$account){
+                // var_dump($account);
+                // die;
+                if($account == false){
                     $errors['passWord'] = "Mật khẩu cũ không chính xác";
                 }
 
@@ -117,6 +146,20 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                     setcookie('notice',"Bạn đã đổi mật khẩu thành công",time()+1);
                     header("Location: index.php?act=info");
                 }
+                else{
+                    if(!empty($errors['passWord'])){
+                        die;
+                        header("Location: index.php?act=info");
+                        setcookie('notice',$errors['passWord'],time()+2);
+                       
+                    }
+                    elseif(!empty($errors['rePassWord'])){
+                        header("Location: index.php?act=info");
+                        setcookie('notice',$errors['rePassWord'],time()+2);
+                        
+                    }
+                }
+
             }
             
             include "view/info.php";
@@ -195,7 +238,11 @@ if(isset($_GET['act']) && $_GET['act']!=""){
             if(isset($_GET['idsp']) && $_GET['idsp']){
                 $id = $_GET['idsp'];
                 $detailpro = load_one_PRO($id);
-                $top8view = load_top8_new();
+                $id_category  = $detailpro['id_category'];
+                // var_dump($id_category);
+                // var_dump($id);
+                // die;
+                $top8view = load_same_cate($id_category,$id);
                 $comment = load_all_comment($id);
                 update_view($id);
                 // $user = get_user_info($_SESSION['user']);

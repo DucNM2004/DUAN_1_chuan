@@ -40,7 +40,7 @@
                             <div class="mb-3">
                                 <label for="picture" class="form-label fs-3">Thêm sản phẩm</label>
                                 <input type="file" min="0" class="form-control fs-3" id="picture"
-                                     name="new-picture">
+                                name="new-picture">
                             </div>
                             <div class="mb-3">
                                 <label for="picture" class="form-label fs-3">Hình ảnh sản phẩm</label>

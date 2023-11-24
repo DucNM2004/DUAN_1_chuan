@@ -23,6 +23,10 @@ function up_date_info($name,$email,$phone,$avatar,$id){
     $sql = "UPDATE customer SET name_customer='$name', email = '$email',phone_number = '$phone',picture = '$avatar' where id = '$id' ";
     pdo_execute($sql);
 }
+function up_date_info_admin($name,$email,$phone_number,$address,$avatar,$pass,$id){
+    $sql = "UPDATE customer SET name_customer='$name', email = '$email',phone_number = '$phone_number',address = '$address',picture = '$avatar',passWord = '$pass' where id = '$id' ";
+    pdo_execute($sql);
+}
 function check_email($email) { 
     $sql="SELECT * FROM customer WHERE email='$email'";
     $result = pdo_query_one($sql);
@@ -83,6 +87,11 @@ function delete_account($id){
 }
 function count_account(){
     $sql = "SELECT count(id) as soluong from customer where customer.role = 3 ";
+    $list = pdo_query_one($sql);
+    return $list;
+}
+function get_user_byId($id){
+    $sql ="SELECT * FROM customer where id = $id";
     $list = pdo_query_one($sql);
     return $list;
 }

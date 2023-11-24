@@ -15,9 +15,9 @@
             <input type="submit" name="signin" value="Đăng nhập" class="log__sub"><br>
             <div class="controll">
                 <a href="index.php?act=register" class="log__a">
-                    <p>Dăng ký</p>
+                    <p>Đăng ký</p>
                 </a>
-                <a href="?url=forget_password.php" class="log__a">
+                <a href="#" class="log__a">
                     <p>Quên mật khẩu?</p>
                 </a>
             </div>

@@ -9,6 +9,11 @@ function load_top8_new(){
     $list = pdo_query($sql);
     return $list;
 }
+function load_same_cate($id_category,$id){
+    $sql = "SELECT * FROM `product` where id_category = $id_category and id <> $id";
+    $list = pdo_query($sql);
+    return $list;
+}
 function load_one_PRO($id){
     $sql = "SELECT* FROM `product` where id = '$id'";
     $list = pdo_query_one($sql);
@@ -33,8 +38,14 @@ function load_all_category_type(){
     $list = pdo_query($sql);
     return $list;
 }
-function load_pro_follow_category($itemperpage,$offset,$iddm=0){
+function load_pro_follow_category($itemperpage,$offset,$iddm=0,$search,$sort){
     $sql = "SELECT * FROM `product`where 1 ";
+    if($search !=""){
+        $sql .= "AND name like '%$search%'";
+    }
+    if($sort != ""){
+        $sql .= $sort;
+    }
     if($iddm > 0){
         $sql .="AND id_category = '$iddm'"; 
     }
@@ -83,5 +94,17 @@ function upload_product($name,$price,$saleOff,$picture,$description,$view_number
             id_category = $id_category 
             where id = $id";
     pdo_execute($sql);
+}
+function load_pro_follow_category2($itemperpage,$offset,$search){
+    $sql = "SELECT * FROM `product`where 1 ";
+    if($search != ""){
+        $sql .="AND name like '%$search%'"; 
+    }
+    if($itemperpage>0 && $offset>=0){
+        $sql .= "LIMIT $itemperpage OFFSET $offset";
+    }
+   
+    $list = pdo_query($sql);
+    return $list;
 }
 ?>

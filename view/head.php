@@ -106,7 +106,7 @@
                                     <ul class="header__sub-menu">
                                         <li><a href="index.php?act=cart">Giỏ hàng</a></li>
                                         <li><a href="index.php?act=info">Cá nhân</a></li>
-                                        <?php if($_SESSION['role'] == 1){ ?>
+                                        <?php if($_SESSION['role'] != 3){ ?>
                                             <li><a href="admin/index.php">Quản trị</a></li>
                                         <?php }?>
                                     </ul>
@@ -199,10 +199,10 @@
                             </ul>
                             <!-- search -->
                             <div class="col-sm-8 col-lg-2 header__search">
-                                <form action="" method="post" class="header__search-form">
-                                    <input type="search" name="search__products" class="header__search-input"
+                                <form action="index.php?act=products" method="post" class="header__search-form">
+                                    <input type="search" name="search" class="header__search-input"
                                         placeholder="Search ....">
-                                    <button class="header__search-btn">
+                                    <button class="header__search-btn" type="submit" name="submit">
                                         <i class="icon fa-solid fa-search"></i>
                                     </button>
                                 </form>

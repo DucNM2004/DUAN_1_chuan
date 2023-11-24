@@ -6,6 +6,7 @@ session_start();
     include "../model/account.php";
     include "../model/home.php";
     include "../model/comment.php";
+    include "../model/variant.php";
     include "../model/category.php";
     include 'header.php';
 
@@ -13,12 +14,11 @@ session_start();
         $act = $_GET['act'];
         switch ($act) {
         case "listproduct":
-            
-            if(isset($_POST['sb'])){
-                $se = $_POST['se'];
+            if(isset($_POST['submit'])){
+                $search = $_POST['search'];
             }
             else{
-                $se = "";
+                $search = "";
             }
             $count_comment = count_pro();
             extract($count_comment);
@@ -33,7 +33,7 @@ session_start();
             
             $offset = ($currentpage-1) * $itemperpage;
             $totalpage = ceil($soluong / $itemperpage);
-            $list = load_pro_follow_category($itemperpage,$offset,$se);
+            $list = load_pro_follow_category2($itemperpage,$offset,$search);
             include "sanpham/listproduct.php";
             break;
         case "delete_pro":
@@ -113,11 +113,11 @@ session_start();
             include "sanpham/update.php";
             break;
         case "listcategory":
-            if(isset($_POST['sb'])){
-                $se = $_POST['se'];
+            if(isset($_POST['submit'])){
+                $search = $_POST['search'];
             }
             else{
-                $se = "";
+                $search = "";
             }
             $count_category = count_category();
             extract($count_category);
@@ -132,7 +132,7 @@ session_start();
             
             $offset = ($currentpage-1) * $itemperpage;
             $totalpage = ceil($soluong / $itemperpage);
-            $category_type = load_all_category2($itemperpage,$offset,$se);
+            $category_type = load_all_category2($itemperpage,$offset,$search);
             
             include "../admin/danhmuc/listcategory.php";
             break;
@@ -147,6 +147,23 @@ session_start();
             }
             include "danhmuc/listcategory.php";
             break;
+        case "update_cate":
+            if(isset($_GET['id'])&& $_GET['id']>0){
+                $id = $_GET['id'];
+                $category_item = get_category($id);
+                $category_type = load_all_category_type();
+            }
+            if (isset($_POST['submit'])) {
+                $category_type = $_POST['id-product-category'];
+                $name_product_category = $_POST['name-product-category'];
+                $desc_product_category = $_POST['desc-product-category'];
+                $id_product_type = $_POST['id_product_type'];
+                update_category($category_type, $name_product_category, $desc_product_category, $id_product_type);
+                setcookie('notice',"Đã sửa thành công",time()+2); 
+                header('location: index.php?act=listcategory');
+            }
+            include "danhmuc/update.php";
+            break;
         case "delete_category":
             if(isset($_GET['id'])&&$_GET['id']>0){
                 $id = $_GET['id'];
@@ -157,7 +174,7 @@ session_start();
             include "danhmuc/listcategory.php";
             break;
         case "listcomment":
-            if(isset($_POST['search'])){
+            if(isset($_POST['submit'])){
                 $search = $_POST['search'];
             }
             else{
@@ -221,20 +238,110 @@ session_start();
                 $passWord = $_POST['password'];
                 $picture_name = ($picture['error'] == 0) ? $picture['name'] : '';
                 $role = $_POST['role'];
+                $error = [];
+                if (check_email($email) == true){
+                    $error['email'] = "Email đã tồn tại";
+                }
+                if (check_user($name_customer)== true){
+                    $error['user'] = "Tên người dùng đã tồn tại";
+                }
                 if ($picture == "") {
-                    setcookie('notice',"Phải có ảnh",time()+2);
-                } else {
+                    $error['3'] = 3;
+                    setcookie('notice',"Phải có ảnh",time()+2,'/');
+                    header("Location: index.php?act=listaccount");
+                }
+                if(empty($error)){
                     $folder = "../customer/";
                     $file_extension = explode('.', $picture_name)[1];
                     $file_name = time() . '.' . $file_extension;
                     $path_file = $folder . $file_name;
                     move_uploaded_file($picture['tmp_name'], $path_file);
-                    }
                     create_customer($name_customer, $email, $passWord, $file_name, $role, $address, $phone_number);
                     header("Location: index.php?act=listaccount");
-                    setcookie('notice',"Đã thêm thành công",time()+2); 
-                    
+                    setcookie('notice',"Đã thêm thành công",time()+2,'/'); 
                 }
+                else{
+                    if(!empty($error['email'])){
+                        header("Location: index.php?act=listaccount");
+                        setcookie('notice',$error['email'],time()+2);  
+                    }
+                    elseif(!empty($error['user'])){
+                    header("Location: index.php?act=listaccount");
+                    setcookie('notice',$error['user'],time()+2);
+                    } 
+                }
+            }
+                include "account/listaccount.php";
+            break;
+        case "update_acc":
+            if(isset($_GET['id']) && $_GET['id']>0){
+                $id = $_GET['id'];
+                $user = get_user_byId($id);
+            }
+            if(isset($_POST["btn_save"])) {
+                $id = $_POST['ID'];
+                $error = [];
+                if(empty($_POST["email"])) {
+                    $email = $_POST["current_email"];
+                } else {
+                    $email = $_POST["email"];
+                }
+                if($_FILES["new-picture"]["size"] != 0) {
+                    $avatar = $_FILES["new-picture"]["name"];
+                }else{
+                    $avatar = $_POST['current_picture'];
+                }
+               
+                if(empty($_POST["phoneNumber"])) {
+                    $phone_number = $_POST["current_phone_number"];
+                } else {
+                    $phone_number = $_POST["phoneNumber"];
+                }
+    
+                if(empty($_POST["address"])) {
+                    $address = $_POST["current_address"];
+                } else {
+                    $address = $_POST["address"];
+                }
+    
+                if(empty($_POST["user_name"])) {
+                    $name = $_POST["current_name"];
+                } else {
+                    $name = $_POST["user_name"];
+                }
+
+                if(empty($_POST["pass"])) {
+                    $pass = $_POST["current_pass"];
+                } else {
+                    $pass = $_POST["pass"];
+                }
+                // var_dump($avatar);
+                // die;
+                // if (check_email($email) == true){
+                //     $error['email'] = "Email đã tồn tại";
+                   
+                // }
+                // if (check_user($name)== true){
+                //     $error['user'] = "Tên người dùng đã tồn tại";
+                    
+                // }
+                if(empty($error)){
+                move_uploaded_file($_FILES["new-picture"]["tmp_name"],"customer/".$_FILES["new-picture"]["name"]);
+                up_date_info_admin($name,$email,$phone_number,$address,$avatar,$pass,$id);
+                setcookie('notice',"Đã cập nhật thông tin thành công",time() + 2);
+                header("location: index.php?act=listaccount");
+                }else{
+                    if(!empty($error['email'])){
+                        setcookie('notice',$error['email'],time()+2);
+                        header("Location: index.php?act=update_acc&id=$id");
+                    }
+                    elseif(!empty($error['user'])){
+                        setcookie('notice',$error['user'],time()+2);
+                        header("Location: index.php?act=update_acc&id=$id");
+                    }
+                }
+            }
+            include "account/update.php";
             break;    
         case "delete_acc":
             if(isset($_GET['id']) && $_GET['id']>0){
@@ -244,6 +351,161 @@ session_start();
                 header("Location: index.php?act=listaccount");
             }
             break;
+        case "admin_info":
+            $user = get_user_info($_SESSION['user']);
+            if(isset($_POST["btn_save"])) {
+                $id = $_POST['ID'];
+                if(empty($_POST["email"])) {
+                    $email = $_POST["current_email"];
+                } else {
+                    $email = $_POST["email"];
+                }
+                if($_FILES["new-picture"]["size"] != 0) {
+                    $avatar = $_FILES["new-picture"]["name"];
+                }else{
+                    $avatar = $_POST['picture-old'];
+                }
+               
+                if(empty($_POST["phoneNumber"])) {
+                    $phone_number = $_POST["current_phone_number"];
+                } else {
+                    $phone_number = $_POST["phoneNumber"];
+                }
+    
+                if(empty($_POST["address"])) {
+                    $address = $_POST["current_address"];
+                } else {
+                    $address = $_POST["address"];
+                }
+    
+                if(empty($_POST["user_name"])) {
+                    $name = $_POST["current_name"];
+                } else {
+                    $name = $_POST["user_name"];
+                }
+
+                if(empty($_POST["pass"])) {
+                    $pass = $_POST["current_pass"];
+                } else {
+                    $pass = $_POST["pass"];
+                }
+             
+                if(isset($_SESSION["user"]) ) {
+                    $_SESSION['user'] = $name;
+                    $_SESSION['email'] = $email;
+                    $_SESSION['picture'] = $avatar;
+                }
+                move_uploaded_file($_FILES["new-picture"]["tmp_name"],"customer/".$_FILES["new-picture"]["name"]);
+                up_date_info_admin($name,$email,$phone_number,$address,$avatar,$pass,$id);
+                setcookie('notice',"Đã cập nhật thông tin thành công",time() + 2);
+                header("location: index.php?act=admin_info");
+            }
+            include "admin_info/info.php";
+            break;
+        case "listvariant":
+            if(isset($_POST['submit'])){
+                $search = $_POST['search'];
+            }
+            else{
+                $search = "";
+            }
+            $count_var = count_var();
+            extract($count_var);
+            $itemperpage = 4;
+            
+            if(!empty($_GET['page'])){
+                $currentpage  = $_GET['page'];
+            }
+            else{
+                $currentpage = 1;
+            }
+            
+            $offset = ($currentpage-1) * $itemperpage;
+            $totalpage = ceil($soluong / $itemperpage);
+            $list_var = load_variant($itemperpage,$offset,$search); 
+            $var_size = load_size();
+            $var_pro = load_var_pro();
+        include "variant/listvariant.php";
+        break;
+        case "add_var":
+            if(isset($_POST['submit'])){
+                $id_pro = $_POST['id_pro'];
+                $id_size = $_POST['size'];
+                $price = $_POST['size_price'];
+                $quantity = $_POST['size_quantity'];
+                $product = load_one_PRO($id_pro);
+                $error =[];
+                
+                if(check_var($id_pro,$id_size)){
+                    $error['1'] = 1; 
+                }
+                if($price<$product['price']){
+                    $error['2'] = 2;
+                    
+                }
+                if(empty($error)){
+                add_variant($id_size,$id_pro,$price,$quantity);
+                update_quantity_pro($id_pro,$quantity);
+                setcookie('notice',"Bạn đã thêm vào kho thành công",time()+2);
+                header("Location: index.php?act=listvariant");
+                }else{
+                    if(!empty($error['1'])){
+                        setcookie('notice',"Sản phẩm và size đã có trong kho hãy kiểm tra lại",time()+2);
+                        header("Location: index.php?act=listvariant");
+                    }elseif(!empty($error['2'])){
+                        setcookie('notice',"Giá không được thấp hơn giá niêm yết của sản phẩm: ".$product['price'],time()+2);
+                        header("Location:index.php?act=listvariant");
+                    }
+                }
+            }
+        include "variant/listvariant.php";
+        break;
+        case "update_var":
+            if(isset($_GET['id']) && $_GET['id']>0){
+                $id = $_GET['id'];
+                $item = get_var_info($id);
+            }
+            if(isset($_POST['submit'])){
+                $id_var = $_POST['id-var'];
+                $id_size = $_POST['id-size'];
+                $id_pro = $_POST['id-product'];
+                $name_pro = $_POST['name_product'];
+                $name_size = $_POST['name_size'];
+                $price_size = $_POST['price'];
+                $quantity = $_POST['quantity_size'];
+                $old_quantity = $_POST['old_quantity'];
+                $up_pro_quan = $quantity-$old_quantity;
+                $product = load_one_PRO($id_pro);
+                $error = [];
+
+                if($price_size<$product['price']){
+                    $error['price'] = "Chỉnh sửa lỗi: 
+                    Giá chỉnh sửa không được thấp hơn giá niêm yết của sản phẩm: ".$name_pro.
+                    " Giá niêm yết của sản phẩm là: ".$product['price'];
+                }
+                if(empty($error)){
+                update_variant($id_var,$id_pro,$id_size,$price_size,$quantity);
+                update_quantity_pro($id_pro,$up_pro_quan);
+                setcookie('notice',"Cập nhật kho hàng thành công",time()+2);
+                header("Location: index.php?act=listvariant");
+                }else{
+                    if(!empty($error['price'])){
+                    setcookie('notice',"Giá không được thấp hơn giá niêm yết của sản phẩm: ".$product['price'],time()+2);
+                    header("Location:index.php?act=update_var&id=$id_var");
+                    }
+                }
+            }
+            include "variant/update.php";
+        break;
+        case "delete_var":
+            if(isset($_GET['id']) && $_GET['id']>0){
+                $id  = $_GET['id'];
+                delete_var($id);
+                setcookie('notice',"Đã xóa thành công",time()+2);
+                header("Location: index.php?act=listvariant");
+            }
+            include "variant/listvariant.php";
+        break;
     }
     } else {
         $total_moneys = doanh_thu_hang_thang();

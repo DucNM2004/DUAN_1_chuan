@@ -18,10 +18,10 @@
                         Xóa sản phẩm
                     </a>
                 </div>
-                <div class="">
+                <div class="container__main-search">
                     <form action="index.php?act=listproduct" method="post">
-                        <input type="text" name="se"  id="" placeholder="Tìm kiếm sản phẩm">
-                        <input type="submit" name="sb" value="sdfsdf">
+                        <input type="search" name="search"  id="" placeholder="Tìm kiếm sản phẩm">
+                        <button type="submit" name="submit" hidden>Tim</button>
                     </form>
                 </div>
             </div>

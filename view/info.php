@@ -48,6 +48,8 @@
                          <input type="email" name="current_email" value="<?= $accountinfo['email'] ?>" id="email" hidden>
                          <!-- curent name -->
                          <input type="text" name="current_name" value="<?= $accountinfo['name_customer'] ?>" id="name" hidden>
+                         <!-- curent address -->
+                         <input type="text" name="current_address" value="<?= $accountinfo['address'] ?>" id="address" hidden>
                          <table class="info__table-view-info">
                              <tr>
                                  <td>Tên đăng nhập</td>
@@ -64,6 +66,11 @@
                                  <td>Số điện thoại</td>
                                  <td><input type="text" id="phone_number_value" name="phoneNumber" value="<?php echo $accountinfo['phone_number'] ?>" disabled> 
                                  <button id="change_phone_number" type="button">Thay đổi</button></span></td>
+                             </tr>
+                             <tr>
+                                 <td>địa chỉ</td>
+                                 <td><input type="text" id="address_value" name="phoneNumber" value="<?php echo $accountinfo['address'] ?>" disabled> 
+                                 <button id="change_address" type="button">Thay đổi</button></span></td>
                              </tr>
                          </table>
                          <div class="info__change-avatar">
@@ -114,23 +121,16 @@
                  <h5>Để bảo mật tài khoản, vui lòng không chia sẻ mật khẩu cho người khác</h4>
                      <!-- Content -->
                      <form action="index.php?act=change_pass" class='info__form-pass' method="POST">
-                         <label for="passWord">Your Password</label> <br>
+                         <label for="passWord">Mật khẩu của bạn</label> <br>
                          <input type="password" name="passWord" placeholder="Enter Your Password" required>
-                         <?php if(isset($errors['passWord'])){ ?>
-                            <h4 style="color:red"><?= $errors['passWord'] ?></h4>
-                            <?php  } ?>
                          <br>
-                         
-                         <label for="new-password">New Password</label> <br>
+                         <label for="new-password">Mật khẩu mới</label> <br>
                          <input type="password" name="new-password" placeholder="Enter New Password" required>
                          <br>
-                         <label for="rePassWord">Repeat Password</label> <br>
+                         <label for="rePassWord">Nhập lại mật khẩu mới</label> <br>
                          <input type="password" name="rePassWord" placeholder="Repeat Password" required>
-                         <?php if(isset($errors['rePassWord'])){ ?>
-                            <h4 style="color:red"><?= $errors['rePassWord'] ?></h4>
-                            <?php  } ?>
                          <br>
-                         <button type="submit" class="info_btn-save" name="btn-change">Login</button>
+                         <button type="submit" class="info_btn-save" name="btn-change">Đổi mật khẩu</button>
                      </form>
              </div>
              <!-- Bill -->

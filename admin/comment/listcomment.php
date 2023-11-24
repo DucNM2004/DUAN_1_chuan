@@ -17,8 +17,9 @@
                 </a> -->
             </div>
             <div class="container__main-search">
-                <form action="index.php?act=listcomment">
-                    <input type="search" name="search" id="" placeholder="Tìm kiếm bình luận" value="<?php if (isset($_GET['search'])) { echo $_GET['search']; } ?>  " />
+                <form action="index.php?act=listcomment" method="post">
+                    <input type="search" name="search" id="" placeholder="Tìm kiếm bình luận" />
+                    <button type="submit" name="submit" hidden>Tim</button>
                 </form>
             </div>
         </div>

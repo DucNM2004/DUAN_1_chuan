@@ -1,5 +1,9 @@
 <!-- body -->
 <div class="products__container">
+<?php if (isset(($search)) && !empty($search)) { ?>
+        <h1 style="margin-left: 30px;" align='left'>Các kết quả tìm kiếm cho từ khóa
+            "<?= $search ?>"</h1>
+    <?php } ?>
     <div class="row">
         <div class="col-md-3 col-xs-12 sidebar-container float-right">
             <div class="row">
@@ -97,30 +101,31 @@
                     </div>
                     <div class="col-sm-3 col-xs-7 pro-show text-right float-right">
                         <div class="products__show_wrap">
-                            <label>show:</label>
+                            <label>Hiển thị:</label>
                             <form action="index.php?act=products" method="post">
                             <select class="show-select" name="soluong">
                                 <option value="6">6</option>
                                 <option value="9">9</option>
                                 <option value="12">12</option>
-                                <option value="3">ALL</option>
-                                <?php echo $sl; ?>
                             </select>
-                            <button type="submit" name="loc">LOC</button>
+                            <button type="submit" name="loc" >Hiển thị</button>
                             </form>
                         </div>
                     </div>
                     <div class="col-sm-6 col-xs-12 short-by text-center">
                         <div class="products__short_by_wrap">
-                            <label>short by:</label>
-                            <select class="sort-select">
-                                <option>Name Ascending</option>
-                                <option>Name Descending</option>
-                                <option>Date Ascending</option>
-                                <option>Date Descending</option>
-                                <option>Price Ascending</option>
-                                <option>Price Descending</option>
+                            <label>Sắp xếp:</label>
+                            <form action="index.php?act=products" method="post">
+                            <select class="sort-select" name="sort_select">
+                                <option value="1">Tên A-Z</option>
+                                <option value="4">Tên Z-A</option>
+                                <option value="2">Ngày A-Z</option>
+                                <option value="5">Ngày Z-A</option>
+                                <option value="3">Giá A-Z</option>
+                                <option value="6">Giá Z-A</option>
                             </select>
+                            <button type="submit" name="sort" >Hiển thị</button>
+                            </form>
                         </div>
                     </div>
                 </div>

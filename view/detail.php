@@ -20,24 +20,43 @@
                     <div class="detail__product-price">
                         <div class="detail__product-wrap-price">
                             <!-- New Price -->
-                            <span class="detail__product-price-new">$ <?= $detailpro['price'] ?></span>
+                            <?php if ($detailpro['quantity'] > 0) { ?>
+                            <?php $new_price = $detailpro['price'] - $detailpro['saleOff'] ?>
+                            <span class="detail__product-price-new">$ <?= $new_price ?></span>
                             <!-- Old Price -->
-                            <span class="detail__product-price-old">( <?= $detailpro['price'] + 50 ?>.00)</span>
+                            <span class="detail__product-price-old">
+                            <?php if (number_format($detailpro['saleOff']) != 0) {
+                                    echo '(' . $detailpro['price'] . ')';
+                                } ?>
+                        </span>
+                        <span class="detail__product-price-sale">
+                            <?php if (number_format($detailpro['saleOff']) != 0) {
+                                    echo 'Giảm ' . $detailpro['saleOff'] . '%';
+                                } ?>
+                        </span>
+                        <?php } else { ?>
+                        <span class="detail__product-price-new">
+                            $ <?php echo $detailpro['price']; ?>.00
+                        </span>
+                        <?php } ?>
                         </div>
                     </div>
                     <!-- Product Overview -->
                     <div class="detail__product-overview">
-                        <h5>overview:</h5>
+                        <h5>Miêu tả:</h5>
                         <p><?= $detailpro['description'] ?></p>
                     </div>
                     <!-- Product Size -->
                     <div class="detail__product-size">
                         <h5>Size:</h5>
-                        <a href="#">S</a>
+                        <form action="">
+                        <a class="detail__product-size-active" href="#">S</a>
                         <a href="#">M</a>
                         <a href="#">L</a>
                         <a href="#">XL</a>
                         <a href="#">XXL</a>
+                        </form>
+                        
                     </div>
                     <!-- Product Color + Quantity -->
                     <form action="">
@@ -56,7 +75,7 @@
                             <h5>Số lượng:</h5>
                             <div class="detail__product-wrap-quantity">
                                 <!-- Input Quantity -->
-                                <input type="text" value="1" name="quantity" class="detail_product-input-plus-minus"
+                                <input type="number" value="1" min="1" max="<?= $detailpro['quantity'] ?>" name="quantity" class="detail_product-input-plus-minus"
                                 id="<?php echo $detailpro['id']; ?>">
 
                                 <!-- Increase -->
@@ -74,7 +93,10 @@
                        
                         <!-- Product Action -->
                         <div class="detail__product-action">
-                            <button name="btn_add" class="detail__product-action-btn btn-text" <?php if($detailpro['quantity']==0){echo 'disabled';} ?>>THÊM VÀO GIỎ HÀNG</button>
+                            <button name="btn_add" class="detail__product-action-btn btn-text" <?php if($detailpro['quantity']==0){echo 'disabled';} ?>>THÊM VÀO GIỎ HÀNG</button><br>
+                        </div>
+                        <div>
+                        <h5>số lượng sản phẩm còn: <?= $detailpro['quantity'] ?></h5>
                         </div>
                     </form>
                 </div>
@@ -98,7 +120,9 @@
                         <span>Dựa trên <?= count($comment) ?></span>
                     </div>
                     <!-- View Comment -->
-                    <div class="detail__product-comment-box">
+                    <div class="detail__product-comment-box" style='<?php if (count($comment) > 6) {
+                             echo "overflow: scroll; max-height: 350px;";
+                            } ?>'>
                         <!-- Item -->
                         <?php foreach($comment as $cm): ?>
                         <div class="detail__product-comment-view">
@@ -134,7 +158,7 @@
                             <!-- Input Email -->
                             <div class="input-email-box">
                                 <label for="email">Email:</label>
-                                <input type="email" name="email" value="<?= $_SESSION['email'] ?>" >
+                                <input type="email" name="email" value="<?= $_SESSION['email'] ?>" disabled>
                             </div>
                             <!-- Textarea Comment -->
                             <div class="input-comment-box">
@@ -206,16 +230,18 @@
                         <!-- Detail Item -->
                         <div class="detail__item-detail">
                             <!-- Item title -->
-                            <a href="#" class="detail__item-title">
+                            <a href="index.php?act=detail&idsp=<?= $top8v['id'] ?>" class="detail__item-title">
                                 <?= $top8v['name'] ?>
                             </a>
+                            
                             <!-- Price New -->
+                            <?php $new_price = $top8v['price'] - $top8v['saleOff'] ?>
                             <span class="detail__item-price new">
-                                <?= $top8v['price'] ?>
+                                <?= $new_price ?>
                             </span>
                             <!-- Price Old -->
                             <span class="detail__item-price old">
-                               <?= $top8v['price'] + 50 ?>.00
+                               <?= $top8v['price']?>.00
                             </span>
                             <?php if ($top8v['quantity'] == 0) { ?>
                                 <h5>Đã hết hàng</h5>
@@ -227,3 +253,4 @@
             </div>
         </div> 
     </div>
+ 

@@ -6,6 +6,7 @@ const div_content = document.querySelectorAll(".info__main-wrap-box>div");
 const current_phone_number = document.querySelector(".info__content-box #phone_number");
 const current_email = document.querySelector(".info__content-box #email");
 const current_name = document.querySelector(".info__content-box #name");
+const current_address = document.querySelector(".info__content-box #address");
 const change_phone_number_btn = document.querySelector("#change_phone_number");
 const change_email_btn = document.querySelector("#change_email")
 const change_name_btn = document.querySelector("#change_name")
@@ -13,6 +14,8 @@ const input_phone_number = document.querySelector("#phone_number_value");
 const input_email = document.querySelector("#email_value");
 const input_name = document.querySelector("#name_value");
 
+const change_address_btn = document.querySelector("#change_address");
+const input_address = document.querySelector("#address_value");
 //Preview Avatar
 const img_input = document.querySelector("#img_input");
 const view_image = document.querySelector("#view_image");
@@ -52,6 +55,22 @@ if(input_phone_number) {
             change_phone_number_btn.innerText = "Thay đổi"
             bool = true
             input_phone_number.value = current_phone_number.value;
+        }
+    })
+}
+
+if(input_address) {
+    let bool = true;
+    change_address_btn.addEventListener('click', () => {
+        if(bool) {
+            input_address.disabled = false;
+            change_address_btn.innerText = "Hủy"
+            bool = false
+        } else {
+            input_address.disabled = true;
+            change_address_btn.innerText = "Thay đổi"
+            bool = true
+            input_address.value = current_address.value;
         }
     })
 }

@@ -35,8 +35,11 @@
     <div class="sidebar__mobile active">
         <!-- admin -->
         <div class="sidebar__admin">
-            <img src="../customer/<?= $_SESSION['picture'] ?>" alt=""
-                class="sidebar__admin-avatar">
+            <img src="<?php if ($_SESSION['picture'] == null){
+                                    echo "customer/avatar-trang-facebook.jpg";
+                                } else {
+                                    echo "../customer/". $_SESSION['picture'];
+                                } ?>" alt="" class="sidebar__admin-avatar">
             <div class="sidebar__admin-body">
                 <h3><?= $_SESSION['user'] ?></h3>
                 <p>Chào mừng bạn đã quay trở lại!</p>
@@ -45,6 +48,36 @@
         <!-- content -->
         <aside class="sidebar__menu">
             <ul class="sidebar__menu-list">
+            <?php if ($_SESSION['role'] == 1) { ?>
+            <li>
+                <a href="index.php?act=admin_info" class="sidebar__menu-link">
+                    <i class="fa-solid fa-address-card"></i>
+                    Thông tin admin
+                </a>
+            </li>
+            <?php } else if ($_SESSION['role'] == 2) { ?>
+            <li>
+                <a href="#" class="sidebar__menu-link">
+                    <i class="fa-solid fa-address-card"></i>
+                    Thông tin admin
+                </a>
+            </li>
+            <?php } ?>
+            <?php if ($_SESSION['role'] == 1) { ?>
+            <li>
+                <a href="#" class="sidebar__menu-link">
+                    <i class="fa-solid fa-address-card"></i>
+                    Quản lý nhân viên
+                </a>
+            </li>
+            <?php } ?>
+            <li style="border-bottom: 1px solid #333;">
+                <a href="#" class="sidebar__menu-link">
+                    <i class="fa-brands fa-opencart"></i>
+                    Quản lý đơn hàng
+                </a>
+            </li>
+            <li>
                 <li>
                     <a href="" class="sidebar__menu-link">
                         <i class="fa-brands fa-microsoft"></i>
@@ -88,10 +121,46 @@
         <!-- content -->
         <aside class="sidebar__menu">
             <ul class="sidebar__menu-list">
+            <?php if ($_SESSION['role'] == 1) { ?>
+            <li>
+                <a href="index.php?act=admin_info" class="sidebar__menu-link">
+                    <i class="fa-solid fa-address-card"></i>
+                    Thông tin admin
+                </a>
+            </li>
+            <?php } else if ($_SESSION['role'] == 2) { ?>
+            <li>
+                <a href="#" class="sidebar__menu-link">
+                    <i class="fa-solid fa-address-card"></i>
+                    Thông tin admin
+                </a>
+            </li>
+            <?php } ?>
+            <?php if ($_SESSION['role'] == 1) { ?>
+            <li>
+                <a href="#" class="sidebar__menu-link">
+                    <i class="fa-solid fa-address-card"></i>
+                    Quản lý nhân viên
+                </a>
+            </li>
+            <?php } ?>
+            <li style="border-bottom: 1px solid #333;">
+                <a href="#" class="sidebar__menu-link">
+                    <i class="fa-brands fa-opencart"></i>
+                    Quản lý đơn hàng
+                </a>
+            </li>
+            <li>
                 <li>
                     <a href="index.php" class="sidebar__menu-link">
                         <i class="fa-brands fa-microsoft"></i>
                         Bảng điều khiển
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?act=listvariant" class="sidebar__menu-link">
+                        <i class="fa-brands fa-list-check"></i>
+                        Quản lý kho hàng
                     </a>
                 </li>
                 <li>

@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="app__title">
-                <h3 class="app__title-title">Quản lý người dùng</h3>
+                <h3 class="app__title-title">Quản lý nhân viên</h3>
                 <div id="clock"></div>
             </div>
         </div>
