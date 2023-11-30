@@ -138,14 +138,14 @@
             <?php } ?>
             <?php if ($_SESSION['role'] == 1) { ?>
             <li>
-                <a href="#" class="sidebar__menu-link">
+                <a href="index.php?act=liststaff" class="sidebar__menu-link">
                     <i class="fa-solid fa-address-card"></i>
                     Quản lý nhân viên
                 </a>
             </li>
             <?php } ?>
             <li style="border-bottom: 1px solid #333;">
-                <a href="#" class="sidebar__menu-link">
+                <a href="index.php?act=listorder" class="sidebar__menu-link">
                     <i class="fa-brands fa-opencart"></i>
                     Quản lý đơn hàng
                 </a>

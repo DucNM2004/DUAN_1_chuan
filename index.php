@@ -6,6 +6,7 @@ include "model/products.php";
 include "model/comment.php";
 include "model/account.php";
 include "model/order.php";
+include "model/cart.php";
 include "view/head.php";
 $top4 = load_top4_pro();
 $top8 = load_top8_new();
@@ -75,8 +76,142 @@ if(isset($_GET['act']) && $_GET['act']!=""){
         include "view/products.php";
         break;
         case "cart":
+            $item = get_cart_info($_SESSION['id_user']);
+           
             include "view/cart.php";
         break;
+        case "add_cart":
+            if(isset($_GET['idpro'])){
+            $id = $_GET['idpro'];
+            $product = load_one_PRO($id);
+            $size = isset($_POST['size']) ? $_POST['size']:"S";
+            // $img = $product['picture'];
+            // $name = $product['name'];
+            $id_cart = get_cart_id($_SESSION['id_user']);
+            $ic = $id_cart['id'];
+          
+            $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : 1;
+            $price = $product['saleOff'] == 0 ? $product['price'] : $product['price']*($product['saleOff'] / 100);
+            $total = intval($price)* intval($quantity);
+            // if(check_cart($_SESSION['id_user'])==true){
+            //     insert_cart_deteil($ic,$id,$size,$price,$quantity,$total);
+            //     setcookie('notice', 'Thêm thành công', time() + 2, '/');
+            //     header('location: index.php?act=cart');
+            // }else{
+            //     insert_cart($_SESSION['id_user']);
+            //     insert_cart_deteil($ic,$id,$size,$price,$quantity,$total);
+            //     setcookie('notice', 'Thêm thành công', time() + 2, '/');
+            //     header('location: index.php?act=cart');
+            // }
+
+                
+                $i = 1;
+                if(empty($_SESSION['carts'][$id])) {
+                    $_SESSION['carts'][$id]['name'] = $product['name']; 
+                    $_SESSION['carts'][$id]['id'] = $product['id']; 
+                    $_SESSION['carts'][$id]['picture'] = $product['picture']; 
+                    $_SESSION['carts'][$id]['price'] = $price;
+                    $_SESSION['carts'][$id]['size'] = $size;    
+                    $_SESSION['carts'][$id]['quantity'] = $quantity;
+                    $_SESSION['carts'][$id]['max_quantity'] = $product['quantity'];
+                    
+                    setcookie('notice', 'Thêm thành công', time() + 2, '/');
+                    header('location: index.php?act=cart');
+                    
+                } else {
+                    $check = $_SESSION['carts'][$id]['quantity'] + $quantity;
+                    if($check <= $product['quantity']) {
+                        if($size == $_SESSION['carts'][$id]['size']){
+                        $_SESSION['carts'][$id]['quantity'] = $_SESSION['carts'][$id]['quantity'] + $quantity;
+                        setcookie('notice', 'Thêm thành công', time() + 2, '/');
+                        header('location: index.php?act=cart');
+                        }else{
+                            $_SESSION['carts'][$id]['name'] = $product['name']; 
+                            $_SESSION['carts'][$id]['id'] = $product['id']; 
+                            $_SESSION['carts'][$id]['picture'] = $product['picture']; 
+                            $_SESSION['carts'][$id]['price'] = $price;
+                            $_SESSION['carts'][$id]['size'] = $size;    
+                            $_SESSION['carts'][$id]['quantity'] = $quantity;
+                            $_SESSION['carts'][$id]['max_quantity'] = $product['quantity'];
+                            setcookie('notice', 'Thêm thành công', time() + 2, '/');
+                            header('location: index.php?act=cart');
+                        }
+                    } else {
+                        setcookie('notice', 'số lượng vượt quá giới hạn', time() + 2, '/');
+                        header("location: index.php?act=detail&idsp=$id");
+                    }
+                    
+                
+                }
+                
+                
+            }
+
+            include "view/cart.php";
+            break;
+        case "change_quantity":
+            if(isset($_GET['id_product'])) {
+                $id=$_GET['id_product'];
+                if(isset($_SESSION['carts'])) {
+                    if($_GET['set'] == "incre" && $_SESSION['carts'][$id]['quantity'] < $_SESSION['carts'][$id]['max_quantity']) {
+                        $_SESSION['carts'][$id]['quantity']++;
+                    }
+    
+                    if($_GET['set'] == "decre" && $_SESSION['carts'][$id]['quantity'] > 0) {
+                        $_SESSION['carts'][$id]['quantity']--;
+                    }
+                }
+                if($_SESSION['carts'][$id]['quantity'] == 0) {
+                    $_SESSION['carts'][$id]['quantity'] = 1;
+                }
+                if($_SESSION['carts'][$id]['quantity'] == $_SESSION['carts'][$id]['max_quantity']){
+                    $_SESSION['carts'][$id]['quantity'] = $_SESSION['carts'][$id]['max_quantity'];
+                }
+            }
+            header('location: index.php?act=cart');
+            include "view/cart.php";
+        case "delete_cart":
+            if(isset($_GET['id'])&&$_GET['id']>0){
+                $id = $_GET['id'];
+                unset($_SESSION['carts'][$id]);
+                setcookie('nofication', 'Xóa thành công', time() + 2, '/');
+                header('location: index.php?act=cart');
+            } 
+            else{
+                    setcookie('nofication', 'Xóa không thành công', time() + 2, '/');
+                    header('location: index.php?act=cart');
+                }
+                
+            include "view/cart.php";
+            break;
+        case "order":
+            if(isset($_SESSION['id_user']) && $_SESSION['role'] == 3) {
+                if(isset($_POST['btn_create']) && !empty($_SESSION['carts'])) {
+                    $id = $_SESSION['id_user'];
+                    $total_cost = $_POST['results'];
+                    createOrder($id, $total_cost, 1);
+    
+                    // Lấy ra order
+                    $order = getOrder3();
+                    $id_order = $order[0]['id'];
+                    // var_dump($order);
+                    // die;
+                    foreach ($_SESSION['carts'] as $value) {
+                        $total_item_cost = $value['price'] * $value['quantity'];
+                        addDataToOrderDetail($id_order, $value['id'], $value['name'], $value['picture'],$value['price'], $value['quantity'],$total_item_cost);
+                        changeQuantity($value["id"], '-' ,$value['quantity']);
+                    }
+                    setcookie('notice', 'Đã Tạo Hóa Đơn Thành Công, xem chi tiết trong phần quản lý', time() + 2, '/');
+                    unset($_SESSION['carts']);
+                    header('location: index.php?act=info');
+                } else {
+                    setcookie('notice', 'Chưa có sản phẩm', time() + 2, '/');
+                    header('location: index.php?act=cart');
+                }
+            } else {
+                setcookie('notice', 'Tài khoản admin không dùng để mua sản phẩm, xin vui lòng tạo tài khoản người dùng', time() + 2, '/');
+                header('location: index.php?act=cart');
+            }
         case "info":
             if(isset($_SESSION['user'])){
                 $accountinfo = get_user_info($_SESSION['user']);
@@ -98,26 +233,49 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                     } else {
                         $name = $_POST["user_name"];
                     }
-                
-                    if($_FILES["avatar"]["size"] != 0) {
-                        $avatar = $_FILES["avatar"]["name"];
-                    }else{
-                        $avatar = $_POST['current_picture'];
+                    if(empty($_POST["address"])) {
+                        $address = $_POST["current_address"];
+                    } else {
+                        $address = $_POST["address"];
                     }
-                    // var_dump($email);
-                    // var_dump($name);
-                    // var_dump($phone_number);
-                    // var_dump($avatar);
-                    move_uploaded_file($_FILES["avatar"]["tmp_name"],"customer/".$_FILES["avatar"]["name"]);
-                    up_date_info($name,$email,$phone_number,$avatar,$accountinfo['id']);
+    
+                    $er = [];
+                    $picture = $_FILES["avatar"]["size"];
+                    if($picture != 0){
+                        $dir = "../customer/";
+                        $namefile = $_FILES["avatar"]["name"];
+                        $targetfile = $dir.$namefile;
+                        $typefile = strtolower(pathinfo($targetfile,PATHINFO_EXTENSION));
+                        if($typefile == "jpg" || $typefile == "png" || $typefile == "gif" || $typefile == "jpeg" || $typefile == "webp" || $typefile == "jfif"){
+                            move_uploaded_file($_FILES["avatar"]["tmp_name"],"customer/".$_FILES["avatar"]["name"]);
+                        }
+                        else{
+                            $er['picture'] = "Bạn chỉ được chọn File ảnh(jpg,png,jpeg)";
+                        }
+                    }
+                    else{
+                        $namefile = $_POST['current_picture'];
+                    }
+                  
+                    
+                    if(empty($er)){
+                    up_date_info($name,$email,$address,$phone_number,$namefile,$accountinfo['id']);
                     $accountinfo['name_customer'] = $name;
                     $accountinfo['email']  = $email;
                     $accountinfo['phone_number'] = $phone_number;
-                    $accountinfo['picture'] = $avatar;
+                    $accountinfo['picture'] = $namefile;
+                    $accountinfo['address'] = $address;
                     $_SESSION['user'] = $name;
                     $_SESSION['email'] = $email;
+                    }else{
+                        if(!empty($er['picture'])){
+                            setcookie('notice',"Bạn chỉ được chọn file ảnh",time()+2);
+                            header("Location: index.php?act=info");
+                        }
+                    }
                 }
                 $order = getOrderByIdCustomer($_SESSION['id_user']);
+                
                 
             }
             include "view/info.php";
@@ -168,12 +326,22 @@ if(isset($_GET['act']) && $_GET['act']!=""){
             if(isset($_GET['id_order'])){
                 $id = $_GET['id_order'];
                 delete_order($id);
-                delete_order_detail($id);
-                setcookie('notice',"Đơn hàng đã được hủy",time()+2);
+                setcookie('notice',"Đơn hàng đã được xóa",time()+2);
                 header("Location: index.php?act=info");
             }
         break;
-        case "order":
+        case "cancel_bill":
+            if(isset($_GET['id_order'])) {
+                $id = $_GET['id_order'];
+                user_cancel_order($id);
+                setcookie("notice","Hủy thành công", time() + 2, '/');
+                header("Location: index.php?act=info");
+            } else {
+                setcookie("notice","Đã Xảy Ra Lỗi, thử lại sau", time() + 2, '/');
+                header("Location: index.php?act=info");
+            }
+        break;
+        case "order_detail":
             if(isset($_GET['id_order'])){
                 $id = $_GET['id_order'];
                 $order_detail = getOrderDetailById($id);
@@ -207,6 +375,21 @@ if(isset($_GET['act']) && $_GET['act']!=""){
            
             include "view/login.php";
         break;
+        case "forgotpass":
+            if (isset($_POST['forget_password'])) {
+                $email = $_POST['email'];
+
+                $account = check_email_forgotpass($email);
+
+                if ($account != false) {
+                    sendMail($email, $account['name_customer'], $account['passWord']);
+                    $sendMailMess = "Gửi email thành công";
+                } else {
+                    $sendMailMess = "Email bạn nhập ko có trong hệ thống";
+                }
+            }
+            include "view/forgot_pass.php";
+            break;
         case "logout":
             logout();
             include "view/login.php";
@@ -260,6 +443,10 @@ if(isset($_GET['act']) && $_GET['act']!=""){
     }
 }
 else {
+    // var_dump($_SESSION['id_user']);
+    // var_dump($_SESSION['user']);
+    // var_dump($_SESSION['role']);
+    // die;
     include "view/home.php";
 }
 

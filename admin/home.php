@@ -17,7 +17,9 @@
                         <i class="icon--product fa-solid fa-dollar-sign"></i>
                         <div class="analysis__info">
                             <h4>Lợi nhuận</h4>
-                            <p><b>$<?php echo $total_moneys['total']; ?>,00</b></p>
+                            <p><b>$<?php if(isset($total_moneys['total'])){
+                                echo  $total_moneys['total'];
+                            }else{ echo 0;} ?>,00</b></p>
                             <p class="analysis__info-sum">Doanh thu hàng tháng.</p>
                         </div>
                     </div>
@@ -187,6 +189,7 @@ if (doanhthu) {
             labels: ['tháng 12', 'tháng 11', 'tháng 10', 'tháng 9', 'tháng 8', 'tháng 7', 'tháng 6',
                 'tháng 5', 'tháng 4', 'tháng 3', 'tháng 2', 'tháng 1'
             ],
+           
             datasets: [{
                 label: 'Doanh thu hàng tháng',
                 data: [155],

@@ -26,13 +26,13 @@
                        <td>$<?= $od['total'] ?>.00</td>
                     </tr>
                     <?php $total_quantity = $od['quantity'];
-                    $total_price = $od['total'];
+                    $total_price = $od['total'] * $od['quantity'];
                      ?>
                 <?php endforeach ?>
             </tbody>
         </table>
     </div>
     <div class="order__total">
-        <h2>Tổng tiền thanh toán của <?= $total_quantity  ?> sản phẩm: $ <?= $total_price ?>.00</h2>
+        <h2>Tổng tiền thanh toán của <?= $total_quantity  ?> sản phẩm: $ <?= $order_detail[0]['total_price'] ?>.00</h2>
     </div>
 </div>

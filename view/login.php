@@ -17,7 +17,7 @@
                 <a href="index.php?act=register" class="log__a">
                     <p>Đăng ký</p>
                 </a>
-                <a href="#" class="log__a">
+                <a href="index.php?act=forgotpass" class="log__a">
                     <p>Quên mật khẩu?</p>
                 </a>
             </div>

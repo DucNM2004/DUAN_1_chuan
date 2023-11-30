@@ -64,5 +64,10 @@ function check_var($id_pro,$id_size){
         return false;
     }
 }
+function get_var_info2($id_pro,$id_size){
+    $sql = "SELECT * FROM variants where id_product = $id_pro and id_size = $id_size";
+    $list = pdo_query_one($sql);
+    return  $list;
+}
 
 ?>

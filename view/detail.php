@@ -47,19 +47,23 @@
                         <p><?= $detailpro['description'] ?></p>
                     </div>
                     <!-- Product Size -->
+                    <form action="index.php?act=add_cart&idpro=<?= $detailpro['id'] ?>" method="post">
                     <div class="detail__product-size">
                         <h5>Size:</h5>
-                        <form action="">
-                        <a class="detail__product-size-active" href="#">S</a>
-                        <a href="#">M</a>
-                        <a href="#">L</a>
-                        <a href="#">XL</a>
-                        <a href="#">XXL</a>
-                        </form>
-                        
+                        <input type="radio" name="size" value="S"  style="height: 24px; width: 30px; margin: 5px;" checked>
+                        <input type="radio" name="size" value="M" style="height: 24px; width: 30px; margin: 5px;">
+                        <input type="radio" name="size" value="L" style="height: 24px; width: 30px; margin: 5px;">
+                        <input type="radio" name="size" value="XL" style="height: 24px; width: 30px; margin: 5px;">
+                        <input type="radio" name="size" value="XXL" style="height: 24px; width: 30px; margin: 5px;"><br>
+                        <div> <span style="font-size: large; margin: 15px;">S</span>
+                        <span style="font-size: large; margin: 12px;">M</span>
+                        <span style="font-size: large; margin: 17px;">L</span>
+                        <span style="font-size: large; margin: 10px;">XL</span>
+                        <span style="font-size: large; margin: 10px;">XXL</span></div>
                     </div>
+                   
                     <!-- Product Color + Quantity -->
-                    <form action="">
+                   
                     <div class="detail__product-color-quantity">
                         <!-- Color -->
                         <div class="detail__product-color">
@@ -75,9 +79,8 @@
                             <h5>Số lượng:</h5>
                             <div class="detail__product-wrap-quantity">
                                 <!-- Input Quantity -->
-                                <input type="number" value="1" min="1" max="<?= $detailpro['quantity'] ?>" name="quantity" class="detail_product-input-plus-minus"
-                                id="<?php echo $detailpro['id']; ?>">
-
+                                <input type="number" value="1" min="1" name="quantity" class="detail_product-input-plus-minus quantity"
+                                id="<?= $detailpro['quantity'] ?>">
                                 <!-- Increase -->
                                 <span class="detail__product-inc btnqty">
                                     <i class="fa-solid fa-chevron-up"></i>
@@ -90,7 +93,8 @@
                             </div>
                         </div>  
                         </div>
-                       
+                          <input type="hidden" value="<?php echo $detailpro['price'] - $detailpro['saleOff'] ?>" name="price">
+                          <input type="hidden" value="<?php echo $detailpro['id'] ?>" name="id_pro">
                         <!-- Product Action -->
                         <div class="detail__product-action">
                             <button name="btn_add" class="detail__product-action-btn btn-text" <?php if($detailpro['quantity']==0){echo 'disabled';} ?>>THÊM VÀO GIỎ HÀNG</button><br>
@@ -218,8 +222,8 @@
                                 <a href="#"><button class="detail__item-action-btn btn-icon">
                                     <i class="fa-solid fa-arrows-rotate"></i>
                                 </button></a>
-                                <a href="#"><button class="detail__item-action-btn btn-text">
-                                    Thêm vào giỏ 
+                                <a href="index.php?act=detail&idsp=<?= $top8v['id'] ?>"><button class="detail__item-action-btn btn-text">
+                                    Mua ngay 
                                 </button></a>
                                 <a href="#"><button class="detail__item-action-btn btn-icon">
                                     <i class="fa-regular fa-heart"></i>
@@ -253,4 +257,6 @@
             </div>
         </div> 
     </div>
- 
+    <?php if(isset($_COOKIE['notice'])){
+                    echo '<script>alert("'.$_COOKIE['notice'].'")</script>';
+                } ?>

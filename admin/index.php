@@ -1,6 +1,15 @@
 <?php 
 ob_start();
 session_start();
+
+if(!isset($_SESSION['user'])){
+    header("location: 404 copy.php");
+}else{
+    if($_SESSION['role'] != 1){
+        header("location: 404 copy.php");
+    }
+}
+
     include '../model/pdo.php';
     include "../model/products.php";
     include "../model/account.php";
@@ -8,7 +17,10 @@ session_start();
     include "../model/comment.php";
     include "../model/variant.php";
     include "../model/category.php";
+    include "../model/staff.php";
+    include "../model/order.php";
     include 'header.php';
+    
 
     if (isset($_GET['act']) && $_GET['act']!="") {
         $act = $_GET['act'];
@@ -51,23 +63,34 @@ session_start();
                     $price = $_POST['price'];
                     $saleOff = $_POST['saleOff'];
                     $image = $_FILES['picture'];
-                    $picture = ($image['error'] == 0) ? $image['name'] : '';
                     $description = $_POST['description'];
                     $quantity = $_POST['quantity'];
                     $id_category = $_POST['id_category'];
-                    if ($image == "") {
-                        setcookie('notice',"Phải có ảnh",time()+2);
-                    } else {
-                        $folder = "../products/";
-                        $file_extension = explode('.', $picture)[1];
-                        $file_name = time() . '.' . $file_extension;
-                        $path_file = $folder . $file_name;
-                        move_uploaded_file($image['tmp_name'], $path_file);
+                    $er = [];
+                    if(!empty($image) && $_FILES['picture']['error'] == 0){
+                        $dir = "../products/";
+                        $namefile = $_FILES['picture']['name'];
+                        $targetfile = $dir.$namefile;
+                       
+                        $typefile = strtolower(pathinfo($targetfile,PATHINFO_EXTENSION));
+                        if($typefile == "jpg" || $typefile == "png" || $typefile == "gif" || $typefile == "jpeg" || $typefile == "webp" || $typefile == "jfif"){
+                            move_uploaded_file($_FILES['picture']['tmp_name'],$targetfile);
                         }
-                        insert_sanpham($name,$price,$saleOff,$file_name,$description,$quantity,$id_category);
+                        else{
+                            $er['picture'] = "Bạn chỉ được chọn File ảnh(jpg,png,jpeg)";
+                        }
+                    }
+                    if(empty($er['picture'])){
+                        insert_sanpham($name,$price,$saleOff,$namefile,$description,$quantity,$id_category);
                         header("Location: index.php?act=listproduct");
                         setcookie('notice',"Đã thêm thành công",time()+2); 
-                        
+                    }
+                    else{
+                        if(!empty($er['picture'])){
+                            header("Location: index.php?act=add");
+                            setcookie('notice',$er['picture'],time()+2); 
+                        }
+                    }
                     }
                 $category_type = load_all_category();
             include "sanpham/add.php";
@@ -84,31 +107,39 @@ session_start();
                 $price = $_POST['price'];
                 $saleOff = $_POST['saleOff'];
                 $image = $_FILES['new-picture'];
-                $picture = ($image['error'] == 0) ? $image['name'] : '';
                 $description = $_POST['description'];
                 $quantity = $_POST['quantity'];
                 $view_number = $_POST['view_number'];
                 $id_category = $_POST['id_category'];
-                if ($image != "" && $image['size']>0) {
-                    $folder = '../products/';
-                    $file_extension = explode('.', $picture)[1];
-                    $file_name = time() . '.' . $file_extension;
-                    $path_file = $folder . $file_name;
-                    $item = load_one_PRO($id_pro);
-                    move_uploaded_file($image['tmp_name'], $path_file);
-                }else{
-                    if(isset($_POST['picture-old'])){
-                        $picture_old = $_POST['picture-old'];
-                    }else {
-                        $picture_old = $item['picture'];
+                $item = load_one_PRO($id_pro);
+                $er = [];
+                if(!empty($image) && $_FILES['new-picture']['error'] == 0){
+                    $dir = "../products/";
+                    $namefile = $_FILES['new-picture']['name'];
+                    $targetfile = $dir.$namefile;
+                    $typefile = strtolower(pathinfo($targetfile,PATHINFO_EXTENSION));
+                    if($typefile == "jpg" || $typefile == "png" || $typefile == "gif" || $typefile == "jpeg" || $typefile == "webp" || $typefile == "jfif"){
+                        move_uploaded_file($_FILES['new-picture']['tmp_name'],$targetfile);
                     }
-                     $file_name = $picture_old;
-                    
+                    else{
+                        $er['picture'] = "Bạn chỉ được chọn File ảnh(jpg,png,jpeg)";
+                    }
                 }
-                
-                upload_product($name, $price, $saleOff, $file_name, $description, $view_number, $quantity, $id_category, $id_pro);
+                else{
+                    $namefile = $item['picture'];
+                }
+                if(empty($er['picture'])){
+                upload_product($name, $price, $saleOff, $namefile, $description, $view_number, $quantity, $id_category, $id_pro);
                 setcookie('notice',"Đã sửa thành công",time()+2); 
                 header('location: index.php?act=listproduct');
+                }
+                else{
+                    if(!empty($er['picture'])){
+                        setcookie('notice',"Bạn ",time()+2);
+                        header("Location: index.php?act=updatepro&id=$id_pro");
+                        setcookie('notice',$er['picture'],time()+2); 
+                    }
+                }
             }
             include "sanpham/update.php";
             break;
@@ -167,9 +198,20 @@ session_start();
         case "delete_category":
             if(isset($_GET['id'])&&$_GET['id']>0){
                 $id = $_GET['id'];
+                $error = [];
+                if(check_category($id)){
+                    $error['1'] = 1;
+                }
+                if(empty($error['1'])){
                 delete_category($id);
                 setcookie('notice',"Danh mục đã được xóa đã được xóa",time()+2);
                 header("Location: index.php?act=listcategory");
+                }else{
+                    if(!empty($error['1'])){
+                        setcookie('notice',"Danh mục còn chứa sản phẩm nên ko thể xóa",time()+2);
+                        header("Location: index.php?act=listcategory");
+                    }
+                }
             }
             include "danhmuc/listcategory.php";
             break;
@@ -236,7 +278,6 @@ session_start();
                 $address = $_POST['address'];
                 $phone_number = $_POST['phone_number'];
                 $passWord = $_POST['password'];
-                $picture_name = ($picture['error'] == 0) ? $picture['name'] : '';
                 $role = $_POST['role'];
                 $error = [];
                 if (check_email($email) == true){
@@ -245,18 +286,22 @@ session_start();
                 if (check_user($name_customer)== true){
                     $error['user'] = "Tên người dùng đã tồn tại";
                 }
-                if ($picture == "") {
-                    $error['3'] = 3;
-                    setcookie('notice',"Phải có ảnh",time()+2,'/');
-                    header("Location: index.php?act=listaccount");
+                if(!empty($picture) && $_FILES['image']['error'] == 0){
+                    $dir = "../customer/";
+                    $namefile = $_FILES['image']['name'];
+                    $targetfile = $dir.$namefile;
+                    $typefile = strtolower(pathinfo($targetfile,PATHINFO_EXTENSION));
+                    if($typefile == "jpg" || $typefile == "png" || $typefile == "gif" || $typefile == "jpeg" || $typefile == "webp" || $typefile == "jfif"){
+                        move_uploaded_file($_FILES['image']['tmp_name'],$targetfile);
+                    }
+                    else{
+                        $error['picture'] = "Bạn chỉ được chọn File ảnh(jpg,png,jpeg)";
+                    }
                 }
+            
                 if(empty($error)){
-                    $folder = "../customer/";
-                    $file_extension = explode('.', $picture_name)[1];
-                    $file_name = time() . '.' . $file_extension;
-                    $path_file = $folder . $file_name;
-                    move_uploaded_file($picture['tmp_name'], $path_file);
-                    create_customer($name_customer, $email, $passWord, $file_name, $role, $address, $phone_number);
+                
+                    create_customer($name_customer, $email, $passWord, $namefile, $role, $address, $phone_number);
                     header("Location: index.php?act=listaccount");
                     setcookie('notice',"Đã thêm thành công",time()+2,'/'); 
                 }
@@ -266,9 +311,12 @@ session_start();
                         setcookie('notice',$error['email'],time()+2);  
                     }
                     elseif(!empty($error['user'])){
-                    header("Location: index.php?act=listaccount");
-                    setcookie('notice',$error['user'],time()+2);
-                    } 
+                        header("Location: index.php?act=listaccount");
+                        setcookie('notice',$error['user'],time()+2);
+                    }elseif(!empty($error['picture'])){
+                        header("Location: index.php?act=listaccount");
+                        setcookie('notice',$error['picture'],time()+2);
+                    }  
                 }
             }
                 include "account/listaccount.php";
@@ -286,11 +334,7 @@ session_start();
                 } else {
                     $email = $_POST["email"];
                 }
-                if($_FILES["new-picture"]["size"] != 0) {
-                    $avatar = $_FILES["new-picture"]["name"];
-                }else{
-                    $avatar = $_POST['current_picture'];
-                }
+               
                
                 if(empty($_POST["phoneNumber"])) {
                     $phone_number = $_POST["current_phone_number"];
@@ -325,9 +369,26 @@ session_start();
                 //     $error['user'] = "Tên người dùng đã tồn tại";
                     
                 // }
+               
+                $image = $_FILES["new-picture"];
+                if(!empty($image) && $_FILES['new-picture']['error'] == 0){
+                    $dir = "../customer/";
+                    $namefile = $_FILES['new-picture']['name'];
+                    $targetfile = $dir.$namefile;
+                    $typefile = strtolower(pathinfo($targetfile,PATHINFO_EXTENSION));
+                    if($typefile == "jpg" || $typefile == "png" || $typefile == "gif" || $typefile == "jpeg" || $typefile == "webp" || $typefile == "jfif"){
+                        move_uploaded_file($_FILES['new-picture']['tmp_name'],$targetfile);
+                    }
+                    else{
+                        $error['picture'] = "Bạn chỉ được chọn File ảnh(jpg,png,jpeg)";
+                    }
+                }
+                else{
+                    $namefile = $_POST['current_picture'];
+                }
                 if(empty($error)){
                 move_uploaded_file($_FILES["new-picture"]["tmp_name"],"customer/".$_FILES["new-picture"]["name"]);
-                up_date_info_admin($name,$email,$phone_number,$address,$avatar,$pass,$id);
+                up_date_info_admin($name,$email,$phone_number,$address,$namefile,$pass,$id);
                 setcookie('notice',"Đã cập nhật thông tin thành công",time() + 2);
                 header("location: index.php?act=listaccount");
                 }else{
@@ -337,6 +398,9 @@ session_start();
                     }
                     elseif(!empty($error['user'])){
                         setcookie('notice',$error['user'],time()+2);
+                        header("Location: index.php?act=update_acc&id=$id");
+                    }elseif(!empty($error['picture'])){
+                        setcookie('notice',$error['picture'],time()+2);
                         header("Location: index.php?act=update_acc&id=$id");
                     }
                 }
@@ -505,6 +569,132 @@ session_start();
                 header("Location: index.php?act=listvariant");
             }
             include "variant/listvariant.php";
+        break;
+        case "liststaff":
+            if(isset($_POST['submit'])){
+                $search = $_POST['search'];
+            }
+            else{
+                $search = "";
+            }
+            $count_staff = count_staff2();
+            extract($count_staff);
+            $itemperpage = 4;
+            
+            if(!empty($_GET['page'])){
+                $currentpage  = $_GET['page'];
+            }
+            else{
+                $currentpage = 1;
+            }
+            
+            $offset = ($currentpage-1) * $itemperpage;
+            $totalpage = ceil($soluong / $itemperpage);
+            $liststaff = get_staff_list($itemperpage,$offset,$search);
+            
+            include "staff/liststaff.php";
+        break;
+        case "add_staff":
+            if (isset($_POST['btn-submit'])) {
+                $name_customer = $_POST['username'];
+                $picture = $_FILES['image'];
+                $email = $_POST['email'];
+                $address = $_POST['address'];
+                $phone_number = $_POST['phone_number'];
+                $passWord = $_POST['password'];
+                $picture_name = ($picture['error'] == 0) ? $picture['name'] : '';
+                $role = $_POST['role'];
+                $error = [];
+                if (check_email($email) == true){
+                    $error['email'] = "Email đã tồn tại";
+                }
+                if (check_user($name_customer)== true){
+                    $error['user'] = "Tên người dùng đã tồn tại";
+                }
+                if ($picture == "") {
+                    $error['3'] = 3;
+                    setcookie('notice',"Phải có ảnh",time()+2,'/');
+                    header("Location: index.php?act=listaccount");
+                }
+                if(empty($error)){
+                    $folder = "../customer/";
+                    $file_extension = explode('.', $picture_name)[1];
+                    $file_name = time() . '.' . $file_extension;
+                    $path_file = $folder . $file_name;
+                    move_uploaded_file($picture['tmp_name'], $path_file);
+                    create_customer($name_customer, $email, $passWord, $file_name, $role, $address, $phone_number);
+                    header("Location: index.php?act=liststaff");
+                    setcookie('notice',"Đã thêm thành công",time()+2,'/'); 
+                }
+                else{
+                    if(!empty($error['email'])){
+                        header("Location: index.php?act=liststaff");
+                        setcookie('notice',$error['email'],time()+2);  
+                    }
+                    elseif(!empty($error['user'])){
+                    header("Location: index.php?act=liststaff");
+                    setcookie('notice',$error['user'],time()+2);
+                    } 
+                }
+            }
+                include "account/liststaff.php";
+            break;
+        case "delete_staff":
+            if(isset($_GET['id']) && $_GET['id']>0){
+                $id = $_GET['id'];
+                delete_account($id);
+                setcookie('notice',"Nhân viên đã được xóa đã",time()+2);
+                header("Location: index.php?act=liststaff");
+            }
+            include "staff/liststaff.php";
+        break;
+        case "listorder":
+            $orders = getOrder();
+            include "order/listorder.php";
+        break;
+        case "order_detail":
+            if (isset($_GET['id_order'])){
+                $id = $_GET['id_order'];
+                $order_detail = getOrderDetailById($id);
+            }
+            include "order/order_detail.php";
+           
+        break;
+        case "delete_order":
+            if (isset($_GET['id_order'])){
+                $id = $_GET['id_order'];
+                delete_order($id);
+                setcookie('notice',"Đơn hàng đã được xóa đã",time()+2);
+                header("Location: index.php?act=listorder");
+            }
+            include "order/listorder.php";
+        break;
+        case "confirm_order":
+            if (isset($_GET['id_order'])){
+                $id = $_GET['id_order'];
+                confirm_order($id);
+                setcookie('notice',"Đơn hàng đã được xác nhận",time()+2);
+                header("Location: index.php?act=listorder");
+            }
+            include "order/listorder.php";
+        break;
+        case "cancel_order":
+            if (isset($_GET['id_order'])){
+                $id = $_GET['id_order'];
+                cancel_order($id);
+                setcookie('notice',"Đơn hàng đã được hủy",time()+2);
+                header("Location: index.php?act=listorder");
+            }
+            include "order/listorder.php";
+        break;
+        case "re_confirm":
+            if (isset($_GET['id_order'])){
+                $id = $_GET['id_order'];
+                re_confirm_order($id);
+                setcookie('notice',"Đơn hàng đã được hủy",time()+2);
+                header("Location: index.php?act=listorder");
+            }
+            include "order/listorder.php";
         break;
     }
     } else {

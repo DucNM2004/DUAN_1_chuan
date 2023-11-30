@@ -107,7 +107,7 @@
                                         <li><a href="index.php?act=cart">Giỏ hàng</a></li>
                                         <li><a href="index.php?act=info">Cá nhân</a></li>
                                         <?php if($_SESSION['role'] != 3){ ?>
-                                            <li><a href="admin/index.php">Quản trị</a></li>
+                                            <li><a href="admin/login.php">Quản trị</a></li>
                                         <?php }?>
                                     </ul>
                                     </li>
@@ -136,40 +136,42 @@
                             </ul>
                             <ul class="header__top-menu-list cart">
                                 <li class="header__top-menu-item">
-                                    <a href="#" class="header__top-menu-link">
+                                    <a href="?url=cart.php" class="header__top-menu-link">
                                         <i class="fa-brands fa-opencart"></i>
+                                        <span class="cart__quantity_view"><?php $carts = isset($_SESSION['carts']) ? count($_SESSION['carts']) : "0";
+                                                                            echo $carts; ?></span>
                                     </a>
-                                    <ul class="header__top-menu-list cart">
-                                
+                                    <?php if (isset($_SESSION['user_id']) && !empty($_SESSION['carts'])) { ?>
                                     <ul class="header__sub-menu">
+                                        <?php $i = 1;
+                                            foreach ($_SESSION['carts'] as $value) : ?>
+                                        <?php if ($i++ < 5) { ?>
                                         <li>
-                                            <a href="./cart.html" class="cart__item-menu-link">
-                                                <img src="./images/mini-cart/1.jpg" class="cart__mini" alt="">
+                                            <a href="?url=cart.php" class="cart__item-menu-link">
+                                                <div class="cart__item-menu-img">
+                                                    <img src="products/<?php echo $value['picture'] ?>"
+                                                        class="cart__mini" alt="">
+                                                </div>
                                                 <div class="cart__item-menu-list">
-                                                    <h5 class="">Women’s winter dress</h5>
-                                                    <span class="">1x$45.00</span>
+                                                    <h5 class=""><?php echo $value['name'] ?></h5>
+                                                    <h6 class="">Size: <?php echo $value['size'] ?></h6>
+                                                    <span
+                                                        class=""><?php echo $value['quantity'] . 'x $ ' . $value['price'] . '.00'; ?></span>
                                                     <button class="cart__remove-btn">
-                                                        <i class="icon fa-solid fa-trash"></i>
+                                                        <a
+                                                            href="index.php?act=delete_cart&id=<?php echo $value['id'] ?>">
+                                                            <i class="icon fa-solid fa-trash"></i>
+                                                        </a>
                                                     </button>
                                                 </div>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="./cart.html" class="cart__item-menu-link">
-                                                <img src="./images/mini-cart/2.jpg" class="cart__mini" alt="">
-                                                <div class="cart__item-menu-list">
-                                                    <h5 class="">Full sleev women shirt</h5>
-                                                    <span class="">1x$50.00</span>
-                                                    <button class="cart__remove-btn">
-                                                        <i class="icon fa-solid fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </a>
-                                        </li>
+                                        <?php } ?>
+                                        <?php endforeach ?>
                                     </ul>
-                                    </ul>
+                                    <?php } ?>
                                 </li>
-                            </ul>   
+                            </ul>  
                                 </li>
                             </ul>
                         </div>

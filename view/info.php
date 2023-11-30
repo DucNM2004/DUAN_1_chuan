@@ -69,7 +69,7 @@
                              </tr>
                              <tr>
                                  <td>địa chỉ</td>
-                                 <td><input type="text" id="address_value" name="phoneNumber" value="<?php echo $accountinfo['address'] ?>" disabled> 
+                                 <td><input type="text" id="address_value" name="address" value="<?php echo $accountinfo['address'] ?>" disabled> 
                                  <button id="change_address" type="button">Thay đổi</button></span></td>
                              </tr>
                          </table>
@@ -157,7 +157,7 @@
                                         } else if($o['order_status'] == 2) {
                                             echo 'Đơn hàng đã được xác nhận';
                                         } else {
-                                            echo 'Đơn hàng đã bị hủy';
+                                            echo 'Đơn hàng đã bị hủy bởi người bán';
                                         }?>
                                 </td>
                                 <td>
@@ -165,12 +165,13 @@
                                 </td>
                                 <td>
                                 <?php if($o['order_status']  == 2) {?>
+                                    <a href="index.php?act=cancel_bill&id_order=<?= $o['id'] ?>" onclick="return confirm('Bạn có muốn hủy không')"><button>Hủy Đơn Hàng</button></a>
                                 <?php  }elseif($o['order_status'] == 3) {?>
-                                            <a href=""><button>Xóa Bill</button></a>
+                                            <a href="index.php?act=delete_bill&id_order=<?= $o['id'] ?>"><button>Xóa Bill</button></a>
                                         <?php  } else { ?>
-                                            <a href="index.php?act=delete_bill&id_order=<?= $o['id'] ?>"><button>Hủy Đơn Hàng</button></a>
+                                            <a href="index.php?act=cancel_bill&id_order=<?= $o['id'] ?>" onclick="return confirm('Bạn có muốn hủy không')"><button>Hủy Đơn Hàng</button></a>
                                         <?php } ?>
-                                        <a href="index.php?act=order&id_order=<?= $o['id'] ?>"><button>Xem chi tiết</button></a>
+                                        <a href="index.php?act=order_detail&id_order=<?= $o['id'] ?>" ><button>Xem chi tiết</button></a>
                                 </td>
                            </tr>
                            <?php endforeach ?>

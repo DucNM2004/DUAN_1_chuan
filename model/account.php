@@ -4,13 +4,14 @@ function login($name,$pass) {
     $account = pdo_query_one($sql);
     return $account;
 }
+function login_admin($email,$pass) { 
+    $sql="SELECT * FROM customer WHERE email ='$email' and passWord='$pass'";
+    $account = pdo_query_one($sql);
+    return $account;
+}
 function logout() { 
     if (isset($_SESSION['user'])) {
-        unset($_SESSION['role']);
-        unset($_SESSION['user']);
-        unset($_SESSION['id_user']);
-        unset($_SESSION['email']);
-        unset($_SESSION['notice']);
+        session_destroy();
     }
 }
 
@@ -19,8 +20,8 @@ function get_user_info($name){
     $account = pdo_query_one($sql);
     return $account;
 }
-function up_date_info($name,$email,$phone,$avatar,$id){
-    $sql = "UPDATE customer SET name_customer='$name', email = '$email',phone_number = '$phone',picture = '$avatar' where id = '$id' ";
+function up_date_info($name,$email,$address,$phone,$avatar,$id){
+    $sql = "UPDATE customer SET name_customer='$name', email = '$email',address = '$address',phone_number = '$phone',picture = '$avatar' where id = '$id' ";
     pdo_execute($sql);
 }
 function up_date_info_admin($name,$email,$phone_number,$address,$avatar,$pass,$id){
@@ -94,5 +95,44 @@ function get_user_byId($id){
     $sql ="SELECT * FROM customer where id = $id";
     $list = pdo_query_one($sql);
     return $list;
+}
+function check_email_forgotpass($email) {
+    $sql="SELECT * FROM customer WHERE email='$email'";
+    $result = pdo_query_one($sql);
+
+   return $result;
+}
+function sendMail($email, $username, $pass) { //index quenmk (user)
+    require 'PHPMailer/src/Exception.php';
+    require 'PHPMailer/src/PHPMailer.php';
+    require 'PHPMailer/src/SMTP.php';
+
+    $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+
+    try {
+            //Server settings
+         $mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_OFF;                      //Enable verbose debug output
+        $mail->isSMTP();                                            //Send using SMTP
+        $mail->Host       = 'sandbox.smtp.mailtrap.io';                     //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+        $mail->Username   = '2f9c2c334e5837';                     //SMTP username
+        $mail->Password   = 'a92999d382bd1b';                               //SMTP password
+        $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+        $mail->Port       = 587;                                   //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        $mail->CharSet = 'UTF-8';
+
+        //Recipients
+        $mail->setFrom('testduanmau@example.com', 'DuAnMau');
+        $mail->addAddress($email, $username);     //Add a recipient
+
+        //Content
+        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->Subject = 'Lấy lại mật khẩu';
+        $mail->Body    = 'Mật khẩu của bạn là ' .$pass;
+
+        $mail->send();
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
 }
 ?>

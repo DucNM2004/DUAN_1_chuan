@@ -26,8 +26,20 @@ if(tab_list) {
 const input_quantity = document.querySelector(".detail_product-input-plus-minus")
 const btn_inc = document.querySelector(".detail__product-inc ")
 const btn_dec = document.querySelector(".detail__product-dec ")
-
-
+// const quantity = document.querySelector(".quantity");
+// quantity.addEventListener('change',function(){
+//     if(
+//         quantity.value>quantity.max
+//     ){
+         
+//         quantity.value=quantity.max;
+//     }
+//     if(
+//         quantity.value>quantity.min
+//     ){
+//         quantity.min=quantity.min;
+//     }
+// })
 if(input_quantity) {
     btn_inc.addEventListener('click', () => {
         let value = input_quantity.value
@@ -43,3 +55,24 @@ if(input_quantity) {
         }
     })
 }
+// const btn_inc = document.querySelectorAll(".detail__product-inc ")
+// const btn_dec = document.querySelectorAll(".detail__product-dec ")
+
+// for (const item of btn_inc) {
+//     item.addEventListener('click', () => {
+//         let input_quantity = item.previousElementSibling;
+//         let vl = input_quantity.value
+//         if(parseInt(vl) < input_quantity.id) {
+//             input_quantity.value = parseInt(vl) + 1;
+//         }
+//     })
+// }
+// for (const item of btn_dec) {
+//     item.addEventListener('click', () => {
+//         let input_quantity = item.previousElementSibling.previousElementSibling;
+//         let vl = input_quantity.value
+//         if(parseInt(vl) < input_quantity.id) {
+//             input_quantity.value = parseInt(vl) - 1;
+//         }
+//     })
+// }

@@ -31,7 +31,7 @@
         <div class="container__main-handler-mobile">
             <a data-bs-toggle="modal" data-bs-target="#openModal" class="text-white" style="cursor: pointer;">
                 <i class="fa-solid fa-plus"></i>
-                Tạo sản phẩm mới
+                Tạo nhân viên mới
             </a>
             <div class="container__main-search">
                 <form action="">
@@ -42,7 +42,7 @@
         <div class="container__table">
             <table>
                 <tr>
-                    <th>Tên người dùng</th>
+                    <th>Tên Nhân viên</th>
                     <th>Hình ảnh</th>
                     <th>Address</th>
                     <th>Phone_number</th>
@@ -51,7 +51,7 @@
                     <th>Tính năng</th>
                 </tr>
                 <!-- render-products -->
-                <?php foreach ($listaccount as $each) : ?>
+                <?php foreach ($liststaff as $each) : ?>
                 <tr>
                     <td><?= $each['name_customer']; ?></td>
                     <td>
@@ -70,10 +70,10 @@
                     <td>*******</td>
                     <?php } ?>
                     <td>
-                        <a href="index.php?act=update_acc&id=<?= $each['id_customer'] ?>">
+                        <a href="index.php?act=update_staff&id=<?= $each['id_customer'] ?>">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a href="index.php?act=delete_acc&id=<?= $each['id_customer'] ?>">
+                        <a href="index.php?act=delete_staff&id=<?= $each['id_customer'] ?>">
                             <i onclick="return confirm('Bạn có chắc muốn xóa không')" class="fa-solid fa-trash"></i>
                         </a>
                     </td>
@@ -107,7 +107,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="index.php?act=addaccount" method="POST" enctype="multipart/form-data">
+                <form action="index.php?act=add_staff" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="username" class="form-label fs-3">Tên người dùng</label>
                         <input required type="text" class="form-control fs-3" id="username" placeholder="Tên người dùng"
@@ -138,10 +138,9 @@
                             placeholder="phone_number người dùng" name="phone_number">
                     </div>
                     <input type="hidden" class="form-control fs-3" id="role" placeholder="role người dùng" name="role"
-                        value="3">
+                        value="2">
                     <div class="modal-footer">
-                        <button class="fs-4 btn btn-danger" name="btn-submit" type="submit">Thêm người
-                            dùng</button>
+                        <button class="fs-4 btn btn-danger" name="btn-submit" type="submit">Thêm nhân viên</button>
                     </div>
                 </form>
             </div>

@@ -1,14 +1,5 @@
 <?php
-// function count_products()
-// {
-//     $sql = "SELECT COUNT(*) AS total FROM product";
-//     $list = pdo_query_one($sql); 
-//     return $list;
-// }
 
-// // đếm số lượng khách hàng
-
-// đếm số lượng nhân viên
 function count_staff()
 {
     $sql = "SELECT COUNT(id) as soluong FROM customer
@@ -17,23 +8,7 @@ function count_staff()
     return $list;
 }
 
-// // đếm số lượng các loại sản phẩm
-// function count_product_categories()
-// {
-//     $sql = "SELECT COUNT(*) FROM category";
-   
-//     return $this->loadRecord();
-// }
 
-// // đếm số lượng bình luận
-// function count_comment1()
-// {
-//     $sql = "SELECT COUNT(*) FROM comment";
-   
-//     return $this->loadRecord();
-// }
-
-// // đếm số lượng đơn hàng
 function count_order()
 {
     $sql = "SELECT COUNT(id) as soluong FROM orders";

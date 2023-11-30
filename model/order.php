@@ -1,8 +1,8 @@
 <?php 
 function getOrderByIdCustomer($id) {
-    $sql = "select orders.id, id_customer, order_status,address, phone_number,order_date, orders.total, id_order, sum(order_detail.quantity) as 'total_quantity' 
+    $sql = "SELECT orders.id, id_customer, order_status,address, phone_number,order_date, orders.total, id_order, sum(order_detail.quantity) as 'total_quantity' 
     FROM orders join customer on orders.id_customer = customer.id join order_detail on orders.id = order_detail.id_order 
-    GROUP by id_order having id_customer = $id;"; 
+    GROUP by id_order having id_customer = $id and order_status = 1 or order_status = 2"; 
     $list = pdo_query($sql);
     return $list;
    
@@ -21,5 +21,27 @@ function delete_order_detail($id){
     $sql = "delete from order_detail where id_order = $id";
     pdo_execute($sql);
 }
-
+function getOrder(){
+    $sql = "SELECT orders.id, name_customer ,customer.id as 'customer_id', email, order_date, address, phone_number, orders.total, id_order, sum(order_detail.quantity) 
+    as 'total_quantity', order_status FROM orders join customer on orders.id_customer = customer.id 
+    join order_detail on orders.id = order_detail.id_order GROUP by id_order";
+    $list = pdo_query($sql);
+    return $list;
+}
+function confirm_order($id){
+    $sql = "UPDATE orders SET order_status = 2 where id = $id";
+    pdo_execute($sql);
+}
+function cancel_order($id){
+    $sql = "UPDATE orders SET order_status = 3 where id = $id";
+    pdo_execute($sql);
+}
+function re_confirm_order($id){
+    $sql = "UPDATE orders SET order_status = 1 where id = $id";
+    pdo_execute($sql);
+}
+function user_cancel_order($id){
+    $sql = "UPDATE orders SET order_status = 4 where id = $id";
+    pdo_execute($sql);
+}
 ?>

@@ -146,7 +146,11 @@ ul {
 html {
   scroll-padding-top: 15.4rem;
 }
-
+.size{
+  height: 30px;
+  width: 30px;
+  text-align: center;
+}
 /* header */
 .header__container {
   z-index: 999;

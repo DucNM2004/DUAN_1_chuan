@@ -28,63 +28,14 @@
                     </div>
                 </div>
                 <div class="col-md-12 col-sm-6 col-xs-12">
-                    <div class="products__sin_sidebar brand-sidebar">
-                        <h3 class="sidebar-title">POPULAR BRAND</h3>
-                        <div class="sidebar-wrapper fix">
-                            <ul class="cus-scroll">
-                                <li><a href="#">rayban</a></li>
-                                <li><a href="#">denim</a></li>
-                                <li><a href="#">polo</a></li>
-                                <li><a href="#">adiddas</a></li>
-                                <li><a href="#">nike</a></li>
-                                <li><a href="#">gucci</a></li>
-                                <li><a href="#">cats eye</a></li>
-                                <li><a href="#">rayban</a></li>
-                                <li><a href="#">denim</a></li>
-                                <li><a href="#">polo</a></li>
-                                <li><a href="#">adiddas</a></li>
-                                <li><a href="#">nike</a></li>
-                                <li><a href="#">gucci</a></li>
-                                <li><a href="#">cats eye</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-6 col-xs-12">
-                    <div class="products__sin_sidebar price-sidebar">
-                        <h3 class="sidebar-title">FILTER BY COLOR</h3>
-                        <div class="sidebar-wrapper fix">
-                            <div id="price-range"></div>
-                            <div class="price-values fix">
-                                <p>Range</p>
-                                <input type="text" id="price-amount" readonly>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-6 col-xs-12">
                     <div class="products__sin_sidebar products__size_sidebar">
-                        <h3 class="sidebar-title">FILTER BY COLOR</h3>
+                        <h3 class="sidebar-title">FILTER BY SIZE</h3>
                         <div class="sidebar-wrapper fix">
                             <a href="#">s</a>
                             <a href="#">m</a>
                             <a href="#">l</a>
                             <a href="#">xl</a>
                             <a href="#">xxl</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-6 col-xs-12">
-                    <div class="products__sin_sidebar color-sidebar">
-                        <h3 class="sidebar-title">FILTER BY COLOR</h3>
-                        <div class="sidebar-wrapper fix">
-                            <ul class="cus-scroll">
-                                <li><a href="#"><span><i class="fa-solid" style="background-color: black; width: 12px;height: 12px;"></i></span>black</a></li>
-                                <li><a href="#"><span><i class="fa-solid" style="background-color: red; width: 12px;height: 12px;"></i></span>red</a></li>
-                                <li><a href="#"><span><i class="fa-solid" style="background-color: green; width: 12px;height: 12px;"></i></span>green</a></li>
-                                <li><a href="#"><span><i class="fa-solid" style="background-color: yellow; width: 12px;height: 12px;"></i></span>yellow</a></li>
-                                <li><a href="#"><span><i class="fa-solid" style="background-color: pink; width: 12px;height: 12px;"></i></span>pink</a></li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -153,8 +104,9 @@
                                         <a href="#"><button class="products__item-action-btn btn-icon">
                                                 <i class="fa-solid fa-arrows-rotate"></i>
                                             </button></a>
-                                        <a href="#"><button class="products__item-action-btn btn-text">
-                                                Giỏ hàng
+                                        <a href="index.php?act=add_cart&idpro=<?=$ap['id'] ?>">
+                                        <button class="products__item-action-btn btn-text">
+                                                Thêm vào giỏ
                                             </button></a>
                                         <a href="#"><button class="products__item-action-btn btn-icon">
                                                 <i class="fa-regular fa-heart"></i>
@@ -169,13 +121,7 @@
                                     </div>
                                     <!-- Product Ratting -->
                                     <div class="products__sin_ratting float-right">
-                                        <div class="rattings float-left">
-                                            <i class="fa-regular fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                            <i class="fa-solid fa-star-half-stroke"></i>
-                                        </div>
+                                        
                                         <span>(<?= $ap['view_number'] ?>)</span>
                                     </div>
                                     <?php if ($ap['quantity'] == 0) { ?>

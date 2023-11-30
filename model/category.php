@@ -42,5 +42,14 @@ function update_category($id, $title_category, $description, $id_category_type){
         id_category_type = $id_category_type 
         where id = $id";
        pdo_execute($sql);
+}
+function check_category($id_cate){
+    $sql = "SELECT * FROM product Where id_category = $id_cate";
+    $result = pdo_query($sql);
+    if($result){
+        return true;
+    }else{
+        return false;
     }
+}
 ?>
