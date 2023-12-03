@@ -27,7 +27,7 @@
                 <label for="" class="regis__title">Mật khẩu</label><br>
                 <input type="password" name="pass" id="" class="regis__input" required>
             </div>
-            <input type="submit" name="register" value="Register" class="regis__sub"><br>
+            <input type="submit" name="register" value="Đăng ký" class="regis__sub"><br>
             <?php if(isset($thongbao)){ ?>
             <h4 style="color:green;"><?= $thongbao ?></h4>
             <button type="button" class="regis__sub"><a href="index.php?act=login">Đăng nhập ngay</a></button>

@@ -1,5 +1,5 @@
 
-// const myChartElement = document.getElementById('myChart')
+// const myChartElement = document.getElementById('soluong')
 
 // if (myChartElement) {
 //     const ctx = myChartElement.getContext('2d');

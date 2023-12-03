@@ -32,8 +32,9 @@ if(!isset($_SESSION['user'])){
             else{
                 $search = "";
             }
-            $count_comment = count_pro();
-            extract($count_comment);
+            $count_pro = count_pro();
+            extract($count_pro);
+
             $itemperpage = 6;
             
             if(!empty($_GET['page'])){
@@ -67,6 +68,7 @@ if(!isset($_SESSION['user'])){
                     $quantity = $_POST['quantity'];
                     $id_category = $_POST['id_category'];
                     $er = [];
+                   
                     if(!empty($image) && $_FILES['picture']['error'] == 0){
                         $dir = "../products/";
                         $namefile = $_FILES['picture']['name'];
@@ -424,11 +426,7 @@ if(!isset($_SESSION['user'])){
                 } else {
                     $email = $_POST["email"];
                 }
-                if($_FILES["new-picture"]["size"] != 0) {
-                    $avatar = $_FILES["new-picture"]["name"];
-                }else{
-                    $avatar = $_POST['picture-old'];
-                }
+                
                
                 if(empty($_POST["phoneNumber"])) {
                     $phone_number = $_POST["current_phone_number"];
@@ -453,16 +451,41 @@ if(!isset($_SESSION['user'])){
                 } else {
                     $pass = $_POST["pass"];
                 }
+                $error =[];
+                $image = $_FILES["new-picture"];
+                if(!empty($image) && $_FILES['new-picture']['error'] == 0){
+                    $dir = "../customer/";
+                    $namefile = $_FILES['new-picture']['name'];
+                    $targetfile = $dir.$namefile;
+                    $typefile = strtolower(pathinfo($targetfile,PATHINFO_EXTENSION));
+                    if($typefile == "jpg" || $typefile == "png" || $typefile == "gif" || $typefile == "jpeg" || $typefile == "webp" || $typefile == "jfif"){
+                        move_uploaded_file($_FILES['new-picture']['tmp_name'],$targetfile);
+                    }
+                    else{
+                        $error['picture'] = "Bạn chỉ được chọn File ảnh(jpg,png,jpeg)";
+                    }
+                }
+                else{
+                    $namefile = $_POST['picture-old'];
+                }
              
-                if(isset($_SESSION["user"]) ) {
+                if(isset($_SESSION["user"])) {
                     $_SESSION['user'] = $name;
                     $_SESSION['email'] = $email;
-                    $_SESSION['picture'] = $avatar;
+                    $_SESSION['picture'] = $_POST['picture-old'];
                 }
+                if(empty($error)){
+                $_SESSION['picture'] = $namefile;
                 move_uploaded_file($_FILES["new-picture"]["tmp_name"],"customer/".$_FILES["new-picture"]["name"]);
-                up_date_info_admin($name,$email,$phone_number,$address,$avatar,$pass,$id);
+                up_date_info_admin($name,$email,$phone_number,$address,$namefile,$pass,$id);
                 setcookie('notice',"Đã cập nhật thông tin thành công",time() + 2);
                 header("location: index.php?act=admin_info");
+                }else{
+                    if(!empty($error['picture'])){
+                        setcookie('notice',$error['picture'],time()+2);
+                        header("Location: index.php?act=admin_info");
+                    }
+                }
             }
             include "admin_info/info.php";
             break;
@@ -639,6 +662,86 @@ if(!isset($_SESSION['user'])){
             }
                 include "account/liststaff.php";
             break;
+            case "update_staff":
+                if(isset($_GET['id']) && $_GET['id']>0){
+                    $id = $_GET['id'];
+                    $user = get_user_byId($id);
+                }
+                if(isset($_POST["btn_save"])) {
+                    $id = $_POST['ID'];
+                    $error = [];
+                    if(empty($_POST["email"])) {
+                        $email = $_POST["current_email"];
+                    } else {
+                        $email = $_POST["email"];
+                    }
+                   
+                   
+                    if(empty($_POST["phoneNumber"])) {
+                        $phone_number = $_POST["current_phone_number"];
+                    } else {
+                        $phone_number = $_POST["phoneNumber"];
+                    }
+        
+                    if(empty($_POST["address"])) {
+                        $address = $_POST["current_address"];
+                    } else {
+                        $address = $_POST["address"];
+                    }
+        
+                    if(empty($_POST["user_name"])) {
+                        $name = $_POST["current_name"];
+                    } else {
+                        $name = $_POST["user_name"];
+                    }
+    
+                    if(empty($_POST["pass"])) {
+                        $pass = $_POST["current_pass"];
+                    } else {
+                        $pass = $_POST["pass"];
+                    }
+                    // var_dump($avatar);
+                    // die;
+                    // if (check_email($email) == true){
+                    //     $error['email'] = "Email đã tồn tại";
+                       
+                    // }
+                    // if (check_user($name)== true){
+                    //     $error['user'] = "Tên người dùng đã tồn tại";
+                        
+                    // }
+                   
+                    $image = $_FILES["new-picture"];
+                    if(!empty($image) && $_FILES['new-picture']['error'] == 0){
+                        $dir = "../customer/";
+                        $namefile = $_FILES['new-picture']['name'];
+                        $targetfile = $dir.$namefile;
+                        $typefile = strtolower(pathinfo($targetfile,PATHINFO_EXTENSION));
+                        if($typefile == "jpg" || $typefile == "png" || $typefile == "gif" || $typefile == "jpeg" || $typefile == "webp" || $typefile == "jfif"){
+                            move_uploaded_file($_FILES['new-picture']['tmp_name'],$targetfile);
+                        }
+                        else{
+                            $error['picture'] = "Bạn chỉ được chọn File ảnh(jpg,png,jpeg)";
+                        }
+                    }
+                    else{
+                        $namefile = $_POST['current_picture'];
+                    }
+                    if(empty($error)){
+                    move_uploaded_file($_FILES["new-picture"]["tmp_name"],"customer/".$_FILES["new-picture"]["name"]);
+                    up_date_info_admin($name,$email,$phone_number,$address,$namefile,$pass,$id);
+                    setcookie('notice',"Đã cập nhật thông tin thành công",time() + 2);
+                    header("location: index.php?act=liststaff");
+                    }else{
+                       
+                        if(!empty($error['picture'])){
+                            setcookie('notice',$error['picture'],time()+2);
+                            header("Location: index.php?act=update_staff&id=$id");
+                        }
+                    }
+                }
+                include "staff/updatestaff.php";
+                break;    
         case "delete_staff":
             if(isset($_GET['id']) && $_GET['id']>0){
                 $id = $_GET['id'];
@@ -649,8 +752,38 @@ if(!isset($_SESSION['user'])){
             include "staff/liststaff.php";
         break;
         case "listorder":
-            $orders = getOrder();
+            $count_orders = count_order3();
+            extract($count_orders);
+            $itemperpage = 4;
+            
+            if(!empty($_GET['page'])){
+                $currentpage  = $_GET['page'];
+            }
+            else{
+                $currentpage = 1;
+            }
+            
+            $offset = ($currentpage-1) * $itemperpage;
+            $totalpage = ceil($soluong / $itemperpage);
+            $orders = getOrder($itemperpage,$offset);
             include "order/listorder.php";
+        break;
+        case "listordersucess":
+            $count_orders = count_order4();
+            extract($count_orders);
+            $itemperpage = 4;
+            
+            if(!empty($_GET['page'])){
+                $currentpage  = $_GET['page'];
+            }
+            else{
+                $currentpage = 1;
+            }
+            
+            $offset = ($currentpage-1) * $itemperpage;
+            $totalpage = ceil($soluong / $itemperpage);
+            $orders = getOrdersucess($itemperpage,$offset);
+            include "order/listcordersucess.php";
         break;
         case "order_detail":
             if (isset($_GET['id_order'])){
@@ -658,6 +791,14 @@ if(!isset($_SESSION['user'])){
                 $order_detail = getOrderDetailById($id);
             }
             include "order/order_detail.php";
+           
+        break;
+        case "detail_success":
+            if (isset($_GET['id_order'])){
+                $id = $_GET['id_order'];
+                $order_detail = getOrderDetailById($id);
+            }
+            include "order/detailsucess.php";
            
         break;
         case "delete_order":
@@ -699,13 +840,29 @@ if(!isset($_SESSION['user'])){
     }
     } else {
         $total_moneys = doanh_thu_hang_thang();
+        $total_moneys12 = doanh_thu_hang_thang12();
         $count_staff = count_staff();
         $count_customers = count_account();
         $count_comment2 = count_comment();
         $count_products = count_pro(); 
         $count_product_category = count_category();
         $count_orders = count_order();
-        var_dump($count_customers);
+        $orders23 = count_category_order23();
+        $orders24 = count_category_order24();
+        $orders25 = count_category_order25();
+        $orders26 = count_category_order26();
+        if($orders26==false){
+            $orders26['soluong'] = 0;
+        }
+        $orders27 = count_category_order27();
+        if($orders27==false){
+            $orders27['soluong'] = 0;
+        }
+        $orders29 = count_category_order29();
+        if($orders29==false){
+            $orders29['soluong'] = 0;
+        }
+       
         include 'home.php';
     }
     

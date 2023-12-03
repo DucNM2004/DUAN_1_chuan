@@ -1,6 +1,6 @@
 <?php 
 function getOrderByIdCustomer($id) {
-    $sql = "SELECT orders.id, id_customer, order_status,address, phone_number,order_date, orders.total, id_order, sum(order_detail.quantity) as 'total_quantity' 
+    $sql = "SELECT orders.id, id_customer, order_status,orders.order_address as address, orders.order_phone as phone_number,order_date, orders.total, id_order, sum(order_detail.quantity) as 'total_quantity' 
     FROM orders join customer on orders.id_customer = customer.id join order_detail on orders.id = order_detail.id_order 
     GROUP by id_order having id_customer = $id and order_status = 1 or order_status = 2"; 
     $list = pdo_query($sql);
@@ -21,10 +21,33 @@ function delete_order_detail($id){
     $sql = "delete from order_detail where id_order = $id";
     pdo_execute($sql);
 }
-function getOrder(){
-    $sql = "SELECT orders.id, name_customer ,customer.id as 'customer_id', email, order_date, address, phone_number, orders.total, id_order, sum(order_detail.quantity) 
+function getOrder($itemperpage,$offset){
+    $sql = "SELECT orders.id, name_customer ,customer.id as 'customer_id', email, order_date, orders.order_address as address, orders.order_phone as phone_number, orders.total, id_order, sum(order_detail.quantity) 
     as 'total_quantity', order_status FROM orders join customer on orders.id_customer = customer.id 
-    join order_detail on orders.id = order_detail.id_order GROUP by id_order";
+    join order_detail on orders.id = order_detail.id_order where orders.order_status <> 5 GROUP by id_order ORDER BY orders.id DESC ";
+   if($itemperpage>0 && $offset>=0){
+    $sql .= "LIMIT $itemperpage OFFSET $offset";
+    }
+    $list = pdo_query($sql);
+    return $list;
+}
+function count_order3(){
+    $sql = "SELECT count(id) as soluong from orders where orders.order_status <> 5";
+    $list = pdo_query_one($sql);
+    return $list;
+}
+function count_order4(){
+    $sql = "SELECT count(id) as soluong from orders where orders.order_status = 5";
+    $list = pdo_query_one($sql);
+    return $list;
+}
+function getOrdersucess($itemperpage,$offset){
+    $sql = "SELECT orders.id, name_customer ,customer.id as 'customer_id', email, order_date, orders.order_address as address, orders.order_phone as phone_number, orders.total, id_order, sum(order_detail.quantity) 
+    as 'total_quantity', order_status FROM orders join customer on orders.id_customer = customer.id 
+    join order_detail on orders.id = order_detail.id_order where orders.order_status = 5 GROUP by id_order ORDER BY orders.id DESC ";
+   if($itemperpage>0 && $offset>=0){
+    $sql .= "LIMIT $itemperpage OFFSET $offset";
+    }
     $list = pdo_query($sql);
     return $list;
 }
@@ -44,4 +67,5 @@ function user_cancel_order($id){
     $sql = "UPDATE orders SET order_status = 4 where id = $id";
     pdo_execute($sql);
 }
+
 ?>

@@ -30,8 +30,7 @@
         <div class="container__main-handler-mobile">
             <button data-bs-toggle="modal" data-bs-target="#openModal" class="btn btn-danger fs-4" name="submit">
                 <i class="fa-solid fa-plus"></i>
-                Thêm sản
-                phẩm</button>
+                </button>
             <!-- <div class="container__main-search">
                 <form action="">
                     <input type="search" name="search" id="" placeholder="Tìm kiếm danh mục sản phẩm" value="">
@@ -94,7 +93,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-3" id="exampleModalLabel">Thêm danh mục sản phẩm</h1>
+                <h1 class="modal-title fs-3" id="exampleModalLabel">Thêm vào kho hàng</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

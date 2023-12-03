@@ -49,8 +49,7 @@
                                 <button type="button" class="btn btn-secondary fs-4"
                                     data-bs-dismiss="modal"><a style="color:white;" href="index.php?act=listvariant">Đóng</a></button>
                                 <button type="submit" class="btn btn-danger fs-4" data-bs-target="submit-form"
-                                    name="submit">Sửa danh mục sản
-                                    phẩm</button>
+                                    name="submit">cập nhật kho hàng</button>
                             </div>
                         </form>
                     </div>

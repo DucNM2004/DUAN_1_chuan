@@ -110,12 +110,12 @@
                 <form action="index.php?act=add_staff" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="username" class="form-label fs-3">Tên người dùng</label>
-                        <input required type="text" class="form-control fs-3" id="username" placeholder="Tên người dùng"
+                        <input required type="text" maxlength="50" class="form-control fs-3" id="username" placeholder="Tên người dùng"
                             name="username">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label fs-3">Email người dùng</label>
-                        <input required type="email" class="form-control fs-3" id="email" placeholder="Email người dùng"
+                        <input required type="email" maxlength="50" class="form-control fs-3" id="email" placeholder="Email người dùng"
                             name="email">
                     </div>
                     <div class="mb-3">
@@ -134,7 +134,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="phone_number" class="form-label fs-3">số điện thoại khách hàng</label>
-                        <input required type="text" class="form-control fs-3" id="phone_number"
+                        <input required type="text" minlength="9" maxlength="10" class="form-control fs-3" id="phone_number"
                             placeholder="phone_number người dùng" name="phone_number">
                     </div>
                     <input type="hidden" class="form-control fs-3" id="role" placeholder="role người dùng" name="role"

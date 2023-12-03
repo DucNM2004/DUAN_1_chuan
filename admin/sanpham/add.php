@@ -28,7 +28,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label fs-3">Giá sản phẩm</label>
-                                <input type="text" class="form-control fs-3" id="price" placeholder="Giá sản phẩm"
+                                <input type="number" min="1" class="form-control fs-3" id="price" placeholder="Giá sản phẩm"
                                     name="price" required>
                             </div>
                             <div class="mb-3">
@@ -47,7 +47,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="quantity" class="form-label fs-3">Số lượng sản phẩm</label>
-                                <input name="quantity" placeholder="Số lượng sản phẩm" class="form-control fs-3" id="quantity" required/>
+                                <input name="quantity" type="number" min="1" placeholder="Số lượng sản phẩm" class="form-control fs-3" id="quantity" required/>
                             </div>
                             <div class="mb-3">
                                 <label for="id_category" class="form-label fs-3">Loại sản phẩm</label>

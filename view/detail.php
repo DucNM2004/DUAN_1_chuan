@@ -97,7 +97,15 @@
                           <input type="hidden" value="<?php echo $detailpro['id'] ?>" name="id_pro">
                         <!-- Product Action -->
                         <div class="detail__product-action">
+                            
+                           <?php  if(isset($_SESSION['user'])){ ?>
                             <button name="btn_add" class="detail__product-action-btn btn-text" <?php if($detailpro['quantity']==0){echo 'disabled';} ?>>THÊM VÀO GIỎ HÀNG</button><br>
+                           <?php  }else{ ?>
+                            <h3>Bạn cần đăng nhập để mua hàng</h3>
+                            <div>
+                            <button type="button" class="detail__product-action-btn btn-text" name="btn_submit"><a style="color: white;" href="index.php?act=login">Đến đăng nhập</a> </button><br>
+                            </div>
+                         <?php  } ?>
                         </div>
                         <div>
                         <h5>số lượng sản phẩm còn: <?= $detailpro['quantity'] ?></h5>

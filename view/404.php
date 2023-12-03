@@ -48,7 +48,7 @@
                             <h1 style="font-size: 200px; font-weight: 600;">404</h1>
                             <h3 style="font-size: 24px; font-weight: 600;">The page you requeted cannot be found.</h3>
                             <br>
-                            <a href="?url=home"><button>
+                            <a href="../index.php"><button>
                                     <h2>> Click here to return Homepage <</h2>
                                 </button></a>
                         </div>

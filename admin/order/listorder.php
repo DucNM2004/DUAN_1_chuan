@@ -44,10 +44,6 @@
                         <?php }?>
                         <?php if ($each['order_status'] == 2) { ?>
                         <h3><?php echo 'Đã xác nhận đơn hàng' ?></h3>
-                        <a href="index.php?act=re_confirm&id_order=<?= $each['id']; ?>">
-                            Hủy xác nhận
-                        </a>
-                        </br>
                         <?php } else if ($each['order_status'] == 1) { ?>
                         <h3><?php echo 'Đang chờ xác nhận' ?></h3>
                         <a
@@ -66,14 +62,27 @@
                         <a href="index.php?act=order_detail&id_order=<?= $each['id']; ?>" title="Xem chi tiết đơn hàng">
                             <i class="fa-solid fa-clipboard fs-1"></i>
                         </a>
-                        <a href="index.php?act=delete_order&id_order=<?= $each['id']; ?>" title="Xóa đơn hàng" onclick="return confirm('Bạn có chắc chắn muốn xóa')">
+                        <!-- <a href="index.php?act=delete_order&id_order=<?= $each['id']; ?>" title="Xóa đơn hàng" onclick="return confirm('Bạn có chắc chắn muốn xóa')">
                             <i class="fa-solid fa-trash-can fs-1"></i>
-                        </a>
+                        </a> -->
                     </td>
                 </tr>
                 <?php } ?>
             </table>
         </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination pb-3 d-flex justify-content-center">
+            <?php for ($num = 1; $num <= $totalpage; $num++) { ?>
+                <li class="page-item">
+                    <?php if($num != $currentpage){ ?>
+                    <a class="page-link fs-3 px-3 text-danger mx-1" href="index.php?act=listorder&page=<?php echo $num; ?>"><?php echo $num ?></a>
+                    <?php }else{ ?>
+                    <a class="page-link fs-3 px-3 text-danger mx-1 active" style="" href="index.php?act=listorder&page=<?php echo $num; ?>"><?= $num ?></a>
+                    <?php } ?> 
+                </li>
+                <?php } ?>
+            </ul>
+        </nav>
     </main>
 </main>
 <?php if(isset($_COOKIE['notice'])){

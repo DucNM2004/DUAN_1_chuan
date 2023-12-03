@@ -17,8 +17,8 @@
                         <i class="icon--product fa-solid fa-dollar-sign"></i>
                         <div class="analysis__info">
                             <h4>Lợi nhuận</h4>
-                            <p><b>$<?php if(isset($total_moneys['total'])){
-                                echo  $total_moneys['total'];
+                            <p><b>$<?php if(isset($total_moneys12['totalm'])){
+                                echo  $total_moneys12['totalm'];
                             }else{ echo 0;} ?>,00</b></p>
                             <p class="analysis__info-sum">Doanh thu hàng tháng.</p>
                         </div>
@@ -107,9 +107,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="content__chart">
-                        <h3 class="content__chart-title">Phân tích dữ liệu</h3>
+                        <h3 class="content__chart-title">Loại sản phẩm được ưu chuộng nhất</h3>
                         <div class="content__chart-graph">
-                            <canvas id="myChart"></canvas>
+                            <canvas id="soluong"></canvas>
                         </div>
                     </div>
                 </div>
@@ -123,9 +123,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="content__chart">
-                        <h3 class="content__chart-title">Phân tích dữ liệu</h3>
+                        <h3 class="content__chart-title">Biểu đồ doanh thu năm 2023 </h3>
                         <div class="content__chart-graph">
-                            <canvas id="doanhthu"></canvas>
+                        <canvas id="myChart" width="600" height="400"></canvas>
                         </div>
                     </div>
                 </div>
@@ -133,25 +133,31 @@
         </div>
     </div>
 </main>
-
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+<!-- <?php echo $orders23['soluong']; ?>,
+<?php echo $orders24['soluong']; ?>,
+<?php echo $orders25['soluong']; ?>,
+<?php echo $orders26['soluong']; ?>,
+<?php echo $orders27['soluong']; ?>,
+<?php echo $orders29['soluong']; ?> -->
 <script>
-const myChartElement = document.getElementById('myChart')
+const myChartElement = document.getElementById('soluong')
 
 if (myChartElement) {
     const ctx = myChartElement.getContext('2d');
     const myChart = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['Bình luận', 'Khách hàng', 'Sản phẩm', 'Danh mục sản phẩm', 'Đơn hàng', 'Nhân viên'],
+            labels: ['Hoodie & Sweats', 'Áo khoác', 'Chân váy ngắn', 'Áo Polo', 'Quần âu nam', 'Quần jean'],
             datasets: [{
                 label: 'Số liệu: ',
                 data: [
-                    <?php echo $count_comments['soluong']; ?>,
-                    <?php echo $count_customers['soluong']; ?>,
-                    <?php echo $count_products['soluong'] ?>,
-                    <?php echo $count_product_category['soluong'] ?>,
-                    <?php echo $count_orders['soluong']; ?>,
-                    <?php echo $count_staff['soluong']; ?>
+                    <?php echo $orders23['soluong']; ?>,
+                    <?php echo $orders24['soluong']; ?>,
+                    <?php echo $orders25['soluong']; ?>,
+                    <?php echo $orders26['soluong']; ?>,
+                    <?php echo $orders27['soluong']; ?>,
+                    <?php echo $orders29['soluong']; ?>
                 ],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
@@ -175,8 +181,9 @@ if (myChartElement) {
     });
 }
 </script>
+
 <script>
-const doanhthu = document.getElementById('doanhthu')
+const doanhthu = document.getElementById('myChart')
 if (doanhthu) {
     const result = doanhthu.getContext('2d');
     // const labels = Utils.months({
@@ -186,13 +193,13 @@ if (doanhthu) {
         type: 'line',
         responsive: true,
         data: {
-            labels: ['tháng 12', 'tháng 11', 'tháng 10', 'tháng 9', 'tháng 8', 'tháng 7', 'tháng 6',
-                'tháng 5', 'tháng 4', 'tháng 3', 'tháng 2', 'tháng 1'
+            labels: ['tháng 1', 'tháng 2', 'tháng 3', 'tháng 4', 'tháng 5', 'tháng 6', 'tháng 7',
+                'tháng 8', 'tháng 9', 'tháng 10', 'tháng 11', 'tháng 12'
             ],
            
             datasets: [{
                 label: 'Doanh thu hàng tháng',
-                data: [155],
+                data: [500, 450, 370, 100, 600, 50, 230, 700, 600, 80,<?php echo  $total_moneys12['totalm'] ?>, <?php echo $total_moneys['total'] ?>],
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
@@ -201,3 +208,4 @@ if (doanhthu) {
     })
 }
 </script>
+

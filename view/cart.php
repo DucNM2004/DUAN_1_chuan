@@ -113,11 +113,20 @@
                                 <!-- <h4><span>Grand total</span><span>$190.98</span></h4> -->
                                 <form action="index.php?act=order" method="POST"
                                     onsubmit="return confirm('Bạn có chắc chắn đặt hàng!!')">
-                                    <input type="text" name='results' value='<?php echo $results ?>' hidden>
+                                    <div class="cart__cuppon-wrap float-right">
+                                        <h4>Giao hàng</h4>
+                                        <p>Nhập địa chỉ giao hàng mới nếu bạn khôgn muốn sử dụng địa chỉ hiện tại</p>
+                                        <div class="cart__cuppon-form ">
+                                        <input type="text" name="results" value="<?= $results ?>" hidden>
+                                        <input type="text" name="address_order" placeholder="Nhập địa chỉ giao hàng khác" >
+                                        <input type="text" name="phone_order" maxlength="10" placeholder="Nhập số điện thoại khác"  >
+                                        </div>
+                                    </div>
                                     <button name="btn_create" class="button color-hover">Thanh toán</button>
                                 </form>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

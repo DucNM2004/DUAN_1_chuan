@@ -144,10 +144,16 @@
                 </a>
             </li>
             <?php } ?>
-            <li style="border-bottom: 1px solid #333;">
+            <li >
                 <a href="index.php?act=listorder" class="sidebar__menu-link">
                     <i class="fa-brands fa-opencart"></i>
                     Quản lý đơn hàng
+                </a>
+            </li>
+            <li style="border-bottom: 1px solid #333;">
+                <a href="index.php?act=listordersucess" class="sidebar__menu-link">
+                    <i class="fa-brands fa-opencart"></i>
+                    Đơn hàng thành công
                 </a>
             </li>
             <li>

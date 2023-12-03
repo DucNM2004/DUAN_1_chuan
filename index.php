@@ -1,11 +1,15 @@
 <?php
 ob_start();
 session_start();
+// if(!isset($_SESSION['user'])){
+//     header("location: view/404.php");
+// }
 include "model/pdo.php";
 include "model/products.php";
 include "model/comment.php";
 include "model/account.php";
 include "model/order.php";
+include "model/variant.php";
 include "model/cart.php";
 include "view/head.php";
 $top4 = load_top4_pro();
@@ -18,12 +22,6 @@ if(isset($_GET['act']) && $_GET['act']!=""){
         $loadcategorytype = load_all_category_type();
         $countpro = count_pro();
         
-        if(isset($_POST['submit'])){
-            $search = $_POST['search'];
-        }
-        else{
-            $search ="";
-        }
         extract($countpro);
         if(isset($_POST['sort'])){
             $sort = $_POST['sort_select'];
@@ -48,6 +46,14 @@ if(isset($_GET['act']) && $_GET['act']!=""){
         }else{
             $sort = "";
         }
+
+        if(isset($_POST['submit'])){
+            $search = $_POST['search'];
+        }
+        else{
+            $search ="";
+        }
+
         if(isset($_POST['loc'])){
             $itemperpage = $_POST['soluong'];
         }
@@ -57,6 +63,7 @@ if(isset($_GET['act']) && $_GET['act']!=""){
         else{
             $itemperpage = 6;
         }
+
         if(!empty($_GET['page'])){
             $currentpage  = $_GET['page'];
         }
@@ -76,8 +83,11 @@ if(isset($_GET['act']) && $_GET['act']!=""){
         include "view/products.php";
         break;
         case "cart":
+            if(isset($_SESSION['user'])){
             $item = get_cart_info($_SESSION['id_user']);
-           
+            }else{
+             header("location: index.php");
+            }
             include "view/cart.php";
         break;
         case "add_cart":
@@ -188,8 +198,20 @@ if(isset($_GET['act']) && $_GET['act']!=""){
             if(isset($_SESSION['id_user']) && $_SESSION['role'] == 3) {
                 if(isset($_POST['btn_create']) && !empty($_SESSION['carts'])) {
                     $id = $_SESSION['id_user'];
+                    $item = get_user_info($_SESSION['user']);
                     $total_cost = $_POST['results'];
-                    createOrder($id, $total_cost, 1);
+                    if(!empty($_POST['address_order'])){
+                        $address_order = $_POST['address_order'];
+                    }else{
+                        $address_order = $item['address'];
+                    }
+                    if(!empty($_POST['phone_order'])){
+                        $phone_order = $_POST['phone_order'];
+                    }else{
+                        $phone_order = $item['phone_number'];
+                    }
+                    
+                    createOrder($id,$address_order,$phone_order, $total_cost, 1);
     
                     // Lấy ra order
                     $order = getOrder3();
@@ -278,21 +300,24 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                 
                 
             }
+            else{
+                header("location: index.php");
+            }
             include "view/info.php";
             // include "view/footer.php";
         break;
         case "change_pass":
             $accountinfo = get_user_info($_SESSION['user']);
+            
             if(isset($_POST['btn-change'])){
                 $pass_old = $_POST['passWord'];
                 $new_pass = $_POST['new-password'];
                 $repass = $_POST['rePassWord'];
                 $errors = [];
                 $account = check_pass($_SESSION['user'],$pass_old);
-                // var_dump($account);
-                // die;
                 if($account == false){
                     $errors['passWord'] = "Mật khẩu cũ không chính xác";
+                    
                 }
 
                 if($repass != $new_pass){
@@ -306,7 +331,6 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                 }
                 else{
                     if(!empty($errors['passWord'])){
-                        die;
                         header("Location: index.php?act=info");
                         setcookie('notice',$errors['passWord'],time()+2);
                        
@@ -333,7 +357,9 @@ if(isset($_GET['act']) && $_GET['act']!=""){
         case "cancel_bill":
             if(isset($_GET['id_order'])) {
                 $id = $_GET['id_order'];
+                $item = getOrderDetailById($id);
                 user_cancel_order($id);
+                update_quantity_pro($item[0]['idProduct'],$item[0]['quantity']);
                 setcookie("notice","Hủy thành công", time() + 2, '/');
                 header("Location: index.php?act=info");
             } else {
@@ -342,9 +368,13 @@ if(isset($_GET['act']) && $_GET['act']!=""){
             }
         break;
         case "order_detail":
+            if(isset($_SESSION['user'])){
             if(isset($_GET['id_order'])){
                 $id = $_GET['id_order'];
                 $order_detail = getOrderDetailById($id);
+            }
+            }else{
+                header("Location: index.php");
             }
             include "view/order.php";
         break;

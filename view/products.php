@@ -27,18 +27,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-sm-6 col-xs-12">
-                    <div class="products__sin_sidebar products__size_sidebar">
-                        <h3 class="sidebar-title">FILTER BY SIZE</h3>
-                        <div class="sidebar-wrapper fix">
-                            <a href="#">s</a>
-                            <a href="#">m</a>
-                            <a href="#">l</a>
-                            <a href="#">xl</a>
-                            <a href="#">xxl</a>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
 
@@ -102,14 +91,21 @@
                                 <?php if ($ap['quantity'] > 0) { ?>
                                     <div class="products__item-action">
                                         <a href="#"><button class="products__item-action-btn btn-icon">
-                                                <i class="fa-solid fa-arrows-rotate"></i>
+                                               
                                             </button></a>
+                                        <?php if(isset($_SESSION['user'])){  ?>
                                         <a href="index.php?act=add_cart&idpro=<?=$ap['id'] ?>">
                                         <button class="products__item-action-btn btn-text">
                                                 Thêm vào giỏ
                                             </button></a>
+                                        <?php } else { ?>
+                                            <a href="index.php?act=login">
+                                        <button class="products__item-action-btn btn-text">
+                                                Thêm vào giỏ
+                                            </button></a>
+                                        <?php } ?>
                                         <a href="#"><button class="products__item-action-btn btn-icon">
-                                                <i class="fa-regular fa-heart"></i>
+                                                
                                             </button></a>
                                     </div>
                                 <?php } ?>
@@ -139,6 +135,7 @@
                         <a class="grid active" href="#grid-view" data-toggle="tab"><i class="zmdi zmdi-apps"></i></a>
                         <a class="list" href="#list-view" data-toggle="tab"><i class="zmdi zmdi-storage"></i></a>
                     </div>
+                    <?php if(isset($search)&& empty($search) ){ ?>
                     <div class="col-lg-4 col-sm-5 col-xs-12 pagination text-center">
                         <ul class="pagination pb-3 d-flex justify-content-center">
                             <li><a href="index.php?act=products&perpage=<?= $itemperpage?>&page=<?=$currentpage - 1?>"><i class="fa-solid fa-chevron-left"></i></a></li>
@@ -156,6 +153,7 @@
                             <li><a href="index.php?act=products&perpage=<?= $itemperpage?>&page=<?=$currentpage + 1?>"><i class="fa-solid fa-chevron-right"></i></a></li>
                         </ul>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>

@@ -77,7 +77,11 @@
                                     <img src="products/<?= $t4['picture'] ?>" alt="">
                                     <div class="item__controll-btn">
                                         <a href="index.php?act=detail&idsp=<?=$t4['id'] ?>" class="item__btn-buy">Mua ngay</a>
+                                        <?php if(isset($_SESSION['user'])){ ?>
                                         <a href="index.php?act=add_cart&idpro=<?=$t4['id'] ?>" class="item__btn-cart">Giỏ hàng</a>
+                                        <?php }else { ?>
+                                        <a href="index.php?act=login" class="item__btn-cart">Giỏ hàng</a>
+                                        <?php } ?>
                                     </div>
                                 </div>
                                 <div class="item__product-body">
@@ -131,7 +135,11 @@
                                     <img src="products/<?= $t8['picture'] ?>" alt="">
                                     <div class="item__controll-btn">
                                         <a href="index.php?act=detail&idsp=<?= $t8['id'] ?>" class="item__btn-buy">Mua ngay</a>
-                                        <a href="index.php?act=add_cart&idpro=<?=$t4['id'] ?>" class="item__btn-cart">Giỏ hàng</a>
+                                        <?php if(isset($_SESSION['user'])){ ?>
+                                        <a href="index.php?act=add_cart&idpro=<?=$t8['id'] ?>" class="item__btn-cart">Giỏ hàng</a>
+                                        <?php }else { ?>
+                                        <a href="index.php?act=login" class="item__btn-cart">Giỏ hàng</a>
+                                        <?php } ?>
                                     </div>
                                 </div>
                                 <div class="item__product-body">

@@ -13,10 +13,7 @@
                         <i class="fa-solid fa-plus"></i>
                         Tạo sản phẩm mới
                     </a>
-                    <a href="index.php?act=xoasp">
-                        <i class="fa-solid fa-trash-can"></i>
-                        Xóa sản phẩm
-                    </a>
+                   
                 </div>
                 <div class="container__main-search">
                     <form action="index.php?act=listproduct" method="post">
@@ -46,6 +43,7 @@
                     <th>Hình ảnh</th>
                     <th>Mô tả</th>
                     <th>Ngày nhận</th>
+                    <th>Loại hàng</th>
                     <th>Tính năng</th>
                       
                       
@@ -64,6 +62,7 @@
                             </div>
                         </td>
                         <td><?= $l['date_added'] ?></td>
+                        <td><?= $l['title_category'] ?></td>
                         <td>
                             <a href="index.php?act=updatepro&id=<?= $l['id']?>">
                                 <i class="fa-solid fa-pen-to-square"></i>

@@ -22,17 +22,17 @@
                         <input type="text" name="current_pass" value="<?php echo $user['passWord']?>" id="pass" hidden>
                     <div class="mb-3 fs-3">
                         <label for="username" class="form-label">Tên đăng nhập</label>
-                        <input class="form-control py-3 fs-3" type="text" id="name_value" name="user_name"  value="<?php echo $user['name_customer']?>" >
+                        <input class="form-control py-3 fs-3" type="text" maxlength="50" id="name_value" name="user_name"  value="<?php echo $user['name_customer']?>" >
                         
                     </div>
                     <div class="mb-3 fs-3">
                         <label for="email" class="form-label">Email</label>
-                        <input class="form-control py-3 fs-3" type="email" id="email_value" name="email" value="<?php echo $user['email']?>" >
+                        <input class="form-control py-3 fs-3" type="email" maxlength="50" id="email_value" name="email" value="<?php echo $user['email']?>" >
                       
                     </div>
                     <div class="mb-3 fs-3">
                         <label for="phone" class="form-label">Số điện thoại</label>
-                        <input class="form-control py-3 fs-3" type="text" id="phone_number_value" name="phoneNumber" value="<?php echo $user['phone_number']?>">
+                        <input class="form-control py-3 fs-3" type="text" maxlength="9" id="phone_number_value" name="phoneNumber" value="<?php echo $user['phone_number']?>">
                         
                     </div>
                     <div class="mb-3 fs-3">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="mb-3 fs-3">
                         <label for="picture" class="form-label fs-3">Tải ảnh mới</label>
-                        <input type="file" min="0" class="form-control fs-3" id="picture"
+                        <input type="file" min="0" maxlength="50" class="form-control fs-3" id="picture"
                         name="new-picture">
                     </div>
                     <div class="mb-3 fs-3">

@@ -165,7 +165,7 @@
                                 </td>
                                 <td>
                                 <?php if($o['order_status']  == 2) {?>
-                                    <a href="index.php?act=cancel_bill&id_order=<?= $o['id'] ?>" onclick="return confirm('Bạn có muốn hủy không')"><button>Hủy Đơn Hàng</button></a>
+                                    
                                 <?php  }elseif($o['order_status'] == 3) {?>
                                             <a href="index.php?act=delete_bill&id_order=<?= $o['id'] ?>"><button>Xóa Bill</button></a>
                                         <?php  } else { ?>

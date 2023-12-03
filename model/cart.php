@@ -35,8 +35,8 @@ function delete_cart($id){
     $sql = "DELETE FROM cart_detail where id=$id";
     pdo_execute($sql);
 }
-function createOrder($id, $total_cost, $status) {
-    $sql = "INSERT INTO orders(id_customer,total,order_status) values ($id, $total_cost, $status)";
+function createOrder($id,$order_address,$order_phone ,$total_cost, $status) {
+    $sql = "INSERT INTO orders(id_customer,order_address,order_phone,total,order_status) values ($id,'$order_address','$order_phone',$total_cost, $status)";
     pdo_execute($sql);
 }
 function getOrder3() {

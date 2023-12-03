@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="app__title">
-                <h3 class="app__title-title">Quản lý sản phẩm</h3>
+                <h3 class="app__title-title">Sửa thông tin danh mục</h3>
                 <div id="clock"></div>
             </div>
         </div>

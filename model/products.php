@@ -96,7 +96,7 @@ function upload_product($name,$price,$saleOff,$picture,$description,$view_number
     pdo_execute($sql);
 }
 function load_pro_follow_category2($itemperpage,$offset,$search){
-    $sql = "SELECT * FROM `product`where 1 ";
+    $sql = "SELECT product.*,category.title_category FROM `product` inner join category on product.id_category = category.id where 1 ";
     if($search != ""){
         $sql .="AND name like '%$search%'"; 
     }
@@ -105,6 +105,11 @@ function load_pro_follow_category2($itemperpage,$offset,$search){
     }
    
     $list = pdo_query($sql);
+    return $list;
+}
+function get_count_search($search){
+    $sql = "select count(*) as sl from product where product.name like '%$search%'";
+    $list= pdo_query_one($sql);
     return $list;
 }
 ?>
