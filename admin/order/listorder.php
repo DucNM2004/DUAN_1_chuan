@@ -13,6 +13,20 @@
 
     <!-- container main -->
     <main class="container__main">
+    <div class="container__main-handler">
+                <div class="container__main-search">
+                    <form action="index.php?act=listorder" method="post">
+                        <select name="search" id="">
+                            <option value="0" selected>Lọc theo trạng thái đơn hàng</option>
+                            <option value="1">Chờ xác nhận</option>
+                            <option value="2">Đã xác nhận</option>
+                            <option value="3">Admin hủy hàng</option>
+                            <option value="4">Đơn hàng bị hủy bởi người dùng</option>
+                        </select>
+                        <button type="submit" name="submit" >Tim</button>
+                    </form>
+                </div>
+            </div>
         <div class="container__table">
             <table>
                 <tr>

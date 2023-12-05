@@ -755,7 +755,11 @@ if(!isset($_SESSION['user'])){
             $count_orders = count_order3();
             extract($count_orders);
             $itemperpage = 4;
-            
+            if(isset($_POST['submit'])){
+                $search = $_POST['search'];
+            }else{
+                $search = "";
+            }
             if(!empty($_GET['page'])){
                 $currentpage  = $_GET['page'];
             }
@@ -765,7 +769,10 @@ if(!isset($_SESSION['user'])){
             
             $offset = ($currentpage-1) * $itemperpage;
             $totalpage = ceil($soluong / $itemperpage);
-            $orders = getOrder($itemperpage,$offset);
+            // var_dump($itemperpage,$offset,$search);
+            // var_dump(getOrder($itemperpage,$offset,$search));
+            // die;
+            $orders = getOrder($itemperpage,$offset,$search);
             include "order/listorder.php";
         break;
         case "listordersucess":
@@ -813,9 +820,19 @@ if(!isset($_SESSION['user'])){
         case "confirm_order":
             if (isset($_GET['id_order'])){
                 $id = $_GET['id_order'];
-                confirm_order($id);
-                setcookie('notice',"Đơn hàng đã được xác nhận",time()+2);
-                header("Location: index.php?act=listorder");
+                $item = getEmailbyID($id);
+                $check = check_email_order($item['email']);
+                $order = getOrderDetailById($id);
+                
+                if ($check != false) {
+                    sendMailorder($item['email'], $item['name_customer'],$order);
+                    confirm_order($id);
+                    setcookie('notice',"Đơn hàng đã được xác nhận",time()+2);
+                    header("Location: index.php?act=listorder");
+                } else {
+                    $sendMailMess = "Email bạn nhập ko có trong hệ thống";
+                }
+                
             }
             include "order/listorder.php";
         break;

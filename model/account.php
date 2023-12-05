@@ -99,7 +99,6 @@ function get_user_byId($id){
 function check_email_forgotpass($email) {
     $sql="SELECT * FROM customer WHERE email='$email'";
     $result = pdo_query_one($sql);
-
    return $result;
 }
 function sendMail($email, $username, $pass) { //index quenmk (user)

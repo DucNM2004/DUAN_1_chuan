@@ -27,10 +27,7 @@ function sum_money()
 
 // thống kê doanh thu hàng tháng
 function doanh_thu_hang_thang(){
-    $sql = "SELECT SUM(total) AS total, MONTH(orders.order_date) AS month
-            FROM orders
-            WHERE orders.order_status = 5
-            GROUP BY MONTH(orders.order_date)";
+    $sql = "SELECT SUM(total) AS total FROM orders WHERE MONTH(order_date) = 11 AND YEAR(order_date) = 2023 and orders.order_status = 5";
    $list = pdo_query_one($sql);
    return $list;
 }

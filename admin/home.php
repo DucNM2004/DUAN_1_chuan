@@ -133,6 +133,7 @@
         </div>
     </div>
 </main>
+
 <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
 <!-- <?php echo $orders23['soluong']; ?>,
 <?php echo $orders24['soluong']; ?>,
@@ -199,7 +200,7 @@ if (doanhthu) {
            
             datasets: [{
                 label: 'Doanh thu hàng tháng',
-                data: [500, 450, 370, 100, 600, 50, 230, 700, 600, 80,<?php echo  $total_moneys12['totalm'] ?>, <?php echo $total_moneys['total'] ?>],
+                data: [500, 450, 370, 100, 600, 50, 230, 700, 600, 80,<?php echo  $total_moneys['total'] ?>, <?php echo $total_moneys12['totalm'] ?>],
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
