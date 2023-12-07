@@ -26,7 +26,8 @@
                      <li><i class="fa-solid fa-map-location-dot"></i> Địa Chỉ</li>
                      <li><i class="fa-solid fa-user-lock"></i> Đổi Mật Khẩu</li>
                      <li><i class="fa-solid fa-file-invoice-dollar"></i> Đơn Mua</li>
-                     <li><i class="fa-sharp fa-solid fa-bell"></i> Thông báo</li>
+                     <li><i class="fa-solid fa-file-invoice-dollar"></i> Đơn đã mua</li>
+                     <li><i class="fa-solid fa-file-invoice-dollar"></i> Đơn đã hủy</li>
                  </ul>
              </div>
          </div>
@@ -179,11 +180,80 @@
                     </table>
                 </div>  
             </div>
-             <div class="info__main-notification" style="display:none;">
+            <div class="info__main-notification" style="display:none;">
+            <div class="info__bill-list" style="<?php if(count($orders) > 3) { echo 'overflow: scroll;'; }?>">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Id</td>
+                                <td>Ngày đặt</td>
+                                <td>Trạng thái</td>
+                                <td>Địa chỉ/Số điện thoại</td>
+                                <td>Hoạt động</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($orders as $o): ?>
+                           <tr>
+                                <td><?= $o['id'] ?></td>
+                                <td><?= $o['order_date'] ?></td>
+                                <td>
+                                <?php echo 'Đang đơn hàng đã được giao';?>
+                                </td>
+                                <td>
+                                <?php echo 'địa chỉ: '.$o['address'].' || sđt: '.$o['phone_number'] ?> 
+                                </td>
+                                <td>
+                                    <a href="index.php?act=order_detail&id_order=<?= $o['id'] ?>" ><button>Xem chi tiết</button></a>
+                                </td>
+                           </tr>
+                           <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </div>  
+            </div>
+            <div class="info__main-notification" style="display:none;">
+            <div class="info__bill-list" style="<?php if(count($orderf) > 3) { echo 'overflow: scroll;'; }?>">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Id</td>
+                                <td>Ngày đặt</td>
+                                <td>Trạng thái</td>
+                                <td>Địa chỉ/Số điện thoại</td>
+                                <td>Hoạt động</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($orderf as $o): ?>
+                           <tr>
+                                <td><?= $o['id'] ?></td>
+                                <td><?= $o['order_date'] ?></td>
+                                <td>
+                                <?php if($o['order_status'] == 3) { 
+                                            echo 'Đơn hàng bị hủy bởi người bán';
+                                        } else if($o['order_status'] == 4) {
+                                            echo 'Đơn hàng đã được hủy bởi bạn';
+                                        }
+                                        ?>
+                                </td>
+                                <td>
+                                <?php echo 'địa chỉ: '.$o['address'].' || sđt: '.$o['phone_number'] ?> 
+                                </td>
+                                <td>
+                                    <a href="index.php?act=order_detail&id_order=<?= $o['id'] ?>" ><button>Xem chi tiết</button></a>
+                                </td>
+                           </tr>
+                           <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </div>  
+            </div>
+             
                 <?php if(isset($_COOKIE['notice'])){
                     echo '<script>alert("'.$_COOKIE['notice'].'")</script>';
                 } ?>
-             </div>
+            
          </div>
      </main>
  </div>

@@ -2,10 +2,23 @@
 function getOrderByIdCustomer($id) {
     $sql = "SELECT orders.id, id_customer, order_status,orders.order_address as address, orders.order_phone as phone_number,order_date, orders.total, id_order, sum(order_detail.quantity) as 'total_quantity' 
     FROM orders join customer on orders.id_customer = customer.id join order_detail on orders.id = order_detail.id_order 
-    GROUP by id_order having id_customer = $id and order_status = 1 or order_status = 2"; 
+    WHERE order_status IN(1,2) AND id_customer = $id GROUP BY orders.id;"; 
     $list = pdo_query($sql);
-    return $list;
-   
+    return $list; 
+}
+function getOrdersuccessByIdCustomer($id) {
+    $sql = "SELECT orders.id, id_customer, order_status,orders.order_address as address, orders.order_phone as phone_number,order_date, orders.total, id_order, sum(order_detail.quantity) as 'total_quantity' 
+    FROM orders join customer on orders.id_customer = customer.id join order_detail on orders.id = order_detail.id_order 
+    GROUP by id_order having id_customer = $id and order_status = 5"; 
+    $list = pdo_query($sql);
+    return $list; 
+}
+function getOrderfailByIdCustomer($id) {
+    $sql = "SELECT orders.id, id_customer, order_status,orders.order_address as address, orders.order_phone as phone_number,order_date, orders.total, id_order, sum(order_detail.quantity) as 'total_quantity' 
+    FROM orders join customer on orders.id_customer = customer.id join order_detail on orders.id = order_detail.id_order 
+     WHERE order_status IN(3,4) AND id_customer = $id GROUP BY orders.id;"; 
+    $list = pdo_query($sql);
+    return $list; 
 }
 function getOrderDetailById($id){
     $sql = "SELECT order_date, orders.total as 'total_price', idProduct,order_detail.total,  product_name as 'name_product', product_picture as 'picture', order_detail.price, order_detail.quantity 
@@ -13,6 +26,7 @@ function getOrderDetailById($id){
     $list = pdo_query($sql);
     return $list;
 }
+
 function delete_order($id){
     $sql = "delete from orders where id = $id";
     pdo_execute($sql);
@@ -26,12 +40,12 @@ function getOrder($itemperpage,$offset,$search){
     as 'total_quantity', order_status FROM orders join customer on orders.id_customer = customer.id 
     join order_detail on orders.id = order_detail.id_order where orders.order_status <> 5 ";
    if($search != ""){
-    $sql .= " AND orders.order_status = '$search' ";
+    $sql .= " AND orders.order_status = '$search' GROUP BY orders.id";
     }
     else{
         $sql .= "";
     }
-   if($itemperpage>0 && $offset>=0){
+   if($itemperpage>0 && $offset>=0 && $search ==""){
     $sql .= "GROUP BY orders.id ORDER BY orders.order_status ASC LIMIT $itemperpage OFFSET $offset";
     }
     $list = pdo_query($sql);

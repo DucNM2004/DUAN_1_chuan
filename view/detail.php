@@ -21,17 +21,25 @@
                         <div class="detail__product-wrap-price">
                             <!-- New Price -->
                             <?php if ($detailpro['quantity'] > 0) { ?>
-                            <?php $new_price = $detailpro['price'] - $detailpro['saleOff'] ?>
-                            <span class="detail__product-price-new">$ <?= $new_price ?></span>
+                            <span class="detail__product-price-new">
+                            $ <?php if (number_format($detailpro['saleOff']) == 0) {
+                                        echo $detailpro['price'];
+                                    } else if (number_format($detailpro['saleOff']) != 0) {
+                                        $new_price = $detailpro['price'] - $detailpro['saleOff'] ;
+                                        echo $new_price;
+                                    }
+                                    ?>.00
+                            </span>
                             <!-- Old Price -->
                             <span class="detail__product-price-old">
-                            <?php if (number_format($detailpro['saleOff']) != 0) {
+                            <?php 
                                     echo '(' . $detailpro['price'] . ')';
-                                } ?>
+                                 ?>
                         </span>
                         <span class="detail__product-price-sale">
                             <?php if (number_format($detailpro['saleOff']) != 0) {
-                                    echo 'Giảm ' . $detailpro['saleOff'] . '%';
+                                 $sale =  $detailpro['saleOff'] / ($detailpro['price'] /100);
+                                    echo 'Giảm ' . number_format($sale) . '%';
                                 } ?>
                         </span>
                         <?php } else { ?>

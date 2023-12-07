@@ -7,9 +7,12 @@ function load_all_category2($itemperpage,$offset,$search){
     from category
     join category_type on category.id_category_type = category_type.id where 1 ";
     if($search != ""){
-        $sql .="AND title_category like '%$search%'"; 
+        $sql .="AND title_category like '%$search%' "; 
     }
-    if($itemperpage>0 && $offset>=0){
+    else{
+        $sql .= "";
+    }
+    if($itemperpage>0 && $offset>=0 && $search == ""){
         $sql .= "LIMIT $itemperpage OFFSET $offset";
     }
    

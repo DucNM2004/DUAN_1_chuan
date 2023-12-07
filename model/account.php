@@ -71,7 +71,10 @@ function get_user_list($itemperpage,$offset,$search){
     if($search != ""){
         $sql .= " AND name_customer like '%$search%' ";
     }
-    if($itemperpage>0 && $offset>=0){
+    else{
+        $sql .= "";
+    }
+    if($itemperpage>0 && $offset>=0 && $search == ""){
         $sql .= "LIMIT $itemperpage OFFSET $offset";
     }
     $list = pdo_query($sql);

@@ -54,6 +54,7 @@
         </div>
 
         <!-- pagination -->
+        <?php if(empty($search)){ ?>
         <nav aria-label="Page navigation">
             <ul class="pagination pb-3 d-flex justify-content-center">
             <?php for ($num = 1; $num <= $totalpage; $num++) { ?>
@@ -67,6 +68,7 @@
                 <?php } ?>
             </ul>
         </nav>
+        <?php } ?>
     </main>
 </main>
                             

@@ -16,14 +16,14 @@
     <div class="container__main-handler">
                 <div class="container__main-search">
                     <form action="index.php?act=listorder" method="post">
-                        <select name="search" id="">
+                        <select style="height: 40px; width:180px; border-radius: 5px;" name="search" id="">
                             <option value="0" selected>Lọc theo trạng thái đơn hàng</option>
                             <option value="1">Chờ xác nhận</option>
                             <option value="2">Đã xác nhận</option>
                             <option value="3">Admin hủy hàng</option>
                             <option value="4">Đơn hàng bị hủy bởi người dùng</option>
                         </select>
-                        <button type="submit" name="submit" >Tim</button>
+                        <button  style="height: 40px; width:80px; border-radius: 5px;" type="submit" name="submit" >Tim</button>
                     </form>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                         </a>
                         </br>
                         <?php } ?>
-                        <?php if ($each['order_status'] == 2 || $each['order_status'] == 1) { ?>
+                        <?php if ( $each['order_status'] == 1) { ?>
                         <a href="index.php?act=cancel_order&id_order=<?= $each['id'] ?>">
                             Hủy đơn hàng
                         </a>
@@ -84,6 +84,7 @@
                 <?php } ?>
             </table>
         </div>
+        <?php if(empty($search)){ ?>
         <nav aria-label="Page navigation">
             <ul class="pagination pb-3 d-flex justify-content-center">
             <?php for ($num = 1; $num <= $totalpage; $num++) { ?>
@@ -97,6 +98,7 @@
                 <?php } ?>
             </ul>
         </nav>
+        <?php } ?>
     </main>
 </main>
 <?php if(isset($_COOKIE['notice'])){

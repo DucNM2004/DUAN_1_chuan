@@ -101,7 +101,7 @@ if(isset($_GET['act']) && $_GET['act']!=""){
             $ic = $id_cart['id'];
           
             $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : 1;
-            $price = $product['saleOff'] == 0 ? $product['price'] : $product['price']*($product['saleOff'] / 100);
+            $price = $product['saleOff'] == 0 ? $product['price'] : $product['price']-$product['saleOff'];
             $total = intval($price)* intval($quantity);
             // if(check_cart($_SESSION['id_user'])==true){
             //     insert_cart_deteil($ic,$id,$size,$price,$quantity,$total);
@@ -297,6 +297,8 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                     }
                 }
                 $order = getOrderByIdCustomer($_SESSION['id_user']);
+                $orders = getOrdersuccessByIdCustomer($_SESSION['id_user']);
+                $orderf = getOrderfailByIdCustomer($_SESSION['id_user']);
                 
                 
             }

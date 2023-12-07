@@ -98,9 +98,9 @@ function upload_product($name,$price,$saleOff,$picture,$description,$view_number
 function load_pro_follow_category2($itemperpage,$offset,$search){
     $sql = "SELECT product.*,category.title_category FROM `product` inner join category on product.id_category = category.id where 1 ";
     if($search != ""){
-        $sql .="AND name like '%$search%'"; 
+        $sql .="AND name like '%$search%' "; 
     }
-    if($itemperpage>0 && $offset>=0){
+    if($itemperpage>0 && $offset>=0 && $search == ""){
         $sql .= "LIMIT $itemperpage OFFSET $offset";
     }
    

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 03, 2023 lúc 11:08 AM
+-- Thời gian đã tạo: Th12 07, 2023 lúc 12:22 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -93,9 +93,7 @@ INSERT INTO `category` (`id`, `title_category`, `description`, `id_category_type
 (25, 'Chân váy ngắn', 'Fashion has always been so temporary and uncertain. You can’t keep up with it.  This social phenomenon is very whimsical, thus we as the consumers always try to stay in touch with all the latest fashion tendencies.', 2, 0),
 (26, 'áo polo', 'Fashion has always been so temporary and uncertain. You can’t keep up with it.  This social phenomenon is very whimsical, thus we as the consumers always try to stay in touch with all the latest fashion tendencies.', 3, 0),
 (27, 'Quần âu nam', 'Fashion has always been so temporary and uncertain. You can’t keep up with it.  This social phenomenon is very whimsical, thus we as the consumers always try to stay in touch with all the latest fashion tendencies.', 1, 0),
-(29, 'Quần jean', 'sfsdf', 2, 0),
-(30, 'hohohoh', 'hohohoh', 2, 0),
-(31, 'hihi', 'hihi', 3, 1);
+(29, 'Quần jean', 'Quần jean loại mới đẹp phù hợp với cả nam nữ', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -209,8 +207,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `id_customer`, `order_date`, `order_address`, `order_phone`, `total`, `order_status`) VALUES
-(79, 20, '2023-11-29 10:18:36', '', '', 185, 3),
-(80, 20, '2023-12-03 01:55:20', '', '', 14, 5),
+(79, 20, '2023-11-09 04:47:10', '', '', 185, 5),
+(80, 20, '2023-11-08 01:55:20', '', '', 14, 5),
 (81, 20, '2023-12-03 01:55:24', '', '', 36, 5),
 (82, 20, '2023-12-03 01:55:27', '', '', 14, 5),
 (83, 20, '2023-12-03 01:55:36', '', '', 670, 5),
@@ -221,11 +219,12 @@ INSERT INTO `orders` (`id`, `id_customer`, `order_date`, `order_address`, `order
 (88, 20, '2023-12-01 10:49:29', '', '', 288, 4),
 (89, 20, '2023-12-01 10:55:56', '', '', 270, 4),
 (90, 20, '2023-12-01 10:57:47', '', '', 45, 3),
-(91, 20, '2023-12-01 10:58:36', '', '', 45, 2),
-(92, 20, '2023-12-03 01:43:35', '134/44/9 Nguyễn xá, Minh khai', '0236798566', 108, 1),
-(93, 20, '2023-12-03 01:44:03', 'ahihi', '1234567', 27, 1),
-(94, 20, '2023-12-03 02:05:33', 'Trinh van bo, nam tu liem, hanoi', '1234567', 42, 1),
-(95, 20, '2023-12-03 03:16:48', '134/44/9 Nguyễn xá, Minh khai', '0236798566', 45, 1);
+(91, 20, '2023-12-05 13:07:59', '', '', 45, 1),
+(92, 20, '2023-12-07 11:06:11', '134/44/9 Nguyễn xá, Minh khai', '0236798566', 108, 5),
+(93, 20, '2023-12-07 11:06:15', 'ahihi', '1234567', 27, 5),
+(94, 20, '2023-12-07 11:06:19', 'Trinh van bo, nam tu liem, hanoi', '1234567', 42, 5),
+(95, 20, '2023-12-05 13:29:46', '134/44/9 Nguyễn xá, Minh khai', '0236798566', 45, 2),
+(96, 33, '2023-12-07 11:18:30', 'Trinh van bo, nam tu liem, hanoi', '1234567', 110, 5);
 
 -- --------------------------------------------------------
 
@@ -271,7 +270,8 @@ INSERT INTO `order_detail` (`id`, `id_order`, `idProduct`, `product_name`, `prod
 (82, 92, 63, 'Zara CROPPED SHIRT', '1670417693.webp', '', 36, 3, 108),
 (83, 93, 61, 'Zara BASIC DENIM SHIRT', '1670417573.webp', '', 27, 1, 27),
 (84, 94, 65, 'Áo hoodie dài tay có mũ nỉ trơn unisex nam nữ có 2 túi trước nhiều màu mặc mùa đông ấm ấp', '1670917380.jfif', '', 14, 3, 42),
-(85, 95, 62, 'Zara BASIC STRAPPY TOP', '1670417638.webp', '', 45, 1, 45);
+(85, 95, 62, 'Zara BASIC STRAPPY TOP', '1670417638.webp', '', 45, 1, 45),
+(86, 96, 62, 'Zara BASIC STRAPPY TOP', '1670417638.webp', '', 55, 2, 110);
 
 -- --------------------------------------------------------
 
@@ -297,20 +297,21 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `name`, `price`, `saleOff`, `picture`, `date_added`, `description`, `quantity`, `view_number`, `id_category`) VALUES
-(60, 'Boyfriend Easy Plaid Shir', 450, 10, '1700537968.webp', '2023-12-01 10:58:18', 'Fashion has always been so temporary and uncertain. You can’t keep up with it.  This social phenomenon is very whimsical, thus we as the consumers always try to stay in touch with all the latest fashion tendencies.', 50, 84, 23),
-(61, 'Zara BASIC DENIM SHIRT', 456, 6, '1670417573.webp', '2023-12-03 01:44:03', 'Fashion has always been so temporary and uncertain. You can’t keep up with it.  This social phenomenon is very whimsical, thus we as the consumers always try to stay in touch with all the latest fashion tendencies.', 28, 126, 24),
-(62, 'Zara BASIC STRAPPY TOP', 100, 45, '1670417638.webp', '2023-12-03 03:16:48', 'Fashion has always been so temporary and uncertain. You can’t keep up with it.  This social phenomenon is very whimsical, thus we as the consumers always try to stay in touch with all the latest fashion tendencies.', 40, 1025, 24),
-(63, 'Zara CROPPED SHIRT', 450, 8, '1670417693.webp', '2023-12-03 01:43:35', 'Fashion has always been so temporary and uncertain. You can’t keep up with it.  This social phenomenon is very whimsical, thus we as consumers always try to stay in touch with all the latest fashion tendencies.', 45, 1400, 25),
-(64, 'áo khoác hoodie nút phù hợp nam nữ', 155, 0, '1670917232.jfif', '2023-11-30 00:46:44', 'Fashion has always been so temporary and uncertain. You can’t keep up with it.  This social phenomenon is very whimsical, thus we as the consumers always try to stay in touch with all the latest fashion tendencies.', 38, 1870, 23),
-(65, 'Áo hoodie dài tay có mũ nỉ trơn unisex nam nữ có 2 túi trước nhiều màu mặc mùa đông ấm ấp', 350, 4, '1670917380.jfif', '2023-12-03 02:05:33', 'Fashion has always been so temporary and uncertain. You can’t keep up with it.  This social phenomenon is very whimsical, thus we as the consumers always try to stay in touch with all the latest fashion tendencies.', 43, 407, 29),
-(66, 'Áo Khoác Bomber Neww York', 450, 0, '1670917503.jfif', '2023-11-28 02:54:13', 'Fashion has always been so temporary and uncertain. You can’t keep up with it.  This social phenomenon is very whimsical, thus we as the consumers always try to stay in touch with all the latest fashion tendencies.', 68, 372, 24),
-(67, 'chân váy ngắn chữ A', 400, 0, '1670917756.jfif', '2023-12-01 09:51:50', 'chân váy ngắn chữ A xếp ly lệch tà có quần trong 2 màu hottrend\r\n\r\n\r\n- Chân váy xếp ly chữ a phong cách ulzang chất liệu vitex cao cấp mang lại cảm giác thoải mái khi mặc\r\n\r\n-  Chân váy tennis tuy là chân váy ngắn nhưng thiết kế chiều dàinên ko quá ngắn xị em có thể tự tin mặc ko lo lộ hàng nhé\r\n\r\n- Chân váy xếp ly ngắn chữ a thiết kế theo phong cách chân váy xòe nên cực kì dễ mix đồ, mùa hè mix với sơ mi, áo thun, mùa đông mix với ghi lê bao xinh\r\n\r\n-  Chân váy có 2 màu đen, nâu\r\n\r\nS vòng eo 64\r\n\r\n M vòng eo 68\r\n\r\n L vòng eo 72\r\n\r\n- Giặt máy thì nên lật trái chân váy để giặt còn giặt tay thì ko cần ạ\r\n', 66, 224, 25),
-(68, 'Áo Polo Local Brand Karants Signature Polo', 345, 0, '1670917887.jfif', '2023-12-03 00:51:43', '* Cách chọn size: Shop có để bảng chuẩn, nếu bạn chưa chọn được size bạn có thể inbox để được KARANTS tư vấn size chuẩn nha. \r\n\r\n* Lưu ý : Áo thuộc dạng form rộng, unisex, mặc thoải mái rồi nên khi đặt không cần nhích size ( trừ trường hợp thích oversize size hẳn )\r\n\r\n\r\n\r\n* Áo có 3 size : M - L - XL \r\n\r\n    M	     dưới 1m65	   -     dưới 60kg\r\n\r\n    L	     1m65 - 1m72   -   61-72kg\r\n\r\n    XL     1m65 - 1m82  -	 73-85kg\r\n\r\n\r\n\r\n* Chế độ bảo hành KARANTS:\r\n\r\n- Tất cả các sản phẩm đều được shop bảo hành\r\n\r\n- Đối với sản phẩm lỗi/đơn hàng thiếu sản phẩm, quý khách vui lòng nhắn tin/gọi ngay cho shop trong vòng 7 ngày (kể từ ngày nhận đơn hàng)\r\n\r\n- Nếu quá thời hạn 7 ngày kể từ ngày nhận đơn hàng, chế độ bảo hành của KARANTS sẽ hết hiệu lực', 70, 346, 26),
-(74, 'Nguyễn Minh Đức', 300, 56, '1700475227.webp', '2023-11-24 08:12:38', 'hay', 50, 0, 23),
-(75, 'duc', 129000, 2345, 'Rectangle 1 (19).jpg', '2023-11-30 03:36:40', 'eretert', 33, 3, 23),
-(76, 'T-shrit contestant', 3000, 60, '1700486205.webp', '2023-11-29 00:37:39', 'Super new ', 5, 40, 26),
-(77, 'Nguyễn Minh Đức', 500, 20, '1700820136.jpg', '2023-11-24 10:02:16', 'hhihiih', 50, 0, 26),
-(78, 'Nguyễn Minh Đức', 3000, 13, 'z4884325833276_2d1181a3deb63ba98d3fe453fcc8c598.jpg', '2023-11-30 03:36:24', 'fdgfgdfg', 2, 0, 23);
+(60, 'Boyfriend Easy Plaid Shir', 450, 10, '1700537968.webp', '2023-12-06 10:58:41', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 50, 92, 23),
+(61, 'Zara BASIC DENIM SHIRT', 456, 6, '1670417573.webp', '2023-12-06 10:58:05', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 28, 133, 24),
+(62, 'Zara BASIC STRAPPY TOP', 100, 45, '1670417638.webp', '2023-12-07 11:04:49', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 38, 1033, 24),
+(63, 'Zara CROPPED SHIRT', 450, 8, '1670417693.webp', '2023-12-06 10:52:27', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 45, 1409, 25),
+(64, 'áo khoác hoodie nút phù hợp nam nữ', 155, 0, '1670917232.jfif', '2023-12-06 10:54:49', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 38, 1873, 23),
+(65, 'Áo hoodie dài tay có mũ nỉ trơn unisex nam nữ có 2 túi trước nhiều màu mặc mùa đông ấm ấp', 350, 4, '1670917380.jfif', '2023-12-06 11:06:45', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 43, 408, 23),
+(66, 'Áo Khoác Bomber Neww York', 450, 0, '1670917503.jfif', '2023-12-06 10:33:38', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 68, 372, 24),
+(67, 'chân váy ngắn chữ A', 400, 0, '1670917756.jfif', '2023-12-06 10:33:38', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 66, 224, 25),
+(68, 'Áo Polo Local Brand Karants Signature Polo', 345, 0, '1670917887.jfif', '2023-12-06 10:33:38', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 70, 346, 26),
+(74, 'Jacket black rumble', 300, 30, '1700475227.webp', '2023-12-06 10:33:38', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 50, 0, 23),
+(75, 'Super cute shirt', 456, 22, '1669825321.png', '2023-12-06 10:33:38', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 33, 3, 23),
+(76, 'T-shrit contestant', 300, 60, '1700486205.webp', '2023-12-06 10:33:38', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 5, 40, 24),
+(77, 'Super Thin Polo Shirt', 500, 20, 'dosiin-dizi-clothing-ao-polo-nam-logo-dizi-thich-hop-cho-mac-hang-ngaythe-thaocong-so-lich-su-49499119.jpg', '2023-12-06 10:33:38', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 50, 0, 26),
+(78, 'Hoodie new style', 300, 13, '1668775939.webp', '2023-12-06 10:33:38', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 45, 0, 23),
+(79, 'PoloFORmen', 430, 36, 'dia-chi-ban-ao-polo-nam-chinh-hang-ha-noi_341.jpg', '2023-12-06 10:33:38', 'Một bộ sưu tập hoàn toàn mới được ra mắt làm thỏa mãn nhu cầu của giưới trẻ. Sự sáng tạo luôn là ưu tiên hàng đầu của chúng tôi. Mỗi mẫu quần áo đều mang đậm dấu ấn cá nhân, giúp bạn nổi bật và tỏa sáng trong đám đông.', 45, 0, 26);
 
 -- --------------------------------------------------------
 
@@ -489,19 +490,19 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã đơn hàng', AUTO_INCREMENT=96;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã đơn hàng', AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT cho bảng `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id chi tiết hóa đơn', AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id chi tiết hóa đơn', AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã hàng hóa', AUTO_INCREMENT=79;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã hàng hóa', AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT cho bảng `size`
